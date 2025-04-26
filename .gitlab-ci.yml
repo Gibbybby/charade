@@ -1,0 +1,48 @@
+stages:
+  - empty
+  - build
+  - test
+  - deploy-staging
+  - promote-production
+
+
+# if something changes in apps/charadex paths we run the jobs
+.charadex-change-app-paths: &charadex-change-app-paths
+  - "apps/charadex/**/*"
+
+include:
+  - local: '/apps/charadex/.gitlab-ci.yml'
+    rules:
+      # Do not run after Merge Request closing.
+      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+        when: never
+      # Do not run on Merge Request creation.
+      - if: $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
+        when: never
+      # Prevent creating duplicate pipelines because pipelines are already created for PUSH events.
+      - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+        when: always
+      # When to run:
+      - if: $CI_PIPELINE_SOURCE == "push"
+        changes:
+          *charadex-change-app-paths
+      - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+        changes:
+          *charadex-change-app-paths
+
+# Example visible job for each stage
+# This GitLab CI configuration is invalid: jobs config should contain at least one visible job.
+empty_job:
+  tags:
+    - macos-apple
+  stage: empty
+  script:
+    - echo "Empty init stage..."
+  rules:
+    # If any of these paths change, do not run empty_job.
+    - changes:
+        - apps/charadex/**/* 
+        # - apps/other_app/**/*  
+      when: never
+    # Otherwise, run the job.
+    - when: always
