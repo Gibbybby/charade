@@ -46,3 +46,6 @@ app.*.map.json
 
 # Secure files
 secure-files/
+
+# FVM Version Cache
+.fvm/
