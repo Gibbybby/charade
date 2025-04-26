@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:charadex/player_mode.dart';
 import 'package:flutter/material.dart';
 
 class CharadePartyHomePage extends StatefulWidget {
@@ -46,16 +47,12 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
         ConfettiPiece(
           x: _random.nextDouble(),
           y: _random.nextDouble(),
-          speed: 0.0005 + _random.nextDouble() * 0.0015, // Very slow fall
-          swayAmplitude: 20 + _random.nextDouble() * 10,
-          swaySpeed: 1 + _random.nextDouble() * 2,
-          rotationSpeed: (_random.nextDouble() - 0.5) * 0.02, // Slow rotation
+          speed: 0.0005 + _random.nextDouble() * 0.0015, // Very slow
+          swayAmplitude:
+              20 + _random.nextDouble() * 10, // Sway left-right pixels
+          swaySpeed: 1 + _random.nextDouble() * 2, // How fast sway happens
           size: 6 + _random.nextDouble() * 8,
           color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
-          shape:
-              ConfettiShape.values[_random.nextInt(
-                ConfettiShape.values.length,
-              )],
         ),
       );
     }
@@ -71,7 +68,10 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   void _onStartGamePressed() {
     _controller.reverse().then((_) {
       _controller.forward();
-      // TODO: Start game logic here
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PlayerModeScreen()),
+      );
     });
   }
 
@@ -149,29 +149,22 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   void _updateConfetti() {
     for (var piece in _confettiPieces) {
       piece.y += piece.speed;
-      piece.rotation += piece.rotationSpeed;
       if (piece.y > 1.2) {
         piece.y = -0.1;
         piece.x = _random.nextDouble();
-        piece.rotation = _random.nextDouble() * 2 * pi;
       }
     }
   }
 }
-
-enum ConfettiShape { circle, square, triangle, star }
 
 class ConfettiPiece {
   double x;
   double y;
   double speed;
   double size;
-  double swayAmplitude;
-  double swaySpeed;
-  double rotation = 0;
-  double rotationSpeed;
+  double swayAmplitude; // How wide to sway left/right
+  double swaySpeed; // How fast to sway
   Color color;
-  ConfettiShape shape;
 
   ConfettiPiece({
     required this.x,
@@ -180,15 +173,13 @@ class ConfettiPiece {
     required this.size,
     required this.swayAmplitude,
     required this.swaySpeed,
-    required this.rotationSpeed,
     required this.color,
-    required this.shape,
   });
 }
 
 class ConfettiPainter extends CustomPainter {
   final List<ConfettiPiece> confettiPieces;
-  final double animationValue;
+  final double animationValue; // from 0.0 to 1.0
 
   ConfettiPainter(this.confettiPieces, this.animationValue);
 
@@ -196,57 +187,15 @@ class ConfettiPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     for (var piece in confettiPieces) {
       final paint = Paint()..color = piece.color;
-      final dx =
-          piece.x * size.width +
+
+      // Calculate gentle sway using sine wave
+      double swayOffset =
           piece.swayAmplitude * sin(animationValue * 2 * pi * piece.swaySpeed);
-      final dy = piece.y * size.height;
+      double dx = piece.x * size.width + swayOffset;
+      double dy = piece.y * size.height;
 
-      canvas.save();
-      canvas.translate(dx, dy);
-      canvas.rotate(piece.rotation);
-
-      switch (piece.shape) {
-        case ConfettiShape.circle:
-          canvas.drawCircle(Offset.zero, piece.size / 2, paint);
-          break;
-        case ConfettiShape.square:
-          canvas.drawRect(
-            Rect.fromCenter(
-              center: Offset.zero,
-              width: piece.size,
-              height: piece.size,
-            ),
-            paint,
-          );
-          break;
-        case ConfettiShape.triangle:
-          final path =
-              Path()
-                ..moveTo(0, -piece.size / 2)
-                ..lineTo(piece.size / 2, piece.size / 2)
-                ..lineTo(-piece.size / 2, piece.size / 2)
-                ..close();
-          canvas.drawPath(path, paint);
-          break;
-        case ConfettiShape.star:
-          _drawStar(canvas, paint, piece.size / 2);
-          break;
-      }
-
-      canvas.restore();
+      canvas.drawCircle(Offset(dx, dy), piece.size / 2, paint);
     }
-  }
-
-  void _drawStar(Canvas canvas, Paint paint, double radius) {
-    const int points = 5;
-    final path = Path();
-    for (int i = 0; i <= points * 2; i++) {
-      double angle = pi / points * i;
-      double r = i.isEven ? radius : radius / 2;
-      path.lineTo(r * cos(angle), r * sin(angle));
-    }
-    path.close();
-    canvas.drawPath(path, paint);
   }
 
   @override

@@ -21,7 +21,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/charade_party_title.png
-    - assets/confetti_overlay.png
+    - assets/solo.png
+    - assets/team.png
 
 flutter_launcher_icons:
   android: true

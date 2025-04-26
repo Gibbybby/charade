@@ -11,8 +11,8 @@ languages(['de-DE', 'en-US'])
 
 # TODO change name in xcode build
 name({
-  'default' => "charadex",
-  'de-DE' => "charadex"
+  'default' => "Charado",
+  'de-DE' => "Charado"
 })
 
 # optional, can't be longer than 30 characters
