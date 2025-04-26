@@ -1,4 +1,3 @@
-// topic_select.dart
 import 'package:flutter/material.dart';
 
 class TopicSelectScreen extends StatelessWidget {
@@ -14,57 +13,153 @@ class TopicSelectScreen extends StatelessWidget {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // Zentriert die gesamte Row
+                crossAxisAlignment:
+                    CrossAxisAlignment
+                        .center, // Stellt sicher, dass der Text vertikal zentriert bleibt
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "Pick a Topic!",
+                        style: const TextStyle(
+                          fontSize: 42, // Die Textgröße wie gewünscht
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        maxLines: 1, // Nur eine Zeile erlaubt
+                        overflow:
+                            TextOverflow
+                                .ellipsis, // Falls der Text zu lang ist, wird "..." angezeigt
+                      ),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              const Text(
-                "Pick a Topic!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF1C1C4B),
-                ),
-              ),
-              const SizedBox(height: 32),
+
+              const SizedBox(height: 24),
               Expanded(
                 child: GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
+                  crossAxisCount: 3, // 3 Kategorien pro Reihe
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.8, // Kästchen etwas höher
                   children: [
                     _buildTopicTile(
                       color: Colors.purpleAccent,
-                      icon: Icons.movie,
-                      label: 'Movies',
+                      icon: Icons.work,
+                      label: 'Berufe',
                     ),
                     _buildTopicTile(
                       color: Colors.lightBlueAccent,
-                      icon: Icons.pets,
-                      label: 'Animals',
+                      icon: Icons.theater_comedy,
+                      label: 'Pantomime',
                     ),
                     _buildTopicTile(
                       color: Colors.pinkAccent,
-                      icon: Icons.directions_run,
-                      label: 'Celebrities',
+                      icon: Icons.child_care,
+                      label: 'Jugend-Wörter',
                     ),
                     _buildTopicTile(
                       color: Colors.orangeAccent,
-                      icon: Icons.star,
-                      label:
-                          'Collecties', // Looks like a typo in your screenshot ("Calecties")
+                      icon: Icons.toys,
+                      label: 'Für Kinder',
                     ),
                     _buildTopicTile(
-                      color: Colors.blueGrey.shade100,
-                      icon: Icons.add,
-                      label: 'Custom Packs',
+                      color: Colors.greenAccent,
+                      icon: Icons.pets,
+                      label: 'Tiere',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.blueGrey,
+                      icon: Icons.public,
+                      label: 'Geografie',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.deepPurpleAccent,
+                      icon: Icons.music_note,
+                      label: 'Musik',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.redAccent,
+                      icon: Icons.movie,
+                      label: 'Filme',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.indigoAccent,
+                      icon: Icons.tv,
+                      label: 'Serien',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.tealAccent,
+                      icon: Icons.sports_soccer,
+                      label: 'Sport',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.orange,
+                      icon: Icons.fastfood,
+                      label: 'Essen',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.blue,
+                      icon: Icons.history_edu,
+                      label: 'Boomerwörter',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.pink,
+                      icon: Icons.shopping_bag,
+                      label: 'Marken',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.deepOrange,
+                      icon: Icons.book,
+                      label: 'Geschichte',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.lightGreen,
+                      icon: Icons.breakfast_dining,
+                      label: 'Frühstücken',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.purple,
+                      icon: Icons.favorite,
+                      label: 'Rund um Sex',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.limeAccent,
+                      icon: Icons.videogame_asset,
+                      label: 'Videospiele',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.cyan,
+                      icon: Icons.science,
+                      label: 'Wissenschaft',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.green,
+                      icon: Icons.sports_soccer,
+                      label: 'Fußball',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.red,
+                      icon: Icons.celebration,
+                      label: 'Silvester',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.blueAccent,
+                      icon: Icons.star,
+                      label: 'Schauspieler',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.deepPurple,
+                      icon: Icons.cake,
+                      label: 'Party',
+                    ),
+                    _buildTopicTile(
+                      color: Colors.brown,
+                      icon: Icons.local_bar,
+                      label: 'Rauschmittel',
                     ),
                   ],
                 ),
@@ -114,11 +209,11 @@ class TopicSelectScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 48, color: Colors.white),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Text(
             label,
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

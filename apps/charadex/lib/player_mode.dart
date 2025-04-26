@@ -23,9 +23,10 @@ class PlayerModeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 42,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF512DA8),
+                  color: Colors.black, // <-- changed here
                 ),
               ),
+
               const SizedBox(height: 40),
               _buildModeButton(
                 imagePath: 'assets/solo.png',
