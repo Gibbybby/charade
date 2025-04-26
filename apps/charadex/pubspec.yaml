@@ -19,6 +19,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/charade_party_title.png
+    - assets/confetti_overlay.png
 
 flutter_launcher_icons:
   android: true
