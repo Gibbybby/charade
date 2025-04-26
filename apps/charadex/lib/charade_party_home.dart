@@ -13,7 +13,10 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late AnimationController _confettiController;
+  late AnimationController _fadeController;
   late Animation<double> _scaleAnimation;
+  Animation<double>? _fadeAnimation; // <-- made it nullable
+
   final Random _random = Random();
   final List<ConfettiPiece> _confettiPieces = [];
 
@@ -34,10 +37,21 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     );
     _controller.forward();
 
+    // Fade animation for welcome_pic
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeIn,
+    );
+    _fadeController.forward();
+
     // Confetti animation (infinite)
     _confettiController = AnimationController(
       vsync: this,
-      duration: const Duration(days: 365), // Run basically forever
+      duration: const Duration(days: 365),
     )..repeat();
 
     // Create confetti pieces
@@ -60,6 +74,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   void dispose() {
     _controller.dispose();
     _confettiController.dispose();
+    _fadeController.dispose();
     super.dispose();
   }
 
@@ -105,18 +120,21 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                     children: [
                       // Images + More bottom margin
                       Container(
-                        margin: const EdgeInsets.only(
-                          bottom: 150,
-                        ), // More space between images and button
+                        margin: const EdgeInsets.only(bottom: 150),
                         child: Column(
                           children: [
-                            Image.asset(
-                              'assets/welcome_pic.png',
-                              width: 120, // Smaller welcome picture
+                            FadeTransition(
+                              opacity:
+                                  _fadeAnimation ??
+                                  const AlwaysStoppedAnimation(1.0),
+                              child: Image.asset(
+                                'assets/welcome_pic.png',
+                                width: 120,
+                              ),
                             ),
                             Image.asset(
                               'assets/charade_party_title.png',
-                              width: 300, // Big title picture
+                              width: 300,
                             ),
                           ],
                         ),
@@ -195,8 +213,7 @@ class ConfettiPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double time =
-        DateTime.now().millisecondsSinceEpoch / 1000.0; // Real time seconds
+    final double time = DateTime.now().millisecondsSinceEpoch / 1000.0;
 
     for (var piece in confettiPieces) {
       final paint = Paint()..color = piece.color;
