@@ -1,0 +1,177 @@
+stages:
+  - build
+  - test
+  - deploy-staging
+  - promote-production
+
+variables:
+  FLUTTER_PROJECT_PATH: 'apps/charadex'
+  SECURE_FILES_DOWNLOAD_PATH: '$FLUTTER_PROJECT_PATH/.secure_files'
+  PUB_CACHE: '$FLUTTER_PROJECT_PATH/.pub_cache'
+
+# Reusable job for setting up secure files
+.setup_secure_ios_files_charadex: &setup_secure_ios_files_charadex
+  before_script:
+    # Download and set up secure ios files
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - ls -lah $SECURE_FILES_DOWNLOAD_PATH
+    - cp $SECURE_FILES_DOWNLOAD_PATH/ios-fastlane.env.ci $FLUTTER_PROJECT_PATH/ios/fastlane/.env.default
+    - cp $SECURE_FILES_DOWNLOAD_PATH/ios-AuthKey_Fastlane_9U36FG7Z7G.json $FLUTTER_PROJECT_PATH/ios/fastlane/AuthKey_Fastlane_9U36FG7Z7G.json
+
+
+# TODO ENABLE ANDROID PROJECT LATER ON
+# .android_common_charadex: &android_common_charadex
+#   before_script:
+#     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+#     - cp $SECURE_FILES_DOWNLOAD_PATH/android-snappy-boulder-435409-c4-014d2562d048.json $FLUTTER_PROJECT_PATH/android/fastlane/snappy-boulder-435409-c4-014d2562d048.json
+#     - cp $SECURE_FILES_DOWNLOAD_PATH/android-upload-keystore.jks $FLUTTER_PROJECT_PATH/android/upload-keystore.jks
+#     - cp $SECURE_FILES_DOWNLOAD_PATH/android-key.properties $FLUTTER_PROJECT_PATH/android/key.properties
+
+
+# Setup job to run once and prepare the environment
+build_ios_charadex:
+  stage: build
+  tags:
+    - macos-apple
+  extends: .setup_secure_ios_files_charadex
+  script:
+    - cd $FLUTTER_PROJECT_PATH
+    - flutter clean
+    - flutter pub get
+    - dart run build_runner clean
+    - dart run build_runner build --delete-conflicting-outputs
+    - cd ios
+    - |
+      if [ -f "Podfile" ]; then
+        pod deintegrate
+        pod repo update
+        pod install
+      else
+        echo "No Podfile found, skipping CocoaPods setup."
+      fi
+    - bundle install
+    - bundle update fastlane
+    - bundle exec fastlane build_development
+
+# Test job which uses the build artifacts, depends on build_ios_job
+test_ios_charadex:
+  stage: test
+  tags:
+    - macos-apple
+  extends: .setup_secure_ios_files_charadex
+  script:
+    - cd $FLUTTER_PROJECT_PATH
+    # Run Flutter tests without rebuilding
+    - flutter pub get
+    - flutter pub run build_runner build --delete-conflicting-outputs
+    - flutter test
+
+deploy_testflight_charadex:
+  stage: deploy-staging
+  tags:
+    - macos-apple
+  extends: .setup_secure_ios_files_charadex
+  script:
+    - cd $FLUTTER_PROJECT_PATH
+    - flutter pub get
+    - dart run build_runner clean
+    - dart run build_runner build --delete-conflicting-outputs
+    - cd ios
+    - bundle install
+    - |
+      if [ -f "Podfile" ]; then
+        pod deintegrate
+        pod repo update
+        pod install
+      else
+        echo "No Podfile found, skipping CocoaPods setup."
+      fi
+    - bundle exec fastlane build_and_upload_testflight
+  when: manual
+
+promote_to_production_charadex:
+  stage: promote-production
+  tags:
+    - macos-apple
+  extends: .setup_secure_ios_files_charadex
+  script:
+    - cd $FLUTTER_PROJECT_PATH
+    - cd ios
+    - bundle install
+    - bundle exec fastlane upload_testflight_to_production
+  needs:
+    - deploy_testflight_charadex
+  when: manual
+
+# TODO ENABLE ANDROID LATER ON
+
+# android_build_charadex:
+#   image: harbor.cloud.ementio.com/library/flutter_builder:20241003
+#   stage: build
+# #  tags:
+# #    - macos-silicon-sven
+#   before_script:
+#     - !reference [ .android_common_charadex, before_script ]
+#     - export GRADLE_USER_HOME=$CI_PROJECT_DIR/.gradle
+#     - export PUB_CACHE=$CI_PROJECT_DIR/.pub-cache
+#     - export PATH="$PATH":"$PUB_CACHE/bin"
+#   cache:
+#     key: android-build-cache
+#     paths:
+#       - $FLUTTER_PROJECT_PATH/build/app/outputs/bundle/release
+#       - $CI_PROJECT_DIR/.pub-cache/
+#       - $GRADLE_USER_HOME/caches/
+#       - $GRADLE_USER_HOME/wrapper/
+#       - $GRADLE_USER_HOME/build-cache/
+# #      - .pub-cache
+#   script:
+#     - cd $FLUTTER_PROJECT_PATH
+#     - dart run build_runner clean
+#     - dart run build_runner build --delete-conflicting-outputs
+#     - cd android
+#     - bundle install
+#     - bundle update fastlane
+#     - bundle exec fastlane build_appbundle
+#   artifacts:
+#     paths:
+#       - $FLUTTER_PROJECT_PATH/build/app/outputs/bundle/release/app-release.aab
+#     expire_in: 1 week
+
+# android_test_charadex:
+#   image: harbor.cloud.ementio.com/library/flutter_builder:20241003
+#   stage: test
+# #  tags:
+# #    - macos-silicon-sven
+#   extends: .android_common_charadex
+#   script:
+#     - cd $FLUTTER_PROJECT_PATH
+#     - cd android
+#     - bundle install
+#     - bundle exec fastlane test
+
+# android_deploy_charadex:
+#   image: harbor.cloud.ementio.com/library/flutter_builder:20241003
+#   stage: deploy-staging
+#   extends: .android_common_charadex
+#   needs:
+#     - android_build_charadex
+#   tags:
+#     - android
+#   script:
+#     - cd $FLUTTER_PROJECT_PATH
+#     - cd android
+#     - bundle install
+#     - bundle exec fastlane upload_to_internal_track
+#   when: manual
+
+# android_promote_to_production_charadex:
+#   image: harbor.cloud.ementio.com/library/flutter_builder:20241003
+#   stage: promote-production
+#   extends: .android_common_charadex
+#   when: manual
+#   script:
+#     - cd $FLUTTER_PROJECT_PATH
+#     - cd android
+#     - bundle install
+#     - bundle exec fastlane promote_to_production
+

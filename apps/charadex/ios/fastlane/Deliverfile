@@ -1,0 +1,88 @@
+# The Deliverfile allows you to store various App Store Connect metadata
+# For more information, check out the docs
+# https://docs.fastlane.tools/actions/deliver/
+
+# Supported language codes include:
+# ["ar-SA", "ca", "cs", "da", "de-DE", "el", "en-AU", "en-CA", "en-GB", "en-US",
+#  "es-ES", "es-MX", "fi", "fr-CA", "fr-FR", "he", "hi", "hr", "hu", "id", "it",
+#  "ja", "ko", "ms", "nl-NL", "no", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk",
+#  "sv", "th", "tr", "uk", "vi", "zh-Hans", "zh-Hant"]
+languages(['de-DE', 'en-US'])
+
+# TODO change name in xcode build
+name({
+  'default' => "charadex",
+  'de-DE' => "charadex"
+})
+
+# optional, can't be longer than 30 characters
+subtitle({
+  'default' => "App by Vucak",
+  'de-DE' => "App von Vucak"
+})
+
+description({
+  'default' => "Internal app by Fastlane",
+  'de-DE' => "Interne App von Fastlane"
+})
+
+keywords({
+  'default' => "by Fastlane",
+  'de-DE' => "von Fastlane"
+})
+
+# TODO uncomment on second release
+# release_notes({
+#   'default' => "",
+#   'de-DE' => ""
+# })
+
+
+privacy_url({
+  'default' => 'https://vucak.at/en/data-protection',
+  'de-DE' => 'https://vucak.at/de/data-protection'
+})
+
+support_url({
+  'default' => 'https://vucak.at/de/contact',
+  'de-DE' => 'https://vucak.at/de/contact'
+})
+
+# optional
+promotional_text({
+  "default" => "Experience the best. Get it now! by Fastlane",
+  "de-DE" => "Erleben Sie das Beste. Jetzt herunterladen! von Fastlane"
+})
+
+app_review_information(
+  first_name: "Sven",
+  last_name: "Vucak",
+  phone_number: "+43 650 3015204",
+  email_address: "sven@vucak.at",
+  demo_user: "",
+  demo_password: "",
+  notes: ""
+)
+
+copyright("#{Time.now.year} Vucak IT Solutions")
+
+# Available categories for app classification on the App Store.
+
+# BOOKS, BUSINESS, DEVELOPER_TOOLS, EDUCATION, ENTERTAINMENT, FINANCE, FOOD_AND_DRINK
+# GAMES, GRAPHICS_AND_DESIGN, HEALTH_AND_FITNESS, LIFESTYLE, MAGAZINES_AND_NEWSPAPERS
+# MEDICAL, MUSIC, NAVIGATION, NEWS, PHOTO_AND_VIDEO, PRODUCTIVITY, REFERENCE
+# SHOPPING, SOCIAL_NETWORKING, SPORTS, STICKERS, TRAVEL, UTILITIES, WEATHER
+
+primary_category "PRODUCTIVITY"
+secondary_category "DEVELOPER_TOOLS" # optional
+
+# not possible to use will throw error
+# price_tier 0
+
+automatic_release false
+
+# possible options https://github.com/fastlane/fastlane/blob/master/spaceship/lib/spaceship/tunes/app_submission.rb
+submission_information({
+  # If your app contains, shows, or accesses any third-party content, you must have the rights to it or be permitted to use the content.
+  content_rights_contains_third_party_content: false
+})
