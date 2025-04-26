@@ -20,6 +20,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/welcome_pic.png
     - assets/charade_party_title.png
     - assets/solo.png
     - assets/team.png

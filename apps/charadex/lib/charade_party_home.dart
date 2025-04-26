@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:charadex/player_mode.dart';
 import 'package:flutter/material.dart';
+import 'player_mode.dart'; // Import your PlayerModeScreen
 
 class CharadePartyHomePage extends StatefulWidget {
   const CharadePartyHomePage({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   late AnimationController _controller;
   late AnimationController _confettiController;
   late Animation<double> _scaleAnimation;
-
   final Random _random = Random();
   final List<ConfettiPiece> _confettiPieces = [];
 
@@ -22,7 +21,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   void initState() {
     super.initState();
 
-    // Bounce animation for button
+    // Bounce animation for Start button
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
@@ -35,10 +34,10 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     );
     _controller.forward();
 
-    // Confetti falling animation
+    // Confetti animation (infinite)
     _confettiController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 20),
+      duration: const Duration(days: 365), // Run basically forever
     )..repeat();
 
     // Create confetti pieces
@@ -47,10 +46,9 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
         ConfettiPiece(
           x: _random.nextDouble(),
           y: _random.nextDouble(),
-          speed: 0.0005 + _random.nextDouble() * 0.0015, // Very slow
-          swayAmplitude:
-              20 + _random.nextDouble() * 10, // Sway left-right pixels
-          swaySpeed: 1 + _random.nextDouble() * 2, // How fast sway happens
+          speed: 0.0005 + _random.nextDouble() * 0.0015,
+          swayAmplitude: 20 + _random.nextDouble() * 10,
+          swaySpeed: 1 + _random.nextDouble() * 2,
           size: 6 + _random.nextDouble() * 8,
           color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
         ),
@@ -68,10 +66,13 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   void _onStartGamePressed() {
     _controller.reverse().then((_) {
       _controller.forward();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const PlayerModeScreen()),
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const PlayerModeScreen()),
+          );
+        }
+      });
     });
   }
 
@@ -87,30 +88,40 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFFFF5F8D), // Pink
-                  Color(0xFFFFA726), // Orange
-                ],
+                colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
               ),
             ),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // Confetti layer
+                // Confetti Layer
                 Positioned.fill(
-                  child: CustomPaint(
-                    painter: ConfettiPainter(
-                      _confettiPieces,
-                      _confettiController.value,
-                    ),
-                  ),
+                  child: CustomPaint(painter: ConfettiPainter(_confettiPieces)),
                 ),
+                // Content
                 Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('assets/charade_party_title.png', width: 300),
-                      const SizedBox(height: 80),
+                      // Images + More bottom margin
+                      Container(
+                        margin: const EdgeInsets.only(
+                          bottom: 150,
+                        ), // More space between images and button
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/welcome_pic.png',
+                              width: 120, // Smaller welcome picture
+                            ),
+                            Image.asset(
+                              'assets/charade_party_title.png',
+                              width: 300, // Big title picture
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Start Button
                       ScaleTransition(
                         scale: _scaleAnimation,
                         child: ElevatedButton(
@@ -162,8 +173,8 @@ class ConfettiPiece {
   double y;
   double speed;
   double size;
-  double swayAmplitude; // How wide to sway left/right
-  double swaySpeed; // How fast to sway
+  double swayAmplitude;
+  double swaySpeed;
   Color color;
 
   ConfettiPiece({
@@ -179,18 +190,18 @@ class ConfettiPiece {
 
 class ConfettiPainter extends CustomPainter {
   final List<ConfettiPiece> confettiPieces;
-  final double animationValue; // from 0.0 to 1.0
 
-  ConfettiPainter(this.confettiPieces, this.animationValue);
+  ConfettiPainter(this.confettiPieces);
 
   @override
   void paint(Canvas canvas, Size size) {
+    final double time =
+        DateTime.now().millisecondsSinceEpoch / 1000.0; // Real time seconds
+
     for (var piece in confettiPieces) {
       final paint = Paint()..color = piece.color;
 
-      // Calculate gentle sway using sine wave
-      double swayOffset =
-          piece.swayAmplitude * sin(animationValue * 2 * pi * piece.swaySpeed);
+      double swayOffset = piece.swayAmplitude * sin(time * piece.swaySpeed);
       double dx = piece.x * size.width + swayOffset;
       double dy = piece.y * size.height;
 

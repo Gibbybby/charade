@@ -1,4 +1,4 @@
-import 'package:charadex/player_mode.dart';
+import 'package:charadex/charade_party_home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +12,7 @@ class CharadePartyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const PlayerModeScreen(),
+      home: const CharadePartyHomePage(),
     );
   }
 }

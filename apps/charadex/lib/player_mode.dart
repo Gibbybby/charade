@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'topic_select.dart'; // Import your TopicSelectScreen here!
+import 'topic_select.dart'; // Import TopicSelectScreen
 
 class PlayerModeScreen extends StatelessWidget {
   const PlayerModeScreen({Key? key}) : super(key: key);
@@ -37,12 +37,13 @@ class PlayerModeScreen extends StatelessWidget {
                 width: boxWidth,
                 height: boxHeight,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TopicSelectScreen(),
-                    ),
-                  );
+                  Future.microtask(() {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const TopicSelectScreen(),
+                      ),
+                    );
+                  });
                 },
               ),
               const SizedBox(height: spacing),
@@ -56,12 +57,13 @@ class PlayerModeScreen extends StatelessWidget {
                 width: boxWidth,
                 height: boxHeight,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TopicSelectScreen(),
-                    ),
-                  );
+                  Future.microtask(() {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const TopicSelectScreen(),
+                      ),
+                    );
+                  });
                 },
               ),
             ],
@@ -98,7 +100,7 @@ class PlayerModeScreen extends StatelessWidget {
             if (imagePath != null)
               Image.asset(
                 imagePath,
-                width: imageWidth, // <--- now uses dynamic size
+                width: imageWidth,
                 height: imageHeight,
                 fit: BoxFit.contain,
               )
