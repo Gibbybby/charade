@@ -24,6 +24,13 @@ flutter:
     - assets/charade_party_title.png
     - assets/solo.png
     - assets/team.png
+    - assets/topics/topic_car.png
+    - assets/topics/topic_sport.png
+    - assets/topics/topic_geography.png
+    - assets/topics/topic_film.png
+    - assets/topics/topic_animal.png
+    - assets/topics/topic_jobs.png
+    - assets/topics/topic_stars.png
 
 flutter_launcher_icons:
   android: true

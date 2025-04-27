@@ -1,223 +1,194 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Kartenspiele',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const TopicSelectScreen(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
 
 class TopicSelectScreen extends StatelessWidget {
   const TopicSelectScreen({Key? key}) : super(key: key);
 
+  void _onStartPressed() {
+    // TODO: Handle "Start" button tap
+  }
+
   @override
   Widget build(BuildContext context) {
+    final fabWidth = MediaQuery.of(context).size.width * 0.9; // 90% der Breite
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Zentriert die gesamte Row
-                crossAxisAlignment:
-                    CrossAxisAlignment
-                        .center, // Stellt sicher, dass der Text vertikal zentriert bleibt
-                children: [
-                  Expanded(
-                    child: Center(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 16.0,
+            ),
+            child: ListView(
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Platform.isIOS
+                            ? Icons.arrow_back_ios
+                            : Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    Expanded(
                       child: Text(
-                        "Pick a Topic!",
+                        'Themen',
+                        textAlign: TextAlign.center,
                         style: const TextStyle(
-                          fontSize: 42, // Die Textgröße wie gewünscht
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
-                        maxLines: 1, // Nur eine Zeile erlaubt
-                        overflow:
-                            TextOverflow
-                                .ellipsis, // Falls der Text zu lang ist, wird "..." angezeigt
                       ),
                     ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 24),
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 3, // 3 Kategorien pro Reihe
+                    const SizedBox(width: 48),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                GridView.count(
+                  crossAxisCount: 3,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 0.8, // Kästchen etwas höher
+                  childAspectRatio: 0.75,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     _buildTopicTile(
-                      color: Colors.purpleAccent,
-                      icon: Icons.work,
-                      label: 'Berufe',
+                      imagePath: 'assets/topics/topic_car.png',
+                      label: 'Autos',
                     ),
                     _buildTopicTile(
-                      color: Colors.lightBlueAccent,
-                      icon: Icons.theater_comedy,
-                      label: 'Pantomime',
+                      imagePath: 'assets/topics/topic_geography.png',
+                      label: 'Geography',
                     ),
                     _buildTopicTile(
-                      color: Colors.pinkAccent,
-                      icon: Icons.child_care,
-                      label: 'Jugend-Wörter',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.orangeAccent,
-                      icon: Icons.toys,
-                      label: 'Für Kinder',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.greenAccent,
-                      icon: Icons.pets,
-                      label: 'Tiere',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.blueGrey,
-                      icon: Icons.public,
-                      label: 'Geografie',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.deepPurpleAccent,
-                      icon: Icons.music_note,
-                      label: 'Musik',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.redAccent,
-                      icon: Icons.movie,
-                      label: 'Filme',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.indigoAccent,
-                      icon: Icons.tv,
-                      label: 'Serien',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.tealAccent,
-                      icon: Icons.sports_soccer,
+                      imagePath: 'assets/topics/topic_sport.png',
                       label: 'Sport',
                     ),
                     _buildTopicTile(
-                      color: Colors.orange,
-                      icon: Icons.fastfood,
-                      label: 'Essen',
+                      imagePath: 'assets/topics/topic_film.png',
+                      label: 'Film',
                     ),
                     _buildTopicTile(
-                      color: Colors.blue,
-                      icon: Icons.history_edu,
-                      label: 'Boomerwörter',
+                      imagePath: 'assets/topics/topic_animal.png',
+                      label: 'Animals',
                     ),
                     _buildTopicTile(
-                      color: Colors.pink,
-                      icon: Icons.shopping_bag,
-                      label: 'Marken',
+                      imagePath: 'assets/topics/topic_jobs.png',
+                      label: 'Jobs',
                     ),
                     _buildTopicTile(
-                      color: Colors.deepOrange,
-                      icon: Icons.book,
-                      label: 'Geschichte',
+                      imagePath: 'assets/topics/topic_stars.png',
+                      label: 'Stars',
                     ),
                     _buildTopicTile(
-                      color: Colors.lightGreen,
-                      icon: Icons.breakfast_dining,
-                      label: 'Frühstücken',
+                      imagePath: 'assets/topics/topic_car.png',
+                      label: 'Autos',
                     ),
                     _buildTopicTile(
-                      color: Colors.purple,
-                      icon: Icons.favorite,
-                      label: 'Rund um Sex',
+                      imagePath: 'assets/topics/topic_geography.png',
+                      label: 'Geography',
                     ),
                     _buildTopicTile(
-                      color: Colors.limeAccent,
-                      icon: Icons.videogame_asset,
-                      label: 'Videospiele',
+                      imagePath: 'assets/topics/topic_sport.png',
+                      label: 'Sport',
                     ),
                     _buildTopicTile(
-                      color: Colors.cyan,
-                      icon: Icons.science,
-                      label: 'Wissenschaft',
+                      imagePath: 'assets/topics/topic_film.png',
+                      label: 'Film',
                     ),
                     _buildTopicTile(
-                      color: Colors.green,
-                      icon: Icons.sports_soccer,
-                      label: 'Fußball',
+                      imagePath: 'assets/topics/topic_animal.png',
+                      label: 'Animals',
                     ),
                     _buildTopicTile(
-                      color: Colors.red,
-                      icon: Icons.celebration,
-                      label: 'Silvester',
+                      imagePath: 'assets/topics/topic_jobs.png',
+                      label: 'Jobs',
                     ),
                     _buildTopicTile(
-                      color: Colors.blueAccent,
-                      icon: Icons.star,
-                      label: 'Schauspieler',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.deepPurple,
-                      icon: Icons.cake,
-                      label: 'Party',
-                    ),
-                    _buildTopicTile(
-                      color: Colors.brown,
-                      icon: Icons.local_bar,
-                      label: 'Rauschmittel',
+                      imagePath: 'assets/topics/topic_stars.png',
+                      label: 'Stars',
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  onPressed: () {
-                    // Handle Next button
-                  },
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+                const SizedBox(
+                  height: 80,
+                ), // Platz unter dem ListView für den FAB
+              ],
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: ConstrainedBox(
+        constraints: BoxConstraints.tightFor(width: fabWidth, height: 50),
+        child: FloatingActionButton.extended(
+          onPressed: _onStartPressed,
+          backgroundColor: Colors.white, // jetzt vollständig weiß
+          label: const Text(
+            'Start',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFFFF5F8D),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTopicTile({
-    required Color color,
-    required IconData icon,
-    required String label,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildTopicTile({required String imagePath, required String label}) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Stack(
         children: [
-          Icon(icon, size: 48, color: Colors.white),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          Positioned.fill(child: Image.asset(imagePath, fit: BoxFit.cover)),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  letterSpacing: 1.1,
+                ),
+              ),
             ),
-            textAlign: TextAlign.center,
           ),
         ],
       ),

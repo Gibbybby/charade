@@ -1,6 +1,6 @@
 import 'dart:math';
+import 'package:charadex/topic_select.dart';
 import 'package:flutter/material.dart';
-import 'player_mode.dart'; // Import your PlayerModeScreen
 
 class CharadePartyHomePage extends StatefulWidget {
   const CharadePartyHomePage({Key? key}) : super(key: key);
@@ -84,7 +84,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const PlayerModeScreen()),
+            MaterialPageRoute(builder: (context) => const TopicSelectScreen()),
           );
         }
       });
