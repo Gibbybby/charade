@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:charadex/countdown.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,16 +20,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class TopicSelectScreen extends StatelessWidget {
+class TopicSelectScreen extends StatefulWidget {
   const TopicSelectScreen({Key? key}) : super(key: key);
 
+  @override
+  _TopicSelectScreenState createState() => _TopicSelectScreenState();
+}
+
+class _TopicSelectScreenState extends State<TopicSelectScreen> {
+  // Mehrfachauswahl: Set für ausgewählte Indizes
+  final Set<int> _selectedIndices = {};
+
   void _onStartPressed() {
-    // TODO: Handle "Start" button tap
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const Countdown()));
   }
+
+  final List<Map<String, String>> _topics = [
+    {'imagePath': 'assets/topics/topic_car.png', 'label': 'Autos'},
+    {'imagePath': 'assets/topics/topic_geography.png', 'label': 'Geographie'},
+    {'imagePath': 'assets/topics/topic_sport.png', 'label': 'Sport'},
+    {'imagePath': 'assets/topics/topic_film.png', 'label': 'Film'},
+    {'imagePath': 'assets/topics/topic_animal.png', 'label': 'Tiere'},
+    {'imagePath': 'assets/topics/topic_jobs.png', 'label': 'Jobs'},
+    {'imagePath': 'assets/topics/topic_stars.png', 'label': 'Stars'},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final fabWidth = MediaQuery.of(context).size.width * 0.9; // 90% der Breite
+    final fabWidth = MediaQuery.of(context).size.width * 0.9;
+    final bool canStart = _selectedIndices.isNotEmpty;
 
     return Scaffold(
       body: Container(
@@ -80,68 +102,16 @@ class TopicSelectScreen extends StatelessWidget {
                   childAspectRatio: 0.75,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_car.png',
-                      label: 'Autos',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_geography.png',
-                      label: 'Geography',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_sport.png',
-                      label: 'Sport',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_film.png',
-                      label: 'Film',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_animal.png',
-                      label: 'Animals',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_jobs.png',
-                      label: 'Jobs',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_stars.png',
-                      label: 'Stars',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_car.png',
-                      label: 'Autos',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_geography.png',
-                      label: 'Geography',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_sport.png',
-                      label: 'Sport',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_film.png',
-                      label: 'Film',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_animal.png',
-                      label: 'Animals',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_jobs.png',
-                      label: 'Jobs',
-                    ),
-                    _buildTopicTile(
-                      imagePath: 'assets/topics/topic_stars.png',
-                      label: 'Stars',
-                    ),
-                  ],
+                  children: List.generate(_topics.length, (index) {
+                    final topic = _topics[index];
+                    return _buildTopicTile(
+                      index: index,
+                      imagePath: topic['imagePath']!,
+                      label: topic['label']!,
+                    );
+                  }),
                 ),
-                const SizedBox(
-                  height: 80,
-                ), // Platz unter dem ListView für den FAB
+                const SizedBox(height: 80),
               ],
             ),
           ),
@@ -151,14 +121,14 @@ class TopicSelectScreen extends StatelessWidget {
       floatingActionButton: ConstrainedBox(
         constraints: BoxConstraints.tightFor(width: fabWidth, height: 50),
         child: FloatingActionButton.extended(
-          onPressed: _onStartPressed,
-          backgroundColor: Colors.white, // jetzt vollständig weiß
-          label: const Text(
+          onPressed: canStart ? _onStartPressed : null,
+          backgroundColor: canStart ? Colors.white : Colors.white54,
+          label: Text(
             'Start',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFFFF5F8D),
+              color: Color(0xFFFF5F8D).withOpacity(canStart ? 1.0 : 0.5),
             ),
           ),
         ),
@@ -166,31 +136,50 @@ class TopicSelectScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTopicTile({required String imagePath, required String label}) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Stack(
-        children: [
-          Positioned.fill(child: Image.asset(imagePath, fit: BoxFit.cover)),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: 1.1,
-                ),
+  Widget _buildTopicTile({
+    required int index,
+    required String imagePath,
+    required String label,
+  }) {
+    final bool isSelected = _selectedIndices.contains(index);
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            _selectedIndices.remove(index);
+          } else {
+            _selectedIndices.add(index);
+          }
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: isSelected ? Border.all(color: Colors.white, width: 3) : null,
+          borderRadius: BorderRadius.circular(16),
+          image: DecorationImage(
+            image: AssetImage(imagePath),
+            fit: BoxFit.cover,
+          ),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.1,
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
