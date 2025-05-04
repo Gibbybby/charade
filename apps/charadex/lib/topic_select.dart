@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'dart:io' show Platform;
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'countdown.dart'; // Countdown-Screen import
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// Modell für ein Thema mit Bild, Label und 10 passenden Wörtern
+/// Modell für ein Thema mit Bild, Label und zugehörigen Wörtern
 class Topic {
   final String imagePath;
   final String label;
@@ -45,136 +43,65 @@ class TopicSelectScreen extends StatefulWidget {
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
   final Set<int> _selectedIndices = {};
 
-  final List<Topic> _topics = const [
+  static const List<Topic> _topics = [
     Topic(
       imagePath: 'assets/topics/topic_car.png',
       label: 'Autos',
-      words: [
-        'Motor',
-        'Felge',
-        'Kotflügel',
-        'PS',
-        'Lenkrad',
-        'Kofferraum',
-        'Kupplung',
-        'Scheinwerfer',
-        'Getriebe',
-        'Dach',
-      ],
+      words: ['Auto1', 'Auto2', 'Auto3', 'Auto4', 'Auto5'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_geography.png',
-      label: 'Geographie',
+      label: 'Geografie',
       words: [
-        'Kontinent',
-        'Fluss',
-        'Gebirge',
-        'Insel',
-        'Klima',
-        'Atlas',
-        'Äquator',
-        'Höhenlage',
-        'Küste',
-        'Wüste',
+        'Geografie1',
+        'Geografie2',
+        'Geografie3',
+        'Geografie4',
+        'Geografie5',
       ],
     ),
     Topic(
       imagePath: 'assets/topics/topic_sport.png',
       label: 'Sport',
-      words: [
-        'Ball',
-        'Trainer',
-        'Mannschaft',
-        'Tor',
-        'Schiedsrichter',
-        'Stadion',
-        'Wettkampf',
-        'Training',
-        'Turnier',
-        'Gold',
-      ],
+      words: ['Sport1', 'Sport2', 'Sport3', 'Sport4', 'Sport5'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_film.png',
       label: 'Film',
-      words: [
-        'Regisseur',
-        'Schauspieler',
-        'Kamera',
-        'Drehbuch',
-        'Genre',
-        'Premiere',
-        'Schnitt',
-        'Soundtrack',
-        'Set',
-        'Plot',
-      ],
+      words: ['Film1', 'Film2', 'Film3', 'Film4', 'Film5'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_animal.png',
       label: 'Tiere',
-      words: [
-        'Säugetier',
-        'Vogel',
-        'Reptil',
-        'Fisch',
-        'Insekt',
-        'Fell',
-        'Gefieder',
-        'Revier',
-        'Beute',
-        'Laich',
-      ],
+      words: ['Tier1', 'Tier2', 'Tier3', 'Tier4', 'Tier5'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_jobs.png',
       label: 'Jobs',
-      words: [
-        'Arzt',
-        'Lehrer',
-        'Ingenieur',
-        'Friseur',
-        'Koch',
-        'Mechaniker',
-        'Programmierer',
-        'Designer',
-        'Bäcker',
-        'Pilot',
-      ],
+      words: ['Job1', 'Job2', 'Job3', 'Job4', 'Job5'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_stars.png',
       label: 'Stars',
-      words: [
-        'Sänger',
-        'Schauspieler',
-        'Influencer',
-        'Moderator',
-        'Athlet',
-        'Oscar',
-        'Fan',
-        'Interview',
-        'Autogramm',
-        'Tour',
-      ],
+      words: ['Star1', 'Star2', 'Star3', 'Star4', 'Star5'],
     ),
   ];
 
   void _onStartPressed() {
+    // Alle Wörter der ausgewählten Themen sammeln
     final selectedWords =
-        _selectedIndices
-            .map((i) => _topics[i].words)
-            .expand((list) => list)
-            .toList();
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => Countdown(words: selectedWords)),
-    );
+        _selectedIndices.expand((i) => _topics[i].words).toList();
+
+    // Navigation zum Countdown-Screen mit den gesammelten Wörtern
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => Countdown(words: selectedWords)));
   }
 
   @override
   Widget build(BuildContext context) {
-    final fabWidth = MediaQuery.of(context).size.width * 0.9;
     final bool canStart = _selectedIndices.isNotEmpty;
+    final fabWidth = MediaQuery.of(context).size.width * 0.9;
 
     return Scaffold(
       body: Container(
@@ -191,8 +118,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
               horizontal: 16.0,
               vertical: 16.0,
             ),
-            child: ListView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Kopfzeile
                 Row(
                   children: [
                     IconButton(
@@ -204,11 +133,11 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                       ),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         'Themen',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -219,65 +148,68 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                GridView.count(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.75,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: List.generate(_topics.length, (index) {
-                    final topic = _topics[index];
-                    final isSelected = _selectedIndices.contains(index);
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isSelected
-                              ? _selectedIndices.remove(index)
-                              : _selectedIndices.add(index);
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border:
-                              isSelected
-                                  ? Border.all(color: Colors.white, width: 3)
-                                  : null,
-                          borderRadius: BorderRadius.circular(16),
-                          image: DecorationImage(
-                            image: AssetImage(topic.imagePath),
-                            fit: BoxFit.cover,
+                // Grid mit Mehrfach-Auswahl
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 0.75,
+                    children: List.generate(_topics.length, (index) {
+                      final topic = _topics[index];
+                      final isSelected = _selectedIndices.contains(index);
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (isSelected) {
+                              _selectedIndices.remove(index);
+                            } else {
+                              _selectedIndices.add(index);
+                            }
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border:
+                                isSelected
+                                    ? Border.all(color: Colors.white, width: 3)
+                                    : null,
+                            borderRadius: BorderRadius.circular(16),
+                            image: DecorationImage(
+                              image: AssetImage(topic.imagePath),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 6),
-                            color: Colors.black26,
-                            child: Text(
-                              topic.label,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                letterSpacing: 1.1,
+                          clipBehavior: Clip.antiAlias,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              color: Colors.black26,
+                              child: Text(
+                                topic.label,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  letterSpacing: 1.1,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 ),
-                const SizedBox(height: 80),
               ],
             ),
           ),
         ),
       ),
+      // Start-Button, nur aktiv wenn mindestens ein Thema ausgewählt
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: ConstrainedBox(
         constraints: BoxConstraints.tightFor(width: fabWidth, height: 50),
@@ -289,190 +221,11 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFFFF5F8D).withOpacity(canStart ? 1.0 : 0.5),
+              color: const Color(0xFFFF5F8D).withOpacity(canStart ? 1.0 : 0.5),
             ),
           ),
         ),
       ),
     );
   }
-}
-
-class Countdown extends StatefulWidget {
-  final List<String> words;
-  const Countdown({Key? key, required this.words}) : super(key: key);
-
-  @override
-  State<Countdown> createState() => _CountdownState();
-}
-
-class _CountdownState extends State<Countdown> with TickerProviderStateMixin {
-  late AnimationController _confettiController;
-  final Random _random = Random();
-  final List<ConfettiPiece> _confettiPieces = [];
-  int _countdown = 3;
-  Timer? _timer;
-  String? _currentWord;
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_countdown > 0) {
-        setState(() => _countdown--);
-      } else {
-        timer.cancel();
-        _onCountdownComplete();
-      }
-    });
-    _confettiController = AnimationController(
-      vsync: this,
-      duration: const Duration(days: 365),
-    )..repeat();
-    for (int i = 0; i < 20; i++) {
-      _confettiPieces.add(
-        ConfettiPiece(
-          x: _random.nextDouble(),
-          y: _random.nextDouble(),
-          speed: 0.0005 + _random.nextDouble() * 0.0015,
-          swayAmplitude: 20 + _random.nextDouble() * 10,
-          swaySpeed: 1 + _random.nextDouble() * 2,
-          size: 6 + _random.nextDouble() * 8,
-          color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
-        ),
-      );
-    }
-  }
-
-  void _onCountdownComplete() {
-    if (widget.words.isNotEmpty) {
-      setState(() {
-        _currentWord = widget.words[_random.nextInt(widget.words.length)];
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _confettiController.dispose();
-    SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.white,
-            child:
-                _countdown > 0
-                    ? AnimatedBuilder(
-                      animation: _confettiController,
-                      builder: (context, child) {
-                        _updateConfetti();
-                        return CustomPaint(
-                          painter: ConfettiPainter(_confettiPieces),
-                        );
-                      },
-                    )
-                    : null,
-          ),
-          Center(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              switchInCurve: Curves.easeOut,
-              switchOutCurve: Curves.easeIn,
-              child:
-                  _countdown > 0
-                      ? Text(
-                        '$_countdown',
-                        key: ValueKey<int>(_countdown),
-                        style: const TextStyle(
-                          fontSize: 120,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
-                        ),
-                      )
-                      : Text(
-                        _currentWord ?? '',
-                        key: ValueKey<String>(_currentWord ?? ''),
-                        style: const TextStyle(
-                          fontSize: 80,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-            ),
-          ),
-          if (_countdown > 0)
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: Text(
-                'Kippe↓ richtig • Kippe↑ überspringen',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  void _updateConfetti() {
-    for (var piece in _confettiPieces) {
-      piece.y += piece.speed;
-      if (piece.y > 1.2) {
-        piece.y = -0.1;
-        piece.x = _random.nextDouble();
-      }
-    }
-  }
-}
-
-class ConfettiPiece {
-  double x, y, speed, size, swayAmplitude, swaySpeed;
-  Color color;
-  ConfettiPiece({
-    required this.x,
-    required this.y,
-    required this.speed,
-    required this.size,
-    required this.swayAmplitude,
-    required this.swaySpeed,
-    required this.color,
-  });
-}
-
-class ConfettiPainter extends CustomPainter {
-  final List<ConfettiPiece> confettiPieces;
-  ConfettiPainter(this.confettiPieces);
-  @override
-  void paint(Canvas canvas, Size size) {
-    final double time = DateTime.now().millisecondsSinceEpoch / 1000.0;
-    for (var piece in confettiPieces) {
-      final paint = Paint()..color = piece.color;
-      double swayOffset = piece.swayAmplitude * sin(time * piece.swaySpeed);
-      double dx = piece.x * size.width + swayOffset;
-      double dy = piece.y * size.height;
-      canvas.drawCircle(Offset(dx, dy), piece.size / 2, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
