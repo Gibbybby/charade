@@ -186,7 +186,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                             child: Container(
                               width: double.infinity,
                               padding: const EdgeInsets.symmetric(vertical: 6),
-                              color: Colors.black26,
                               child: Text(
                                 topic.label,
                                 textAlign: TextAlign.center,
