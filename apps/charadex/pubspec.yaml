@@ -25,6 +25,7 @@ flutter:
     - assets/charade_party_title.png
     - assets/solo.png
     - assets/team.png
+    - assets/round_end.png
     - assets/topics/topic_car.png
     - assets/topics/topic_sport.png
     - assets/topics/topic_geography.png

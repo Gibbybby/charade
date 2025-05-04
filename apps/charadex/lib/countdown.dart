@@ -17,8 +17,8 @@ class _CountdownState extends State<Countdown> {
   Timer? _prepTimer;
   Timer? _mainTimer;
 
-  int _prepRemaining = 3; // 3-second prep countdown
-  int _remaining = 15; // main countdown seconds
+  int _prepRemaining = 0; // 3-second prep countdown
+  int _remaining = 0; // main countdown seconds
   int _currentIndex = 0;
   bool _prepFinished = false;
   bool _finished = false;
