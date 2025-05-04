@@ -17,9 +17,9 @@ class _CountdownState extends State<Countdown> {
   Timer? _prepTimer;
   Timer? _mainTimer;
 
-  int _prepRemaining = 0; // 3-second prep countdown
-  int _remaining = 0; // main countdown seconds
-  int _currentIndex = 0;
+  int _prepRemaining = 3;
+  int _remaining = 3;
+  int _currentIndex = 3;
   bool _prepFinished = false;
   bool _finished = false;
 
@@ -90,18 +90,21 @@ class _CountdownState extends State<Countdown> {
   @override
   Widget build(BuildContext context) {
     if (!_prepFinished) {
-      return Scaffold(
+      return const Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
           child: Text(
-            '$_prepRemaining',
-            style: const TextStyle(fontSize: 96, fontWeight: FontWeight.bold),
+            '3',
+            style: TextStyle(fontSize: 96, fontWeight: FontWeight.bold),
           ),
         ),
       );
     }
 
-    final bool showList = _finished;
+    final showList = _finished;
+
     return Scaffold(
+      backgroundColor: Colors.white,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: showList ? null : _onTap,
@@ -115,7 +118,6 @@ class _CountdownState extends State<Countdown> {
                 showList: showList,
               ),
             ),
-            // Lighter, modern timer display at top-right with Material clock icon
             if (!showList)
               Positioned(
                 top: 16,
@@ -126,7 +128,7 @@ class _CountdownState extends State<Countdown> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.3),
+                    color: Colors.grey.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -135,7 +137,7 @@ class _CountdownState extends State<Countdown> {
                       const Icon(
                         Icons.access_time,
                         size: 20,
-                        color: Colors.white,
+                        color: Colors.black87,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -143,7 +145,7 @@ class _CountdownState extends State<Countdown> {
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black87,
                         ),
                       ),
                     ],
