@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'word_list.dart';
 
 class Countdown extends StatefulWidget {
@@ -16,16 +17,21 @@ class _CountdownState extends State<Countdown> {
   late final List<String> _shuffledWords;
   Timer? _prepTimer;
   Timer? _mainTimer;
+  Timer? _sensorTimer;
 
   int _prepRemaining = 3;
-  int _remaining = 3;
-  int _currentIndex = 3;
+  int _remaining = 10;
+  int _currentIndex = 0;
   bool _prepFinished = false;
   bool _finished = false;
+
+  double _lastZ = 0;
+  Color? _overlayColor;
 
   @override
   void initState() {
     super.initState();
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -33,14 +39,31 @@ class _CountdownState extends State<Countdown> {
 
     _shuffledWords = List.of(widget.words)..shuffle();
 
+    _prepRemaining = 3;
     _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_prepRemaining > 0) {
+      if (_prepRemaining > 1) {
         setState(() => _prepRemaining--);
-      }
-      if (_prepRemaining == 0) {
+      } else {
         timer.cancel();
-        setState(() => _prepFinished = true);
+        setState(() {
+          _prepRemaining = 0;
+          _prepFinished = true;
+        });
         _startMainTimer();
+      }
+    });
+
+    accelerometerEvents.listen((event) {
+      _lastZ = event.z;
+    });
+
+    _sensorTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
+      if (_overlayColor != null || _finished) return;
+
+      if (_lastZ < -7) {
+        _showOverlayColor(Colors.red);
+      } else if (_lastZ > 7) {
+        _showOverlayColor(Colors.green);
       }
     });
   }
@@ -61,14 +84,24 @@ class _CountdownState extends State<Countdown> {
     });
   }
 
+  void _showOverlayColor(Color color) {
+    setState(() => _overlayColor = color);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() => _overlayColor = null);
+      }
+    });
+  }
+
   @override
   void dispose() {
+    _prepTimer?.cancel();
+    _mainTimer?.cancel();
+    _sensorTimer?.cancel();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    _prepTimer?.cancel();
-    _mainTimer?.cancel();
     super.dispose();
   }
 
@@ -90,12 +123,15 @@ class _CountdownState extends State<Countdown> {
   @override
   Widget build(BuildContext context) {
     if (!_prepFinished) {
-      return const Scaffold(
-        backgroundColor: Colors.white,
+      return Scaffold(
         body: Center(
           child: Text(
-            '3',
-            style: TextStyle(fontSize: 96, fontWeight: FontWeight.bold),
+            '$_prepRemaining',
+            style: const TextStyle(
+              fontSize: 96,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
       );
@@ -104,48 +140,47 @@ class _CountdownState extends State<Countdown> {
     final showList = _finished;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: showList ? null : _onTap,
         child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: WordList(
-                words: _shuffledWords,
-                currentIndex: _currentIndex,
-                showList: showList,
-              ),
+            WordList(
+              words: _shuffledWords,
+              currentIndex: _currentIndex,
+              showList: showList,
             ),
+            if (!showList && _overlayColor != null)
+              Positioned.fill(child: Container(color: _overlayColor)),
             if (!showList)
               Positioned(
-                top: 16,
-                right: 16,
+                top: 4,
+                right: 4,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+                    horizontal: 6,
+                    vertical: 2,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
                         Icons.access_time,
-                        size: 20,
-                        color: Colors.black87,
+                        size: 18,
+                        color: Colors.white,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 3),
                       Text(
                         '$_remaining',
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: Colors.white,
                         ),
                       ),
                     ],
