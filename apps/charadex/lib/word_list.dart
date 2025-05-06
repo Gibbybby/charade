@@ -1,15 +1,19 @@
+// word_list.dart
 import 'package:flutter/material.dart';
+import 'countdown.dart';
 
 class WordList extends StatelessWidget {
   final List<String> words;
   final int currentIndex;
   final bool showList;
+  final List<Color?> markedColors;
 
   const WordList({
     Key? key,
     required this.words,
     required this.currentIndex,
     required this.showList,
+    required this.markedColors,
   }) : super(key: key);
 
   @override
@@ -34,13 +38,26 @@ class WordList extends StatelessWidget {
               showList
                   ? ListView.builder(
                     padding: const EdgeInsets.only(top: 24),
-                    itemCount:
-                        (currentIndex >= words.length
-                            ? words.length
-                            : currentIndex + 1) +
-                        1,
+                    itemCount: (currentIndex + 1).clamp(0, words.length) + 1,
                     itemBuilder: (context, index) {
                       if (index == 0) {
+                        // Statistik: letzte unbewertete Antwort zählt als falsch
+                        int correct = 0;
+                        int incorrect = 0;
+                        for (
+                          int i = 0;
+                          i <= currentIndex && i < markedColors.length;
+                          i++
+                        ) {
+                          final color = markedColors[i];
+                          if (color == Colors.green) {
+                            correct++;
+                          } else if (color == Colors.red ||
+                              (color == null && i == currentIndex)) {
+                            incorrect++;
+                          }
+                        }
+
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Column(
@@ -86,14 +103,21 @@ class WordList extends StatelessWidget {
                                       children: [
                                         FilledButton.icon(
                                           onPressed: () {
-                                            // Thema wechseln
+                                            Navigator.pop(context);
                                           },
                                           icon: const Icon(Icons.refresh),
                                           label: const Text('Thema'),
                                         ),
                                         FilledButton.icon(
                                           onPressed: () {
-                                            // Nochmal
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        Countdown(words: words),
+                                              ),
+                                            );
                                           },
                                           icon: const Icon(Icons.replay),
                                           label: const Text('Nochmal'),
@@ -104,9 +128,9 @@ class WordList extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 12),
-                              const Text(
-                                '0 Fragen richtig',
-                                style: TextStyle(
+                              Text(
+                                '$correct Richtig, $incorrect Falsch',
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
@@ -118,6 +142,20 @@ class WordList extends StatelessWidget {
                       }
 
                       final wordIndex = index - 1;
+                      Color color;
+                      if (markedColors.length > wordIndex) {
+                        color =
+                            markedColors[wordIndex] ??
+                            (wordIndex == currentIndex
+                                ? Colors.red
+                                : Colors.black);
+                      } else {
+                        color =
+                            wordIndex == currentIndex
+                                ? Colors.red
+                                : Colors.black;
+                      }
+
                       return Card(
                         color: Colors.white,
                         elevation: 4,
@@ -137,9 +175,10 @@ class WordList extends StatelessWidget {
                             child: Text(
                               words[wordIndex],
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
+                                color: color,
                               ),
                             ),
                           ),
