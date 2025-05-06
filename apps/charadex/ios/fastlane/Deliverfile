@@ -27,6 +27,11 @@ keywords({
   'es-ES' => "charadas, juego de fiesta, adivina, palabras, amigos, familia, mímica, diversión"
 })
 
+release_notes({
+  'default' => "Brand new charades game! Play with friends, laugh together, and enjoy countless categories.",
+  'de-DE' => "Neues Charade-Spiel! Spiele mit Freunden, lache gemeinsam und entdecke viele neue Kategorien.",
+  'es-ES' => "¡Nuevo juego de charadas! Juega con amigos, ríe sin parar y explora muchas categorías divertidas."
+})
 
 privacy_url({
   'default' => 'https://vucak.at/en/data-protection',
