@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:charadex/topic_select.dart';
 import 'package:charadex/app_state.dart';
+import 'package:charadex/translations.dart';
 
 class CharadePartyHomePage extends StatefulWidget {
   const CharadePartyHomePage({Key? key}) : super(key: key);
@@ -154,9 +155,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(
-                          bottom: 100,
-                        ), // reduced from 150 to move button up
+                        margin: const EdgeInsets.only(bottom: 100),
                         child: Column(
                           children: [
                             FadeTransition(
@@ -165,12 +164,12 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                                   const AlwaysStoppedAnimation(1.0),
                               child: Image.asset(
                                 'assets/welcome_pic.png',
-                                width: 100, // reduced from 120
+                                width: 100,
                               ),
                             ),
                             Image.asset(
                               'assets/charade_party_title.png',
-                              width: 250, // reduced from 300
+                              width: 250,
                             ),
                           ],
                         ),
@@ -189,9 +188,9 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                               vertical: 20,
                             ),
                           ),
-                          child: const Text(
-                            'START GAME',
-                            style: TextStyle(
+                          child: Text(
+                            Translations.t('start_game'),
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,

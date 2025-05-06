@@ -24,7 +24,7 @@ class TopicSelectScreen extends StatefulWidget {
 
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
   final Set<int> _selectedIndices = {};
-  int _timerLength = 10;
+  int _timerLength = 60; // Standardwert geändert zu 60 Sekunden
   List<Topic> _topics = [];
 
   static const Map<String, String> _imageMap = {
@@ -59,7 +59,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     jsonMap.forEach((label, list) {
       final words = List<String>.from(list as List);
       final imagePath = _imageMap[label] ?? 'assets/topics/default.png';
-      loaded.add(Topic(imagePath: imagePath, label: label, words: words));
+      final translatedLabel = Translations.topicLabel(label);
+      loaded.add(
+        Topic(imagePath: imagePath, label: translatedLabel, words: words),
+      );
     });
 
     setState(() {
@@ -69,48 +72,37 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
 
   void _showTimerPicker() {
     if (Platform.isIOS) {
-      double temp = _timerLength.toDouble();
+      int selected = _timerLength;
 
       showCupertinoModalPopup(
         context: context,
         builder:
             (_) => Container(
               height: 300,
-              padding: const EdgeInsets.all(16),
               color: CupertinoColors.systemBackground.resolveFrom(context),
               child: Column(
                 children: [
-                  Text(
-                    Translations.t(
-                      'seconds',
-                      params: {'value': temp.toInt().toString()},
-                    ),
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: CupertinoPicker(
+                      scrollController: FixedExtentScrollController(
+                        initialItem: selected - 10,
+                      ),
+                      itemExtent: 32.0,
+                      onSelectedItemChanged: (int index) {
+                        selected = index + 10;
+                      },
+                      children: List<Widget>.generate(111, (int index) {
+                        final seconds = index + 10;
+                        return Center(child: Text('$seconds s'));
+                      }),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  CupertinoSlider(
-                    min: 10,
-                    max: 120,
-                    divisions: 110,
-                    value: temp,
-                    onChanged: (val) {
-                      setState(() {
-                        temp = val;
-                      });
-                    },
-                    onChangeEnd: (val) {
-                      setState(() {
-                        _timerLength = val.toInt();
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16),
                   CupertinoButton(
                     child: Text(Translations.t('ok')),
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      setState(() => _timerLength = selected);
+                      Navigator.pop(context);
+                    },
                   ),
                 ],
               ),
@@ -208,7 +200,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ), // weißer Pfeil
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   Expanded(
@@ -272,6 +267,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                                 child: Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Container(
+                                    color: Colors.black45,
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 6,
                                     ),
