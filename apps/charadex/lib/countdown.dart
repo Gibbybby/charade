@@ -68,9 +68,9 @@ class _CountdownState extends State<Countdown> {
       if (_finished || _tiltCooldown) return;
 
       if (_lastZ < -7) {
-        _handleTilt(Colors.red);
-      } else if (_lastZ > 7) {
         _handleTilt(Colors.green);
+      } else if (_lastZ > 7) {
+        _handleTilt(Colors.red);
       }
     });
   }

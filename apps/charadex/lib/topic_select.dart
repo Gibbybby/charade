@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:charadex/app_state.dart';
 import 'package:charadex/translations.dart';
 import 'countdown.dart';
@@ -24,7 +25,7 @@ class TopicSelectScreen extends StatefulWidget {
 
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
   final Set<int> _selectedIndices = {};
-  int _timerLength = 60; // Standardwert geändert zu 60 Sekunden
+  int _timerLength = 60;
   List<Topic> _topics = [];
 
   static const Map<String, String> _imageMap = {
@@ -46,6 +47,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   void initState() {
     super.initState();
     _loadTopicsFromJson();
+    _loadSavedTimer();
   }
 
   Future<void> _loadTopicsFromJson() async {
@@ -68,6 +70,18 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     setState(() {
       _topics = loaded;
     });
+  }
+
+  Future<void> _loadSavedTimer() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _timerLength = prefs.getInt('timer_length') ?? 60;
+    });
+  }
+
+  Future<void> _saveTimer(int value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('timer_length', value);
   }
 
   void _showTimerPicker() {
@@ -97,12 +111,16 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                       }),
                     ),
                   ),
-                  CupertinoButton(
-                    child: Text(Translations.t('ok')),
-                    onPressed: () {
-                      setState(() => _timerLength = selected);
-                      Navigator.pop(context);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: CupertinoButton(
+                      child: Text(Translations.t('ok')),
+                      onPressed: () {
+                        setState(() => _timerLength = selected);
+                        _saveTimer(selected);
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -144,6 +162,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                   TextButton(
                     onPressed: () {
                       setState(() => _timerLength = temp.toInt());
+                      _saveTimer(temp.toInt());
                       Navigator.pop(context);
                     },
                     child: Text(Translations.t('ok')),
@@ -185,7 +204,141 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   Widget build(BuildContext context) {
     final canStart = _selectedIndices.isNotEmpty;
 
-    final body = Container(
+    final content = Column(
+      children: [
+        if (!Platform.isIOS)
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              Expanded(
+                child: Text(
+                  Translations.t('topics'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.timer, color: Colors.white),
+                onPressed: _showTimerPicker,
+              ),
+            ],
+          ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child:
+                _topics.isEmpty
+                    ? const Center(child: CircularProgressIndicator())
+                    : GridView.count(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.75,
+                      children: List.generate(_topics.length, (index) {
+                        final topic = _topics[index];
+                        final isSelected = _selectedIndices.contains(index);
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (isSelected) {
+                                _selectedIndices.remove(index);
+                              } else {
+                                _selectedIndices.add(index);
+                              }
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border:
+                                  isSelected
+                                      ? Border.all(
+                                        color: Colors.white,
+                                        width: 3,
+                                      )
+                                      : null,
+                              borderRadius: BorderRadius.circular(16),
+                              image: DecorationImage(
+                                image: AssetImage(topic.imagePath),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                color: Colors.black45,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 6,
+                                ),
+                                width: double.infinity,
+                                child: Text(
+                                  topic.label,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SizedBox(
+            width: double.infinity,
+            height: 50,
+            child:
+                Platform.isIOS
+                    ? CupertinoButton(
+                      color: Colors.white,
+                      disabledColor: Colors.white54,
+                      onPressed: canStart ? _onStartPressed : null,
+                      child: Text(
+                        Translations.t('start'),
+                        style: TextStyle(
+                          color: const Color(
+                            0xFFFF5F8D,
+                          ).withOpacity(canStart ? 1.0 : 0.5),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                    : FloatingActionButton.extended(
+                      onPressed: canStart ? _onStartPressed : null,
+                      backgroundColor: canStart ? Colors.white : Colors.white54,
+                      label: Text(
+                        Translations.t('start'),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(
+                            0xFFFF5F8D,
+                          ).withOpacity(canStart ? 1.0 : 0.5),
+                        ),
+                      ),
+                    ),
+          ),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+
+    final decorated = Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -193,166 +346,32 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
           colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
         ),
       ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            if (!Platform.isIOS)
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ), // weißer Pfeil
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                  Expanded(
-                    child: Text(
-                      Translations.t('topics'),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.timer, color: Colors.white),
-                    onPressed: _showTimerPicker,
-                  ),
-                ],
-              ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child:
-                    _topics.isEmpty
-                        ? const Center(child: CircularProgressIndicator())
-                        : GridView.count(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 16,
-                          crossAxisSpacing: 16,
-                          childAspectRatio: 0.75,
-                          children: List.generate(_topics.length, (index) {
-                            final topic = _topics[index];
-                            final isSelected = _selectedIndices.contains(index);
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (isSelected) {
-                                    _selectedIndices.remove(index);
-                                  } else {
-                                    _selectedIndices.add(index);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border:
-                                      isSelected
-                                          ? Border.all(
-                                            color: Colors.white,
-                                            width: 3,
-                                          )
-                                          : null,
-                                  borderRadius: BorderRadius.circular(16),
-                                  image: DecorationImage(
-                                    image: AssetImage(topic.imagePath),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    color: Colors.black45,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 6,
-                                    ),
-                                    width: double.infinity,
-                                    child: Text(
-                                      topic.label,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                        ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child:
-                    Platform.isIOS
-                        ? CupertinoButton(
-                          color: Colors.white,
-                          disabledColor: Colors.white54,
-                          onPressed: canStart ? _onStartPressed : null,
-                          child: Text(
-                            Translations.t('start'),
-                            style: TextStyle(
-                              color: const Color(
-                                0xFFFF5F8D,
-                              ).withOpacity(canStart ? 1.0 : 0.5),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                        : FloatingActionButton.extended(
-                          onPressed: canStart ? _onStartPressed : null,
-                          backgroundColor:
-                              canStart ? Colors.white : Colors.white54,
-                          label: Text(
-                            Translations.t('start'),
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(
-                                0xFFFF5F8D,
-                              ).withOpacity(canStart ? 1.0 : 0.5),
-                            ),
-                          ),
-                        ),
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
+      child: SafeArea(child: content),
     );
 
     return Platform.isIOS
-        ? CupertinoPageScaffold(
-          backgroundColor: Colors.transparent,
-          navigationBar: CupertinoNavigationBar(
+        ? CupertinoTheme(
+          data: const CupertinoThemeData(primaryColor: Colors.white),
+          child: CupertinoPageScaffold(
             backgroundColor: Colors.transparent,
-            border: null,
-            middle: Text(
-              Translations.t('topics'),
-              style: const TextStyle(color: Colors.white),
+            navigationBar: CupertinoNavigationBar(
+              backgroundColor: Colors.transparent,
+              border: null,
+              previousPageTitle: '',
+              middle: Text(
+                Translations.t('topics'),
+                style: const TextStyle(color: Colors.white),
+              ),
+              trailing: GestureDetector(
+                onTap: _showTimerPicker,
+                child: const Icon(CupertinoIcons.timer, color: Colors.white),
+              ),
             ),
-            trailing: GestureDetector(
-              onTap: _showTimerPicker,
-              child: const Icon(CupertinoIcons.timer, color: Colors.white),
-            ),
+            child: decorated,
           ),
-          child: body,
         )
         : Scaffold(
-          body: body,
+          body: decorated,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
         );
