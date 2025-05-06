@@ -1,6 +1,5 @@
 // word_list.dart
 import 'package:flutter/material.dart';
-import 'countdown.dart';
 
 class WordList extends StatelessWidget {
   final List<String> words;
@@ -99,28 +98,13 @@ class WordList extends StatelessWidget {
                                     const SizedBox(height: 16),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.center,
                                       children: [
                                         FilledButton.icon(
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
-                                          icon: const Icon(Icons.refresh),
-                                          label: const Text('Thema'),
-                                        ),
-                                        FilledButton.icon(
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        Countdown(words: words),
-                                              ),
-                                            );
-                                          },
-                                          icon: const Icon(Icons.replay),
-                                          label: const Text('Nochmal'),
+                                          label: const Text('Zum Menü'),
                                         ),
                                       ],
                                     ),

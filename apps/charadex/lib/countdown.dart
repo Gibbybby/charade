@@ -1,4 +1,3 @@
-// countdown.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +6,7 @@ import 'word_list.dart';
 
 class Countdown extends StatefulWidget {
   final List<String> words;
+
   const Countdown({Key? key, required this.words}) : super(key: key);
 
   @override
@@ -35,7 +35,6 @@ class _CountdownState extends State<Countdown> {
   void initState() {
     super.initState();
 
-    // sicherheitshalber Querformat
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -44,7 +43,6 @@ class _CountdownState extends State<Countdown> {
     _shuffledWords = List.of(widget.words)..shuffle();
     _markedColors = List.filled(_shuffledWords.length, null);
 
-    // Vorbereitungscountdown 3…1
     _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_prepRemaining > 1) {
         setState(() => _prepRemaining--);
@@ -58,14 +56,13 @@ class _CountdownState extends State<Countdown> {
       }
     });
 
-    // Sensor-Listener
     accelerometerEvents.listen((event) {
       _lastZ = event.z;
     });
 
-    // Alle 200 ms auf Tilt prüfen
     _sensorTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
       if (_finished || _tiltCooldown) return;
+
       if (_lastZ < -7) {
         _handleTilt(Colors.red);
       } else if (_lastZ > 7) {
@@ -81,6 +78,10 @@ class _CountdownState extends State<Countdown> {
       }
       if (_remaining == 0) {
         timer.cancel();
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
         setState(() => _finished = true);
       }
     });
@@ -96,6 +97,10 @@ class _CountdownState extends State<Countdown> {
       if (_currentIndex >= _shuffledWords.length) {
         _finished = true;
         _mainTimer?.cancel();
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
       }
     });
 
@@ -115,7 +120,6 @@ class _CountdownState extends State<Countdown> {
     _prepTimer?.cancel();
     _mainTimer?.cancel();
     _sensorTimer?.cancel();
-    // Portrait wieder erlauben, wenn du möchtest:
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -123,21 +127,9 @@ class _CountdownState extends State<Countdown> {
     super.dispose();
   }
 
-  void _onTap() {
-    if (!_prepFinished || _finished) return;
-    setState(() {
-      _currentIndex++;
-      if (_currentIndex >= _shuffledWords.length) {
-        _finished = true;
-        _mainTimer?.cancel();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (!_prepFinished) {
-      // Vorbereitungsbildschirm
       return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
@@ -157,54 +149,48 @@ class _CountdownState extends State<Countdown> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: showList ? null : _onTap,
-        child: Stack(
-          children: [
-            WordList(
-              words: _shuffledWords,
-              currentIndex: _currentIndex,
-              showList: showList,
-              markedColors: _markedColors,
-            ),
-            if (!showList && _overlayColor != null)
-              Positioned.fill(child: Container(color: _overlayColor)),
-            if (!showList)
-              Positioned(
-                top: 16,
-                right: 16,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.access_time,
-                        size: 18,
+      body: Stack(
+        children: [
+          WordList(
+            words: _shuffledWords,
+            currentIndex: _currentIndex,
+            showList: showList,
+            markedColors: _markedColors,
+          ),
+          if (!showList && _overlayColor != null)
+            Positioned.fill(child: Container(color: _overlayColor)),
+          if (!showList)
+            Positioned(
+              top: 32,
+              right: 4,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.access_time,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      '$_remaining',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '$_remaining',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
