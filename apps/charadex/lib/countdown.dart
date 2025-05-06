@@ -21,6 +21,8 @@ class _CountdownState extends State<Countdown> {
   late final List<String> _shuffledWords;
   late List<Color?> _markedColors;
 
+  final AudioPlayer _player = AudioPlayer();
+
   Timer? _prepTimer;
   Timer? _mainTimer;
   Timer? _sensorTimer;
@@ -51,21 +53,20 @@ class _CountdownState extends State<Countdown> {
 
     // Sofort 3 anzeigen + beep abspielen
     setState(() => _prepRemaining = 3);
-    AudioPlayer().play(AssetSource('sounds/beep.mp3'));
+    _player.play(AssetSource('sounds/beep.mp3'));
 
     _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_prepRemaining > 1) {
         setState(() => _prepRemaining--);
-        AudioPlayer().play(AssetSource('sounds/beep.mp3'));
+        _player.play(AssetSource('sounds/beep.mp3'));
       } else {
         timer.cancel();
 
-        // Kein beep mehr – nur highbeep & START screen
         setState(() {
           _prepRemaining = 0;
           _showStartScreen = true;
         });
-        AudioPlayer().play(AssetSource('sounds/highbeep.mp3'));
+        _player.play(AssetSource('sounds/highbeep.mp3'));
 
         Future.delayed(const Duration(seconds: 1), () {
           setState(() {
@@ -104,6 +105,7 @@ class _CountdownState extends State<Countdown> {
           DeviceOrientation.portraitDown,
         ]);
         setState(() => _finished = true);
+        _player.play(AssetSource('sounds/finish.mp3')); // 🔊 Finish Sound
       }
     });
   }
@@ -112,9 +114,9 @@ class _CountdownState extends State<Countdown> {
     if (!_prepFinished || _finished || _tiltCooldown) return;
 
     if (color == Colors.green) {
-      AudioPlayer().play(AssetSource('sounds/ding.mp3'));
+      _player.play(AssetSource('sounds/ding.mp3'));
     } else if (color == Colors.red) {
-      AudioPlayer().play(AssetSource('sounds/buzz.mp3'));
+      _player.play(AssetSource('sounds/buzz.mp3'));
     }
 
     setState(() {
@@ -128,6 +130,7 @@ class _CountdownState extends State<Countdown> {
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
         ]);
+        _player.play(AssetSource('sounds/finish.mp3')); // 🔊 Finish Sound
       }
     });
 
@@ -147,6 +150,7 @@ class _CountdownState extends State<Countdown> {
     _prepTimer?.cancel();
     _mainTimer?.cancel();
     _sensorTimer?.cancel();
+    _player.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

@@ -50,6 +50,8 @@ flutter:
     - assets/sounds/buzz.mp3
     - assets/sounds/beep.mp3
     - assets/sounds/highbeep.mp3
+    - assets/sounds/finish.mp3
+
 flutter_launcher_icons:
   android: true
   ios: true
