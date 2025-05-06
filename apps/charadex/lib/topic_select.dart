@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:charadex/app_state.dart';
 import 'countdown.dart';
 
 class Topic {
@@ -25,7 +26,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   int _timerLength = 10;
   List<Topic> _topics = [];
 
-  // Map JSON keys to image asset paths
   static const Map<String, String> _imageMap = {
     'Autos': 'assets/topics/topic_car.png',
     'Geografie': 'assets/topics/topic_geography.png',
@@ -48,8 +48,9 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   }
 
   Future<void> _loadTopicsFromJson() async {
+    final langCode = AppState.getLanguageCode();
     final jsonString = await rootBundle.loadString(
-      'assets/charades_topics_de.json',
+      'assets/charades_topics_$langCode.json',
     );
     final Map<String, dynamic> jsonMap = json.decode(jsonString);
     final loaded = <Topic>[];
@@ -66,43 +67,53 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   }
 
   void _showTimerPicker() {
-    double temp = _timerLength.toDouble();
-
     if (Platform.isIOS) {
+      double temp = _timerLength.toDouble();
+
       showCupertinoModalPopup(
         context: context,
         builder:
-            (_) => CupertinoActionSheet(
-              title: const Text('Timer einstellen'),
-              message: Column(
+            (_) => Container(
+              height: 300,
+              padding: const EdgeInsets.all(16),
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              child: Column(
                 children: [
-                  Text('\${temp.toInt()} Sekunden'),
+                  Text(
+                    '${temp.toInt()} Sekunden',
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   CupertinoSlider(
                     min: 10,
                     max: 120,
+                    divisions: 110,
                     value: temp,
                     onChanged: (val) {
-                      setState(() => temp = val);
+                      setState(() {
+                        temp = val;
+                      });
+                    },
+                    onChangeEnd: (val) {
+                      setState(() {
+                        _timerLength = val.toInt();
+                      });
                     },
                   ),
+                  const SizedBox(height: 16),
+                  CupertinoButton(
+                    child: const Text('Fertig'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
                 ],
-              ),
-              actions: [
-                CupertinoActionSheetAction(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    setState(() => _timerLength = temp.toInt());
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-              cancelButton: CupertinoActionSheetAction(
-                child: const Text('Abbrechen'),
-                onPressed: () => Navigator.pop(context),
               ),
             ),
       );
     } else {
+      double temp = _timerLength.toDouble();
       showDialog(
         context: context,
         builder: (context) {
@@ -113,16 +124,14 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('\${temp.toInt()} Sekunden'),
+                    Text('${temp.toInt()} Sekunden'),
                     Slider(
                       min: 10,
                       max: 120,
-                      divisions: 110,
                       value: temp,
-                      label: '\${temp.toInt()}',
-                      onChanged: (val) {
-                        setState(() => temp = val);
-                      },
+                      divisions: 110,
+                      label: '${temp.toInt()}',
+                      onChanged: (val) => setState(() => temp = val),
                     ),
                   ],
                 ),
@@ -133,9 +142,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      setState(() {
-                        _timerLength = temp.toInt();
-                      });
+                      setState(() => _timerLength = temp.toInt());
                       Navigator.pop(context);
                     },
                     child: const Text('OK'),
@@ -258,7 +265,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 6,
                                     ),
-                                    color: Colors.black45,
                                     width: double.infinity,
                                     child: Text(
                                       topic.label,
@@ -285,9 +291,19 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                 height: 50,
                 child:
                     Platform.isIOS
-                        ? CupertinoButton.filled(
+                        ? CupertinoButton(
+                          color: Colors.white,
+                          disabledColor: Colors.white54,
                           onPressed: canStart ? _onStartPressed : null,
-                          child: const Text('Start'),
+                          child: Text(
+                            'Start',
+                            style: TextStyle(
+                              color: const Color(
+                                0xFFFF5F8D,
+                              ).withOpacity(canStart ? 1.0 : 0.5),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         )
                         : FloatingActionButton.extended(
                           onPressed: canStart ? _onStartPressed : null,
@@ -314,12 +330,12 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-            middle: const Text('Themen'),
-            trailing: GestureDetector(
-              onTap: _showTimerPicker,
-              child: const Icon(CupertinoIcons.timer),
-            ),
+          backgroundColor: Colors.transparent,
+          navigationBar: const CupertinoNavigationBar(
+            backgroundColor: Colors.transparent,
+            border: null,
+            middle: Text('Themen', style: TextStyle(color: Colors.white)),
+            trailing: Icon(CupertinoIcons.timer, color: Colors.white),
           ),
           child: body,
         )

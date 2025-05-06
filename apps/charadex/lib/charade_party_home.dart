@@ -1,6 +1,7 @@
 import 'dart:math';
-import 'package:charadex/topic_select.dart';
 import 'package:flutter/material.dart';
+import 'package:charadex/topic_select.dart';
+import 'package:charadex/app_state.dart';
 
 class CharadePartyHomePage extends StatefulWidget {
   const CharadePartyHomePage({Key? key}) : super(key: key);
@@ -20,7 +21,6 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   final Random _random = Random();
   final List<ConfettiPiece> _confettiPieces = [];
 
-  // Flag toggle state
   final List<String> _flagAssets = [
     'assets/flags/de.png',
     'assets/flags/us.png',
@@ -32,7 +32,6 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   void initState() {
     super.initState();
 
-    // Bounce animation for Start button
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
@@ -45,7 +44,6 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     );
     _controller.forward();
 
-    // Fade animation for welcome_pic
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
@@ -56,13 +54,11 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     );
     _fadeController.forward();
 
-    // Confetti animation (infinite)
     _confettiController = AnimationController(
       vsync: this,
       duration: const Duration(days: 365),
     )..repeat();
 
-    // Create confetti pieces
     for (int i = 0; i < 50; i++) {
       _confettiPieces.add(
         ConfettiPiece(
@@ -102,13 +98,20 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   void _toggleFlag() {
     setState(() {
       _currentFlagIndex = (_currentFlagIndex + 1) % _flagAssets.length;
+      final flagPath = _flagAssets[_currentFlagIndex];
+      if (flagPath.contains('de')) {
+        AppState.setLanguageCode('de');
+      } else if (flagPath.contains('us')) {
+        AppState.setLanguageCode('us');
+      } else if (flagPath.contains('es')) {
+        AppState.setLanguageCode('es');
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // To position flag in safe area
       body: AnimatedBuilder(
         animation: _confettiController,
         builder: (context, child) {
@@ -123,12 +126,9 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
             ),
             child: Stack(
               children: [
-                // Confetti Layer
                 Positioned.fill(
                   child: CustomPaint(painter: ConfettiPainter(_confettiPieces)),
                 ),
-
-                // Flag toggle button in top-right
                 SafeArea(
                   child: Align(
                     alignment: Alignment.topRight,
@@ -136,17 +136,19 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                       padding: const EdgeInsets.all(16.0),
                       child: GestureDetector(
                         onTap: _toggleFlag,
-                        child: Image.asset(
-                          _flagAssets[_currentFlagIndex],
-                          width: 40,
-                          height: 40,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(
+                            _flagAssets[_currentFlagIndex],
+                            width: 70,
+                            height: 40,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-
-                // Main Content
                 Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -245,14 +247,11 @@ class ConfettiPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final double time = DateTime.now().millisecondsSinceEpoch / 1000.0;
-
     for (var piece in confettiPieces) {
       final paint = Paint()..color = piece.color;
-
       double swayOffset = piece.swayAmplitude * sin(time * piece.swaySpeed);
       double dx = piece.x * size.width + swayOffset;
       double dy = piece.y * size.height;
-
       canvas.drawCircle(Offset(dx, dy), piece.size / 2, paint);
     }
   }

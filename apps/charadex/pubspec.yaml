@@ -40,6 +40,7 @@ flutter:
     - assets/topics/topic_sex.png
     - assets/charades_topics_de.json
     - assets/charades_topics_us.json
+    - assets/charades_topics_es.json
     - assets/flags/de.png
     - assets/flags/us.png
     - assets/flags/es.png
