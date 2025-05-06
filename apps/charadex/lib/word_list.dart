@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'app_state.dart';
 import 'translations.dart';
 
 class WordList extends StatelessWidget {

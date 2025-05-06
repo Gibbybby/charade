@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 import 'word_list.dart';
 
 class Countdown extends StatefulWidget {
@@ -33,6 +35,8 @@ class _CountdownState extends State<Countdown> {
   double _lastZ = 0;
   Color? _overlayColor;
 
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
@@ -44,10 +48,11 @@ class _CountdownState extends State<Countdown> {
 
     _shuffledWords = List.of(widget.words)..shuffle();
     _markedColors = List.filled(_shuffledWords.length, null);
-
     _remaining = widget.initialTimer;
 
-    _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    // Countdown mit "düüt"-Sound
+    _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      await _audioPlayer.play(AssetSource('sounds/beep.mp3'));
       if (_prepRemaining > 1) {
         setState(() => _prepRemaining--);
       } else {
@@ -91,8 +96,15 @@ class _CountdownState extends State<Countdown> {
     });
   }
 
-  void _handleTilt(Color color) {
+  void _handleTilt(Color color) async {
     if (!_prepFinished || _finished || _tiltCooldown) return;
+
+    // Sound abspielen je nach Richtung
+    if (color == Colors.green) {
+      await _audioPlayer.play(AssetSource('sounds/ding.mp3'));
+    } else if (color == Colors.red) {
+      await _audioPlayer.play(AssetSource('sounds/buzz.mp3'));
+    }
 
     setState(() {
       _overlayColor = color;
@@ -124,6 +136,7 @@ class _CountdownState extends State<Countdown> {
     _prepTimer?.cancel();
     _mainTimer?.cancel();
     _sensorTimer?.cancel();
+    _audioPlayer.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -164,10 +177,9 @@ class _CountdownState extends State<Countdown> {
           if (!showList && _overlayColor != null)
             Positioned.fill(child: Container(color: _overlayColor)),
           if (!showList)
-            // Ersetze das bestehende Positioned-Widget im build() durch dieses mit mehr Abstand nach rechts:
             Positioned(
               top: 32,
-              right: 16, // hier von 4 auf 16 erhöht
+              right: 16,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(

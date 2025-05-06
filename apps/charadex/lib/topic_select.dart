@@ -274,7 +274,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                             child: Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
-                                color: Colors.black45,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 6,
                                 ),

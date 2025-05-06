@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   sensors_plus: ^4.0.2
   shared_preferences: ^2.2.2
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +46,9 @@ flutter:
     - assets/flags/de.png
     - assets/flags/us.png
     - assets/flags/es.png
+    - assets/sounds/ding.mp3
+    - assets/sounds/buzz.mp3
+    - assets/sounds/beep.mp3
 
 flutter_launcher_icons:
   android: true
