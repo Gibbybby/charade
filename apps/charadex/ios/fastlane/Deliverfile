@@ -1,57 +1,49 @@
-# The Deliverfile allows you to store various App Store Connect metadata
-# For more information, check out the docs
-# https://docs.fastlane.tools/actions/deliver/
+languages(['de-DE', 'en-US', 'es-ES'])
 
-# Supported language codes include:
-# ["ar-SA", "ca", "cs", "da", "de-DE", "el", "en-AU", "en-CA", "en-GB", "en-US",
-#  "es-ES", "es-MX", "fi", "fr-CA", "fr-FR", "he", "hi", "hr", "hu", "id", "it",
-#  "ja", "ko", "ms", "nl-NL", "no", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk",
-#  "sv", "th", "tr", "uk", "vi", "zh-Hans", "zh-Hant"]
-languages(['de-DE', 'en-US'])
-
-# TODO change name in xcode build
 name({
-  'default' => "Charado",
-  'de-DE' => "Charado"
+  'default' => "GuessUp",
+  'de-DE' => "GuessUp – Stirnraten Spiel",
+  'en-US' => "GuessUp – Charades Game",
+  'es-ES' => "GuessUp – Juego de Mímica"
 })
 
-# optional, can't be longer than 30 characters
 subtitle({
-  'default' => "App by Vucak",
-  'de-DE' => "App von Vucak"
+  'default' => "The Ultimate Party Game",
+  'de-DE' => "Das beste Spiel für Gruppen & Partys",
+  'en-US' => "Heads Up! Charades with Friends",
+  'es-ES' => "¡Adivina la palabra con amigos!"
 })
 
 description({
-  'default' => "Internal app by Fastlane",
-  'de-DE' => "Interne App von Fastlane"
+  'default' => "GuessUp is the ultimate mobile charades game to liven up your party! Hold your phone on your forehead, guess the word from your friends' clues, and see who can score the most points. Perfect for families, friends, and parties!",
+  'de-DE' => "GuessUp ist das ultimative Stirnraten-Spiel fürs Handy – perfekt für jede Party! Halte dein Handy an die Stirn, errate den Begriff anhand der Hinweise deiner Freunde und sammle Punkte. Ideal für Familienabende, Partys und Spieleabende!",
+  'es-ES' => "GuessUp es el mejor juego de mímica para tu móvil. Pon el teléfono en la frente, adivina la palabra con las pistas de tus amigos ¡y gana! Perfecto para fiestas, familia y reuniones divertidas."
 })
 
 keywords({
-  'default' => "by Fastlane",
-  'de-DE' => "von Fastlane"
+  'default' => "charades, party game, guess, heads up, guessup, team game, word game, fun",
+  'de-DE' => "Stirnraten, Charades, Partyspiel, Ratespiel, Freunde, Familie, lustig, GuessUp",
+  'en-US' => "charades, guess up, party, fun, friends, guessing, heads up, team, word game",
+  'es-ES' => "charadas, juego de fiesta, adivina, palabras, amigos, familia, mímica, diversión"
 })
-
-# TODO uncomment on second release
-# release_notes({
-#   'default' => "",
-#   'de-DE' => ""
-# })
 
 
 privacy_url({
   'default' => 'https://vucak.at/en/data-protection',
-  'de-DE' => 'https://vucak.at/de/data-protection'
+  'de-DE' => 'https://vucak.at/de/data-protection',
+  'es-ES' => 'https://vucak.at/es/data-protection'
 })
 
 support_url({
-  'default' => 'https://vucak.at/de/contact',
-  'de-DE' => 'https://vucak.at/de/contact'
+  'default' => 'https://vucak.at/en/contact',
+  'de-DE' => 'https://vucak.at/de/contact',
+  'es-ES' => 'https://vucak.at/es/contact'
 })
 
-# optional
 promotional_text({
-  "default" => "Experience the best. Get it now! by Fastlane",
-  "de-DE" => "Erleben Sie das Beste. Jetzt herunterladen! von Fastlane"
+  'default' => "Bring life to your party with GuessUp – The hilarious charades game for all ages!",
+  'de-DE' => "Sorge für Stimmung auf deiner Party – mit GuessUp, dem witzigen Stirnraten-Spiel für alle Altersgruppen!",
+  'es-ES' => "¡Anima tu fiesta con GuessUp – El juego de charadas más divertido para todas las edades!"
 })
 
 app_review_information(
@@ -66,23 +58,11 @@ app_review_information(
 
 copyright("#{Time.now.year} Vucak IT Solutions")
 
-# Available categories for app classification on the App Store.
-
-# BOOKS, BUSINESS, DEVELOPER_TOOLS, EDUCATION, ENTERTAINMENT, FINANCE, FOOD_AND_DRINK
-# GAMES, GRAPHICS_AND_DESIGN, HEALTH_AND_FITNESS, LIFESTYLE, MAGAZINES_AND_NEWSPAPERS
-# MEDICAL, MUSIC, NAVIGATION, NEWS, PHOTO_AND_VIDEO, PRODUCTIVITY, REFERENCE
-# SHOPPING, SOCIAL_NETWORKING, SPORTS, STICKERS, TRAVEL, UTILITIES, WEATHER
-
-primary_category "PRODUCTIVITY"
-secondary_category "DEVELOPER_TOOLS" # optional
-
-# not possible to use will throw error
-# price_tier 0
+primary_category "GAMES"
+secondary_category "ENTERTAINMENT"
 
 automatic_release false
 
-# possible options https://github.com/fastlane/fastlane/blob/master/spaceship/lib/spaceship/tunes/app_submission.rb
 submission_information({
-  # If your app contains, shows, or accesses any third-party content, you must have the rights to it or be permitted to use the content.
   content_rights_contains_third_party_content: false
 })
