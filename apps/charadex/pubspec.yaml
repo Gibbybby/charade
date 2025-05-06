@@ -33,6 +33,16 @@ flutter:
     - assets/topics/topic_animal.png
     - assets/topics/topic_jobs.png
     - assets/topics/topic_stars.png
+    - assets/topics/topic_drugs.png
+    - assets/topics/topic_music.png
+    - assets/topics/topic_party.png
+    - assets/topics/topic_serien.png
+    - assets/topics/topic_sex.png
+    - assets/charades_topics_de.json
+    - assets/charades_topics_us.json
+    - assets/flags/de.png
+    - assets/flags/us.png
+    - assets/flags/es.png
 
 flutter_launcher_icons:
   android: true

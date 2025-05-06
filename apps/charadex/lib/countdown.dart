@@ -164,9 +164,10 @@ class _CountdownState extends State<Countdown> {
           if (!showList && _overlayColor != null)
             Positioned.fill(child: Container(color: _overlayColor)),
           if (!showList)
+            // Ersetze das bestehende Positioned-Widget im build() durch dieses mit mehr Abstand nach rechts:
             Positioned(
               top: 32,
-              right: 4,
+              right: 16, // hier von 4 auf 16 erhöht
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(

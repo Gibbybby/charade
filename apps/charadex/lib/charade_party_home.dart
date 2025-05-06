@@ -15,10 +15,18 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   late AnimationController _confettiController;
   late AnimationController _fadeController;
   late Animation<double> _scaleAnimation;
-  Animation<double>? _fadeAnimation; // <-- made it nullable
+  Animation<double>? _fadeAnimation;
 
   final Random _random = Random();
   final List<ConfettiPiece> _confettiPieces = [];
+
+  // Flag toggle state
+  final List<String> _flagAssets = [
+    'assets/flags/de.png',
+    'assets/flags/us.png',
+    'assets/flags/es.png',
+  ];
+  int _currentFlagIndex = 0;
 
   @override
   void initState() {
@@ -91,9 +99,16 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     });
   }
 
+  void _toggleFlag() {
+    setState(() {
+      _currentFlagIndex = (_currentFlagIndex + 1) % _flagAssets.length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // To position flag in safe area
       body: AnimatedBuilder(
         animation: _confettiController,
         builder: (context, child) {
@@ -107,18 +122,35 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
               ),
             ),
             child: Stack(
-              alignment: Alignment.center,
               children: [
                 // Confetti Layer
                 Positioned.fill(
                   child: CustomPaint(painter: ConfettiPainter(_confettiPieces)),
                 ),
-                // Content
+
+                // Flag toggle button in top-right
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: GestureDetector(
+                        onTap: _toggleFlag,
+                        child: Image.asset(
+                          _flagAssets[_currentFlagIndex],
+                          width: 40,
+                          height: 40,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Main Content
                 Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Images + More bottom margin
                       Container(
                         margin: const EdgeInsets.only(bottom: 150),
                         child: Column(
@@ -139,7 +171,6 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                           ],
                         ),
                       ),
-                      // Start Button
                       ScaleTransition(
                         scale: _scaleAnimation,
                         child: ElevatedButton(

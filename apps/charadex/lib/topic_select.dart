@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'countdown.dart';
 
 class Topic {
@@ -8,11 +10,7 @@ class Topic {
   final String label;
   final List<String> words;
 
-  const Topic({
-    required this.imagePath,
-    required this.label,
-    required this.words,
-  });
+  Topic({required this.imagePath, required this.label, required this.words});
 }
 
 class TopicSelectScreen extends StatefulWidget {
@@ -25,50 +23,47 @@ class TopicSelectScreen extends StatefulWidget {
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
   final Set<int> _selectedIndices = {};
   int _timerLength = 10;
+  List<Topic> _topics = [];
 
-  static const List<Topic> _topics = [
-    Topic(
-      imagePath: 'assets/topics/topic_car.png',
-      label: 'Autos',
-      words: ['Auto1', 'Auto2', 'Auto3', 'Auto4', 'Auto5'],
-    ),
-    Topic(
-      imagePath: 'assets/topics/topic_geography.png',
-      label: 'Geografie',
-      words: [
-        'Geografie1',
-        'Geografie2',
-        'Geografie3',
-        'Geografie4',
-        'Geografie5',
-      ],
-    ),
-    Topic(
-      imagePath: 'assets/topics/topic_sport.png',
-      label: 'Sport',
-      words: ['Sport1', 'Sport2', 'Sport3', 'Sport4', 'Sport5'],
-    ),
-    Topic(
-      imagePath: 'assets/topics/topic_film.png',
-      label: 'Film',
-      words: ['Film1', 'Film2', 'Film3', 'Film4', 'Film5'],
-    ),
-    Topic(
-      imagePath: 'assets/topics/topic_animal.png',
-      label: 'Tiere',
-      words: ['Tier1', 'Tier2', 'Tier3', 'Tier4', 'Tier5'],
-    ),
-    Topic(
-      imagePath: 'assets/topics/topic_jobs.png',
-      label: 'Jobs',
-      words: ['Job1', 'Job2', 'Job3', 'Job4', 'Job5'],
-    ),
-    Topic(
-      imagePath: 'assets/topics/topic_stars.png',
-      label: 'Stars',
-      words: ['Star1', 'Star2', 'Star3', 'Star4', 'Star5'],
-    ),
-  ];
+  // Map JSON keys to image asset paths
+  static const Map<String, String> _imageMap = {
+    'Autos': 'assets/topics/topic_car.png',
+    'Geografie': 'assets/topics/topic_geography.png',
+    'Sport': 'assets/topics/topic_sport.png',
+    'Rund um Sex': 'assets/topics/topic_sex.png',
+    'Drogen': 'assets/topics/topic_drugs.png',
+    'Party': 'assets/topics/topic_party.png',
+    'Film': 'assets/topics/topic_film.png',
+    'Serien': 'assets/topics/topic_serien.png',
+    'Stars': 'assets/topics/topic_stars.png',
+    'Tiere': 'assets/topics/topic_animal.png',
+    'Jobs': 'assets/topics/topic_jobs.png',
+    'Music': 'assets/topics/topic_music.png',
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTopicsFromJson();
+  }
+
+  Future<void> _loadTopicsFromJson() async {
+    final jsonString = await rootBundle.loadString(
+      'assets/charades_topics_de.json',
+    );
+    final Map<String, dynamic> jsonMap = json.decode(jsonString);
+    final loaded = <Topic>[];
+
+    jsonMap.forEach((label, list) {
+      final words = List<String>.from(list as List);
+      final imagePath = _imageMap[label] ?? 'assets/topics/default.png';
+      loaded.add(Topic(imagePath: imagePath, label: label, words: words));
+    });
+
+    setState(() {
+      _topics = loaded;
+    });
+  }
 
   void _showTimerPicker() {
     double temp = _timerLength.toDouble();
@@ -81,7 +76,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
               title: const Text('Timer einstellen'),
               message: Column(
                 children: [
-                  Text('${temp.toInt()} Sekunden'),
+                  Text('\${temp.toInt()} Sekunden'),
                   CupertinoSlider(
                     min: 10,
                     max: 120,
@@ -118,13 +113,13 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('${temp.toInt()} Sekunden'),
+                    Text('\${temp.toInt()} Sekunden'),
                     Slider(
                       min: 10,
                       max: 120,
                       divisions: 110,
                       value: temp,
-                      label: '${temp.toInt()}',
+                      label: '\${temp.toInt()}',
                       onChanged: (val) {
                         setState(() => temp = val);
                       },
@@ -156,8 +151,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
 
   void _onStartPressed() {
     final selectedWords =
-        _selectedIndices.expand((i) => _topics[i].words).toList();
-
+        _selectedIndices.map((i) => _topics[i].words).expand((w) => w).toList();
     final route =
         Platform.isIOS
             ? CupertinoPageRoute(
@@ -180,7 +174,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool canStart = _selectedIndices.isNotEmpty;
+    final canStart = _selectedIndices.isNotEmpty;
 
     final body = Container(
       decoration: const BoxDecoration(
@@ -221,57 +215,66 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.75,
-                  children: List.generate(_topics.length, (index) {
-                    final topic = _topics[index];
-                    final isSelected = _selectedIndices.contains(index);
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (isSelected) {
-                            _selectedIndices.remove(index);
-                          } else {
-                            _selectedIndices.add(index);
-                          }
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border:
-                              isSelected
-                                  ? Border.all(color: Colors.white, width: 3)
-                                  : null,
-                          borderRadius: BorderRadius.circular(16),
-                          image: DecorationImage(
-                            image: AssetImage(topic.imagePath),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            color: Colors.black.withOpacity(0.4),
-                            padding: const EdgeInsets.symmetric(vertical: 6),
-                            child: Text(
-                              topic.label,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                child:
+                    _topics.isEmpty
+                        ? const Center(child: CircularProgressIndicator())
+                        : GridView.count(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                          childAspectRatio: 0.75,
+                          children: List.generate(_topics.length, (index) {
+                            final topic = _topics[index];
+                            final isSelected = _selectedIndices.contains(index);
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (isSelected) {
+                                    _selectedIndices.remove(index);
+                                  } else {
+                                    _selectedIndices.add(index);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border:
+                                      isSelected
+                                          ? Border.all(
+                                            color: Colors.white,
+                                            width: 3,
+                                          )
+                                          : null,
+                                  borderRadius: BorderRadius.circular(16),
+                                  image: DecorationImage(
+                                    image: AssetImage(topic.imagePath),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 6,
+                                    ),
+                                    color: Colors.black45,
+                                    width: double.infinity,
+                                    child: Text(
+                                      topic.label,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          }),
                         ),
-                      ),
-                    );
-                  }),
-                ),
               ),
             ),
             const SizedBox(height: 8),
