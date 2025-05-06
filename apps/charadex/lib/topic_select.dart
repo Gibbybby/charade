@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:charadex/app_state.dart';
+import 'package:charadex/translations.dart';
 import 'countdown.dart';
 
 class Topic {
@@ -80,7 +81,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
               child: Column(
                 children: [
                   Text(
-                    '${temp.toInt()} Sekunden',
+                    Translations.t(
+                      'seconds',
+                      params: {'value': temp.toInt().toString()},
+                    ),
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -105,7 +109,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                   ),
                   const SizedBox(height: 16),
                   CupertinoButton(
-                    child: const Text('Fertig'),
+                    child: Text(Translations.t('ok')),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -120,11 +124,16 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
           return StatefulBuilder(
             builder: (context, setState) {
               return AlertDialog(
-                title: const Text('Timer einstellen'),
+                title: Text(Translations.t('timer_title')),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('${temp.toInt()} Sekunden'),
+                    Text(
+                      Translations.t(
+                        'seconds',
+                        params: {'value': temp.toInt().toString()},
+                      ),
+                    ),
                     Slider(
                       min: 10,
                       max: 120,
@@ -138,14 +147,14 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Abbrechen'),
+                    child: Text(Translations.t('cancel')),
                   ),
                   TextButton(
                     onPressed: () {
                       setState(() => _timerLength = temp.toInt());
                       Navigator.pop(context);
                     },
-                    child: const Text('OK'),
+                    child: Text(Translations.t('ok')),
                   ),
                 ],
               );
@@ -159,6 +168,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   void _onStartPressed() {
     final selectedWords =
         _selectedIndices.map((i) => _topics[i].words).expand((w) => w).toList();
+
     final route =
         Platform.isIOS
             ? CupertinoPageRoute(
@@ -201,11 +211,11 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Themen',
+                      Translations.t('topics'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -296,7 +306,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                           disabledColor: Colors.white54,
                           onPressed: canStart ? _onStartPressed : null,
                           child: Text(
-                            'Start',
+                            Translations.t('start'),
                             style: TextStyle(
                               color: const Color(
                                 0xFFFF5F8D,
@@ -310,7 +320,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                           backgroundColor:
                               canStart ? Colors.white : Colors.white54,
                           label: Text(
-                            'Start',
+                            Translations.t('start'),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -331,11 +341,17 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     return Platform.isIOS
         ? CupertinoPageScaffold(
           backgroundColor: Colors.transparent,
-          navigationBar: const CupertinoNavigationBar(
+          navigationBar: CupertinoNavigationBar(
             backgroundColor: Colors.transparent,
             border: null,
-            middle: Text('Themen', style: TextStyle(color: Colors.white)),
-            trailing: Icon(CupertinoIcons.timer, color: Colors.white),
+            middle: Text(
+              Translations.t('topics'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            trailing: GestureDetector(
+              onTap: _showTimerPicker,
+              child: const Icon(CupertinoIcons.timer, color: Colors.white),
+            ),
           ),
           child: body,
         )

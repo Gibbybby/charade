@@ -154,7 +154,9 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(bottom: 150),
+                        margin: const EdgeInsets.only(
+                          bottom: 100,
+                        ), // reduced from 150 to move button up
                         child: Column(
                           children: [
                             FadeTransition(
@@ -163,12 +165,12 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                                   const AlwaysStoppedAnimation(1.0),
                               child: Image.asset(
                                 'assets/welcome_pic.png',
-                                width: 120,
+                                width: 100, // reduced from 120
                               ),
                             ),
                             Image.asset(
                               'assets/charade_party_title.png',
-                              width: 300,
+                              width: 250, // reduced from 300
                             ),
                           ],
                         ),

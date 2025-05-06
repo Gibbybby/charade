@@ -1,5 +1,6 @@
-// word_list.dart
 import 'package:flutter/material.dart';
+import 'app_state.dart';
+import 'translations.dart';
 
 class WordList extends StatelessWidget {
   final List<String> words;
@@ -87,9 +88,9 @@ class WordList extends StatelessWidget {
                                 ),
                                 child: Column(
                                   children: [
-                                    const Text(
-                                      '🎉 Gut gemacht!',
-                                      style: TextStyle(
+                                    Text(
+                                      Translations.t('well_done'),
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -104,7 +105,10 @@ class WordList extends StatelessWidget {
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
-                                          label: const Text('Zum Menü'),
+                                          label: Text(
+                                            Translations.t('back_to_menu'),
+                                          ),
+                                          icon: const Icon(Icons.arrow_back),
                                         ),
                                       ],
                                     ),
@@ -113,7 +117,13 @@ class WordList extends StatelessWidget {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                '$correct Richtig, $incorrect Falsch',
+                                Translations.t(
+                                  'correct_incorrect',
+                                  params: {
+                                    'correct': correct.toString(),
+                                    'incorrect': incorrect.toString(),
+                                  },
+                                ),
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
