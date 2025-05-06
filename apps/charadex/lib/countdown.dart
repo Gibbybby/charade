@@ -31,11 +31,10 @@ class _CountdownState extends State<Countdown> {
   bool _prepFinished = false;
   bool _finished = false;
   bool _tiltCooldown = false;
+  bool _showStartScreen = false;
 
   double _lastZ = 0;
   Color? _overlayColor;
-
-  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -50,18 +49,31 @@ class _CountdownState extends State<Countdown> {
     _markedColors = List.filled(_shuffledWords.length, null);
     _remaining = widget.initialTimer;
 
-    // Countdown mit "düüt"-Sound
-    _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      await _audioPlayer.play(AssetSource('sounds/beep.mp3'));
+    // Sofort 3 anzeigen + beep abspielen
+    setState(() => _prepRemaining = 3);
+    AudioPlayer().play(AssetSource('sounds/beep.mp3'));
+
+    _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_prepRemaining > 1) {
         setState(() => _prepRemaining--);
+        AudioPlayer().play(AssetSource('sounds/beep.mp3'));
       } else {
         timer.cancel();
+
+        // Kein beep mehr – nur highbeep & START screen
         setState(() {
           _prepRemaining = 0;
-          _prepFinished = true;
+          _showStartScreen = true;
         });
-        _startMainTimer();
+        AudioPlayer().play(AssetSource('sounds/highbeep.mp3'));
+
+        Future.delayed(const Duration(seconds: 1), () {
+          setState(() {
+            _showStartScreen = false;
+            _prepFinished = true;
+          });
+          _startMainTimer();
+        });
       }
     });
 
@@ -96,14 +108,13 @@ class _CountdownState extends State<Countdown> {
     });
   }
 
-  void _handleTilt(Color color) async {
+  void _handleTilt(Color color) {
     if (!_prepFinished || _finished || _tiltCooldown) return;
 
-    // Sound abspielen je nach Richtung
     if (color == Colors.green) {
-      await _audioPlayer.play(AssetSource('sounds/ding.mp3'));
+      AudioPlayer().play(AssetSource('sounds/ding.mp3'));
     } else if (color == Colors.red) {
-      await _audioPlayer.play(AssetSource('sounds/buzz.mp3'));
+      AudioPlayer().play(AssetSource('sounds/buzz.mp3'));
     }
 
     setState(() {
@@ -136,7 +147,6 @@ class _CountdownState extends State<Countdown> {
     _prepTimer?.cancel();
     _mainTimer?.cancel();
     _sensorTimer?.cancel();
-    _audioPlayer.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -146,6 +156,22 @@ class _CountdownState extends State<Countdown> {
 
   @override
   Widget build(BuildContext context) {
+    if (_showStartScreen) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Text(
+            'START',
+            style: const TextStyle(
+              fontSize: 72,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      );
+    }
+
     if (!_prepFinished) {
       return Scaffold(
         backgroundColor: Colors.white,

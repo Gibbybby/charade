@@ -169,7 +169,7 @@ class WordList extends StatelessWidget {
                               words[wordIndex],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 24, // 👈 Größerer Text in der Liste
                                 fontWeight: FontWeight.w500,
                                 color: color,
                               ),
@@ -184,8 +184,9 @@ class WordList extends StatelessWidget {
                       words[currentIndex],
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 42,
+                        fontSize: 64, // 👈 Größerer Spiel-Worttext
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                   ),

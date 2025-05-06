@@ -278,6 +278,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                                   vertical: 6,
                                 ),
                                 width: double.infinity,
+                                color: Colors.black.withOpacity(0.4),
                                 child: Text(
                                   topic.label,
                                   textAlign: TextAlign.center,
@@ -366,7 +367,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                 child: const Icon(CupertinoIcons.timer, color: Colors.white),
               ),
             ),
-            child: decorated,
+            child: DefaultTextStyle(
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+              child: decorated,
+            ),
           ),
         )
         : Scaffold(
