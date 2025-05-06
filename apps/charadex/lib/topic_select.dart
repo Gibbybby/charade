@@ -1,26 +1,8 @@
 import 'dart:io' show Platform;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'countdown.dart'; // Countdown-Screen import
+import 'countdown.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Kartenspiele',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const TopicSelectScreen(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-/// Modell für ein Thema mit Bild, Label und zugehörigen Wörtern
 class Topic {
   final String imagePath;
   final String label;
@@ -37,11 +19,12 @@ class TopicSelectScreen extends StatefulWidget {
   const TopicSelectScreen({Key? key}) : super(key: key);
 
   @override
-  _TopicSelectScreenState createState() => _TopicSelectScreenState();
+  State<TopicSelectScreen> createState() => _TopicSelectScreenState();
 }
 
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
   final Set<int> _selectedIndices = {};
+  int _timerLength = 10;
 
   static const List<Topic> _topics = [
     Topic(
@@ -87,144 +70,260 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     ),
   ];
 
+  void _showTimerPicker() {
+    double temp = _timerLength.toDouble();
+
+    if (Platform.isIOS) {
+      showCupertinoModalPopup(
+        context: context,
+        builder:
+            (_) => CupertinoActionSheet(
+              title: const Text('Timer einstellen'),
+              message: Column(
+                children: [
+                  Text('${temp.toInt()} Sekunden'),
+                  CupertinoSlider(
+                    min: 10,
+                    max: 120,
+                    value: temp,
+                    onChanged: (val) {
+                      setState(() => temp = val);
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                CupertinoActionSheetAction(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    setState(() => _timerLength = temp.toInt());
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+              cancelButton: CupertinoActionSheetAction(
+                child: const Text('Abbrechen'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: const Text('Timer einstellen'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('${temp.toInt()} Sekunden'),
+                    Slider(
+                      min: 10,
+                      max: 120,
+                      divisions: 110,
+                      value: temp,
+                      label: '${temp.toInt()}',
+                      onChanged: (val) {
+                        setState(() => temp = val);
+                      },
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Abbrechen'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _timerLength = temp.toInt();
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+    }
+  }
+
   void _onStartPressed() {
-    // Alle Wörter der ausgewählten Themen sammeln
     final selectedWords =
         _selectedIndices.expand((i) => _topics[i].words).toList();
 
-    // Navigation zum Countdown-Screen mit den gesammelten Wörtern
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => Countdown(words: selectedWords)));
+    final route =
+        Platform.isIOS
+            ? CupertinoPageRoute(
+              builder:
+                  (_) => Countdown(
+                    words: selectedWords,
+                    initialTimer: _timerLength,
+                  ),
+            )
+            : MaterialPageRoute(
+              builder:
+                  (_) => Countdown(
+                    words: selectedWords,
+                    initialTimer: _timerLength,
+                  ),
+            );
+
+    Navigator.of(context).push(route);
   }
 
   @override
   Widget build(BuildContext context) {
     final bool canStart = _selectedIndices.isNotEmpty;
-    final fabWidth = MediaQuery.of(context).size.width * 0.9;
 
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
-          ),
+    final body = Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 16.0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Kopfzeile
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Platform.isIOS
-                            ? Icons.arrow_back_ios
-                            : Icons.arrow_back,
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            if (!Platform.isIOS)
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'Themen',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
                     ),
-                    const Expanded(
-                      child: Text(
-                        'Themen',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 48),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                // Grid mit Mehrfach-Auswahl
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 0.75,
-                    children: List.generate(_topics.length, (index) {
-                      final topic = _topics[index];
-                      final isSelected = _selectedIndices.contains(index);
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (isSelected) {
-                              _selectedIndices.remove(index);
-                            } else {
-                              _selectedIndices.add(index);
-                            }
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border:
-                                isSelected
-                                    ? Border.all(color: Colors.white, width: 3)
-                                    : null,
-                            borderRadius: BorderRadius.circular(16),
-                            image: DecorationImage(
-                              image: AssetImage(topic.imagePath),
-                              fit: BoxFit.cover,
-                            ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.timer, color: Colors.white),
+                    onPressed: _showTimerPicker,
+                  ),
+                ],
+              ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.75,
+                  children: List.generate(_topics.length, (index) {
+                    final topic = _topics[index];
+                    final isSelected = _selectedIndices.contains(index);
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isSelected) {
+                            _selectedIndices.remove(index);
+                          } else {
+                            _selectedIndices.add(index);
+                          }
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              isSelected
+                                  ? Border.all(color: Colors.white, width: 3)
+                                  : null,
+                          borderRadius: BorderRadius.circular(16),
+                          image: DecorationImage(
+                            image: AssetImage(topic.imagePath),
+                            fit: BoxFit.cover,
                           ),
-                          clipBehavior: Clip.antiAlias,
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(vertical: 6),
-                              child: Text(
-                                topic.label,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  letterSpacing: 1.1,
-                                ),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            color: Colors.black.withOpacity(0.4),
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            child: Text(
+                              topic.label,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                           ),
                         ),
-                      );
-                    }),
-                  ),
+                      ),
+                    );
+                  }),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-      // Start-Button, nur aktiv wenn mindestens ein Thema ausgewählt
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: ConstrainedBox(
-        constraints: BoxConstraints.tightFor(width: fabWidth, height: 50),
-        child: FloatingActionButton.extended(
-          onPressed: canStart ? _onStartPressed : null,
-          backgroundColor: canStart ? Colors.white : Colors.white54,
-          label: Text(
-            'Start',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFF5F8D).withOpacity(canStart ? 1.0 : 0.5),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child:
+                    Platform.isIOS
+                        ? CupertinoButton.filled(
+                          onPressed: canStart ? _onStartPressed : null,
+                          child: const Text('Start'),
+                        )
+                        : FloatingActionButton.extended(
+                          onPressed: canStart ? _onStartPressed : null,
+                          backgroundColor:
+                              canStart ? Colors.white : Colors.white54,
+                          label: Text(
+                            'Start',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(
+                                0xFFFF5F8D,
+                              ).withOpacity(canStart ? 1.0 : 0.5),
+                            ),
+                          ),
+                        ),
+              ),
             ),
-          ),
+            const SizedBox(height: 16),
+          ],
         ),
       ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            middle: const Text('Themen'),
+            trailing: GestureDetector(
+              onTap: _showTimerPicker,
+              child: const Icon(CupertinoIcons.timer),
+            ),
+          ),
+          child: body,
+        )
+        : Scaffold(
+          body: body,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+        );
   }
 }

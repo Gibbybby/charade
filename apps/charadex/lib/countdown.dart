@@ -6,8 +6,10 @@ import 'word_list.dart';
 
 class Countdown extends StatefulWidget {
   final List<String> words;
+  final int initialTimer;
 
-  const Countdown({Key? key, required this.words}) : super(key: key);
+  const Countdown({Key? key, required this.words, this.initialTimer = 10})
+    : super(key: key);
 
   @override
   _CountdownState createState() => _CountdownState();
@@ -22,7 +24,7 @@ class _CountdownState extends State<Countdown> {
   Timer? _sensorTimer;
 
   int _prepRemaining = 3;
-  int _remaining = 10;
+  late int _remaining;
   int _currentIndex = 0;
   bool _prepFinished = false;
   bool _finished = false;
@@ -42,6 +44,8 @@ class _CountdownState extends State<Countdown> {
 
     _shuffledWords = List.of(widget.words)..shuffle();
     _markedColors = List.filled(_shuffledWords.length, null);
+
+    _remaining = widget.initialTimer;
 
     _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_prepRemaining > 1) {
