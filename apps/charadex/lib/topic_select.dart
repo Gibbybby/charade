@@ -278,7 +278,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                                   vertical: 6,
                                 ),
                                 width: double.infinity,
-                                color: Colors.black.withOpacity(0.4),
                                 child: Text(
                                   topic.label,
                                   textAlign: TextAlign.center,
