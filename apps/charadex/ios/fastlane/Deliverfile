@@ -9,9 +9,9 @@ name({
 
 subtitle({
   'default' => "The Ultimate Party Game",
-  'de-DE' => "Das beste Spiel für Gruppen & Partys",
-  'en-US' => "Heads Up! Charades with Friends",
-  'es-ES' => "¡Adivina la palabra con amigos!"
+  'de-DE' => "Top Spiel für Gruppen & Partys",
+  'en-US' => "Fun Charades with Friends",
+  'es-ES' => "Charadas con amigos"
 })
 
 description({
