@@ -9,9 +9,9 @@ name({
 
 subtitle({
   'default' => "The Ultimate Party Game",
-  'de-DE' => "Partyspaß für alle Gruppen",
-  'en-US' => "Charades with Friends",
-  'es-ES' => "Charadas con amigos"
+  'de-DE' => "Das beste Spiel für Gruppen & Partys",
+  'en-US' => "Heads Up! Charades with Friends",
+  'es-ES' => "¡Adivina la palabra con amigos!"
 })
 
 description({
@@ -64,7 +64,7 @@ app_review_information(
 copyright("#{Time.now.year} Vucak IT Solutions")
 
 primary_category "GAMES"
-secondary_category "Board Games"
+secondary_category "ENTERTAINMENT"
 
 automatic_release false
 
