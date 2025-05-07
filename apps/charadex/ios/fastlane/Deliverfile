@@ -8,23 +8,23 @@ name({
 })
 
 subtitle({
-  'default' => "The Ultimate Party Game",
-  'de-DE' => "Das beste Spiel für Gruppen & Partys",
-  'en-US' => "Heads Up! Charades with Friends",
-  'es-ES' => "¡Adivina la palabra con amigos!"
+  'default' => "The Ultimate Party Game – Like Heads Up or Charade!",
+  'de-DE' => "Das beste Stirnraten-Spiel – wie Charade oder Wer bin ich?",
+  'en-US' => "Heads Up! Charades, Charade & Word Guessing with Friends",
+  'es-ES' => "¡Adivina con mímica! Charadas y más con amigos"
 })
 
 description({
-  'default' => "GuessUp is the ultimate mobile charades game to liven up your party! Hold your phone on your forehead, guess the word from your friends' clues, and see who can score the most points. Perfect for families, friends, and parties!",
-  'de-DE' => "GuessUp ist das ultimative Stirnraten-Spiel fürs Handy – perfekt für jede Party! Halte dein Handy an die Stirn, errate den Begriff anhand der Hinweise deiner Freunde und sammle Punkte. Ideal für Familienabende, Partys und Spieleabende!",
-  'es-ES' => "GuessUp es el mejor juego de mímica para tu móvil. Pon el teléfono en la frente, adivina la palabra con las pistas de tus amigos ¡y gana! Perfecto para fiestas, familia y reuniones divertidas."
+  'default' => "GuessUp is the ultimate mobile charades and charade-style guessing game to liven up your party! Hold your phone on your forehead, guess the word from your friends' clues, and see who can score the most points. Perfect for families, friends, and parties!",
+  'de-DE' => "GuessUp ist das ultimative Stirnraten- und Charade-Spiel fürs Handy – perfekt für jede Party! Halte dein Handy an die Stirn, errate den Begriff anhand der Hinweise deiner Freunde und sammle Punkte. Ideal für Familienabende, Partys und Spieleabende!",
+  'es-ES' => "GuessUp es el mejor juego de charadas y tipo charade para tu móvil. Pon el teléfono en la frente, adivina la palabra con las pistas de tus amigos ¡y gana! Perfecto para fiestas, familia y reuniones divertidas."
 })
 
 keywords({
-  'default' => "charades, party game, guess, heads up, guessup, team game, word game, fun",
-  'de-DE' => "Stirnraten, Charades, Partyspiel, Ratespiel, Freunde, Familie, lustig, GuessUp",
-  'en-US' => "charades, guess up, party, fun, friends, guessing, heads up, team, word game",
-  'es-ES' => "charadas, juego de fiesta, adivina, palabras, amigos, familia, mímica, diversión"
+  'default' => "charades, charade, party game, guess, heads up, guessup, team game, word game, fun",
+  'de-DE' => "Stirnraten, Charade, Charades, Partyspiel, Ratespiel, Freunde, Familie, lustig, GuessUp",
+  'en-US' => "charades, charade, guess up, party, fun, friends, guessing, heads up, team, word game",
+  'es-ES' => "charadas, charade, juego de fiesta, adivina, palabras, amigos, familia, mímica, diversión"
 })
 
 release_notes({
@@ -35,6 +35,7 @@ release_notes({
 
 privacy_url({
   'default' => 'https://vucak.at/en/guessup/data-protection',
+  'de-DE' => 'https://vucak.at/de/guessup/datenschutz',
   'es-ES' => 'https://vucak.at/en/guessup/data-protection'
 })
 
@@ -45,9 +46,9 @@ support_url({
 })
 
 promotional_text({
-  'default' => "Bring life to your party with GuessUp – The hilarious charades game for all ages!",
-  'de-DE' => "Sorge für Stimmung auf deiner Party – mit GuessUp, dem witzigen Stirnraten-Spiel für alle Altersgruppen!",
-  'es-ES' => "¡Anima tu fiesta con GuessUp – El juego de charadas más divertido para todas las edades!"
+  'default' => "Bring life to your party with GuessUp – The hilarious charades and charade-style game for all ages!",
+  'de-DE' => "Sorge für Stimmung auf deiner Party – mit GuessUp, dem witzigen Stirnraten- und Charade-Spiel für alle Altersgruppen!",
+  'es-ES' => "¡Anima tu fiesta con GuessUp – El juego de charadas más divertido y fácil para todas las edades!"
 })
 
 app_review_information(
@@ -63,7 +64,7 @@ app_review_information(
 copyright("#{Time.now.year} Vucak IT Solutions")
 
 primary_category "GAMES"
-secondary_category "ENTERTAINMENT"
+secondary_category "PARTY"
 
 automatic_release false
 
