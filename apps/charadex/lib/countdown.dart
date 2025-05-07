@@ -260,7 +260,7 @@ class _CountdownState extends State<Countdown> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.black.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Row(

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:charadex/topic_select.dart';
 import 'package:charadex/app_state.dart';
 import 'package:charadex/translations.dart';
@@ -32,6 +33,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   @override
   void initState() {
     super.initState();
+    _loadLanguagePreference();
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
@@ -75,6 +77,15 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     }
   }
 
+  Future<void> _loadLanguagePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final code = prefs.getString('language_code') ?? 'de';
+    setState(() {
+      _currentFlagIndex = _flagAssets.indexWhere((path) => path.contains(code));
+    });
+    AppState.setLanguageCode(code);
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -96,18 +107,22 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     });
   }
 
-  void _toggleFlag() {
+  void _toggleFlag() async {
     setState(() {
       _currentFlagIndex = (_currentFlagIndex + 1) % _flagAssets.length;
-      final flagPath = _flagAssets[_currentFlagIndex];
-      if (flagPath.contains('de')) {
-        AppState.setLanguageCode('de');
-      } else if (flagPath.contains('us')) {
-        AppState.setLanguageCode('us');
-      } else if (flagPath.contains('es')) {
-        AppState.setLanguageCode('es');
-      }
     });
+
+    final flagPath = _flagAssets[_currentFlagIndex];
+    String newLang = 'de';
+    if (flagPath.contains('us')) {
+      newLang = 'us';
+    } else if (flagPath.contains('es')) {
+      newLang = 'es';
+    }
+
+    AppState.setLanguageCode(newLang);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('language_code', newLang);
   }
 
   @override
