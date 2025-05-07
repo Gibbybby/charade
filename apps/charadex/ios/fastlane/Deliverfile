@@ -34,9 +34,8 @@ release_notes({
 })
 
 privacy_url({
-  'default' => 'https://vucak.at/en/data-protection',
-  'de-DE' => 'https://vucak.at/de/data-protection',
-  'es-ES' => 'https://vucak.at/es/data-protection'
+  'default' => 'https://vucak.at/en/guessup/data-protection',
+  'es-ES' => 'https://vucak.at/en/guessup/data-protection'
 })
 
 support_url({

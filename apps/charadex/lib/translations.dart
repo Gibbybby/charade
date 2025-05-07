@@ -13,6 +13,7 @@ class Translations {
       'well_done': '🎉 Gut gemacht!',
       'correct_incorrect': '{correct} Richtig, {incorrect} Falsch',
       'back_to_menu': 'Zum Menü',
+      'tilt_phone': 'Handy kippen',
       'topic_labels': {
         'Autos': 'Autos',
         'Geografie': 'Geografie',
@@ -39,6 +40,7 @@ class Translations {
       'well_done': '🎉 Well done!',
       'correct_incorrect': '{correct} correct, {incorrect} incorrect',
       'back_to_menu': 'Back to menu',
+      'tilt_phone': 'Tilt phone',
       'topic_labels': {
         'Autos': 'Cars',
         'Geografie': 'Geography',
@@ -65,6 +67,7 @@ class Translations {
       'well_done': '🎉 ¡Bien hecho!',
       'correct_incorrect': '{correct} correctas, {incorrect} incorrectas',
       'back_to_menu': 'Volver al menú',
+      'tilt_phone': 'Inclina el teléfono',
       'topic_labels': {
         'Autos': 'Coches',
         'Geografie': 'Geografía',

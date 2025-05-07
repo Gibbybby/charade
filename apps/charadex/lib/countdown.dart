@@ -5,6 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 import 'word_list.dart';
+import 'translations.dart';
 
 class Countdown extends StatefulWidget {
   final List<String> words;
@@ -51,7 +52,6 @@ class _CountdownState extends State<Countdown> {
     _markedColors = List.filled(_shuffledWords.length, null);
     _remaining = widget.initialTimer;
 
-    // Sofort 3 anzeigen + beep abspielen
     setState(() => _prepRemaining = 3);
     _player.play(AssetSource('sounds/beep.mp3'));
 
@@ -85,9 +85,9 @@ class _CountdownState extends State<Countdown> {
     _sensorTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
       if (_finished || _tiltCooldown) return;
 
-      if (_lastZ < -7) {
+      if (_lastZ < -4) {
         _handleTilt(Colors.green);
-      } else if (_lastZ > 7) {
+      } else if (_lastZ > 4) {
         _handleTilt(Colors.red);
       }
     });
@@ -100,12 +100,7 @@ class _CountdownState extends State<Countdown> {
       }
       if (_remaining == 0) {
         timer.cancel();
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-          DeviceOrientation.portraitDown,
-        ]);
-        setState(() => _finished = true);
-        _player.play(AssetSource('sounds/finish.mp3')); // 🔊 Finish Sound
+        _showResults();
       }
     });
   }
@@ -124,13 +119,7 @@ class _CountdownState extends State<Countdown> {
       _markedColors[_currentIndex] = color;
       _currentIndex++;
       if (_currentIndex >= _shuffledWords.length) {
-        _finished = true;
-        _mainTimer?.cancel();
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-          DeviceOrientation.portraitDown,
-        ]);
-        _player.play(AssetSource('sounds/finish.mp3')); // 🔊 Finish Sound
+        _showResults();
       }
     });
 
@@ -142,6 +131,18 @@ class _CountdownState extends State<Countdown> {
           _tiltCooldown = false;
         });
       }
+    });
+  }
+
+  void _showResults() {
+    _mainTimer?.cancel();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    _player.play(AssetSource('sounds/finish.mp3'));
+    setState(() {
+      _finished = true;
     });
   }
 
@@ -158,20 +159,60 @@ class _CountdownState extends State<Countdown> {
     super.dispose();
   }
 
+  Widget _buildActionHints() {
+    return Stack(
+      children: [
+        Positioned(
+          left: 16,
+          bottom: 16,
+          child: Column(
+            children: [
+              const Icon(Icons.arrow_downward, color: Colors.green, size: 36),
+              const SizedBox(height: 4),
+              Text(
+                Translations.t('tilt_phone'),
+                style: const TextStyle(color: Colors.green, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          right: 16,
+          bottom: 16,
+          child: Column(
+            children: [
+              const Icon(Icons.arrow_upward, color: Colors.red, size: 36),
+              const SizedBox(height: 4),
+              Text(
+                Translations.t('tilt_phone'),
+                style: const TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_showStartScreen) {
       return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: Text(
-            'START',
-            style: const TextStyle(
-              fontSize: 72,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+        body: Stack(
+          children: [
+            const Center(
+              child: Text(
+                'START',
+                style: TextStyle(
+                  fontSize: 72,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
             ),
-          ),
+            _buildActionHints(),
+          ],
         ),
       );
     }
@@ -179,15 +220,20 @@ class _CountdownState extends State<Countdown> {
     if (!_prepFinished) {
       return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: Text(
-            '$_prepRemaining',
-            style: const TextStyle(
-              fontSize: 96,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+        body: Stack(
+          children: [
+            Center(
+              child: Text(
+                '$_prepRemaining',
+                style: const TextStyle(
+                  fontSize: 96,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
             ),
-          ),
+            _buildActionHints(),
+          ],
         ),
       );
     }
@@ -206,6 +252,7 @@ class _CountdownState extends State<Countdown> {
           ),
           if (!showList && _overlayColor != null)
             Positioned.fill(child: Container(color: _overlayColor)),
+
           if (!showList)
             Positioned(
               top: 32,
@@ -237,6 +284,19 @@ class _CountdownState extends State<Countdown> {
                 ),
               ),
             ),
+
+          if (!_finished)
+            Positioned(
+              top: 32,
+              left: 16,
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.black, size: 28),
+                onPressed: _showResults,
+                tooltip: 'Beenden',
+              ),
+            ),
+
+          if (!_showStartScreen && !_prepFinished) _buildActionHints(),
         ],
       ),
     );
