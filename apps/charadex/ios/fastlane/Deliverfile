@@ -1,7 +1,7 @@
 languages(['de-DE', 'en-US', 'es-ES'])
 
 name({
-  'default' => "GuessUp",
+  'default' => "GuessUp – Charades Game",
   'de-DE' => "GuessUp – Stirnraten Spiel",
   'en-US' => "GuessUp – Charades Game",
   'es-ES' => "GuessUp – Juego de Mímica"
