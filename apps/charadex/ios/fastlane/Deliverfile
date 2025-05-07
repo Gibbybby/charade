@@ -64,7 +64,7 @@ app_review_information(
 copyright("#{Time.now.year} Vucak IT Solutions")
 
 primary_category "GAMES"
-secondary_category "BOARD"
+secondary_category "Board Games"
 
 automatic_release false
 
