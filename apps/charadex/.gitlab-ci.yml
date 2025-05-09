@@ -1,8 +1,9 @@
 stages:
   - build
   - test
+  - metadata-screenshots
   - deploy-staging
-  - promote-production
+#  - promote-production
 
 variables:
   FLUTTER_PROJECT_PATH: 'apps/charadex'
@@ -108,26 +109,26 @@ deploy_testflight_charadex:
     - bundle install --jobs=4
     - bundle exec fastlane build_and_upload_testflight
 
-promote_to_production_charadex:
-  stage: promote-production
-  extends:
-    - .macos_saas_runners
-    - .setup_secure_ios_files_charadex
-  when: manual
-  script:
-    - cd ios
-    # 1) configure Bundler to install into the project
-    - bundle config set --local path vendor/bundle
-    - bundle config set --local deployment 'true'
-
-    # 2) install gems (fastlane + plugins) into ios/vendor/bundle
-    - bundle install --jobs=4
-    - bundle exec fastlane upload_testflight_to_production
-  needs:
-    - deploy_testflight_charadex
+#promote_to_production_charadex:
+#  stage: promote-production
+#  extends:
+#    - .macos_saas_runners
+#    - .setup_secure_ios_files_charadex
+#  when: manual
+#  script:
+#    - cd ios
+#    # 1) configure Bundler to install into the project
+#    - bundle config set --local path vendor/bundle
+#    - bundle config set --local deployment 'true'
+#
+#    # 2) install gems (fastlane + plugins) into ios/vendor/bundle
+#    - bundle install --jobs=4
+#    - bundle exec fastlane upload_testflight_to_production
+#  needs:
+#    - deploy_testflight_charadex
 
 update_metadata_charadex:
-  stage: promote-production
+  stage: metadata-screenshots
   extends:
     - .macos_saas_runners
     - .setup_secure_ios_files_charadex
@@ -145,7 +146,7 @@ update_metadata_charadex:
   #   - deploy_testflight_charadex
 
 update_screenshots_charadex:
-  stage: promote-production
+  stage: metadata-screenshots
   extends:
     - .macos_saas_runners
     - .setup_secure_ios_files_charadex

@@ -188,8 +188,6 @@ platform :ios do
     build_number = ENV['CI_PIPELINE_IID'] || latest_testflight_build_number.to_s
     version_number = flutter_version()["version_name"]
 
-    UI.message("🚀 Deployment Info | Build: ##{build_number} | Version: #{version_number} | Environment: #{ENV['CI'] ? 'CI' : 'Local'}")
-
     upload_to_app_store(
       reject_if_possible: true, # Rejects the previously submitted build if it's in a state where it's possible
       skip_binary_upload: true, # Build is already uploaded via TestFlight
@@ -237,10 +235,10 @@ platform :ios do
     # Example: fastlane update_metadata submit_for_review:true privacy_data_option:'questionnaire'
     submit_for_review = options[:submit_for_review] || false
 
-    upload_privacy_details(
-      options[:privacy_data_option] || 'no_data_collected', 
-      options[:existing_json_path]
-    )
+#     upload_privacy_details(
+#       options[:privacy_data_option] || 'no_data_collected',
+#       options[:existing_json_path]
+#     )
     upload_to_app_store(
       app_store_config(
         submit_for_review: submit_for_review, 
@@ -293,7 +291,7 @@ platform :ios do
     # Returns: Hash - App Store upload configuration
     {
       submit_for_review: submit_for_review,
-      app_rating_config_path: './fastlane/ratings_config.json',
+#       app_rating_config_path: './fastlane/ratings_config.json',
       overwrite_screenshots: update_screenshots,
       skip_metadata: !update_metadata,
       skip_screenshots: !update_screenshots,
