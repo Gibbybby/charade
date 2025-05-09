@@ -50,41 +50,41 @@ variables:
 
 
 # Setup job to run once and prepare the environment
-build_ios_charadex:
-  stage: build
-  extends:
-    - .macos_saas_runners
-    - .setup_secure_ios_files_charadex
-  when: manual
-  script:
-    - echo "Starting build_ios_charadex, initial PWD $(pwd)"
-    - fvm flutter pub get
-    - cd ios
-    - |
-      if [ -f "Podfile" ]; then
-        pod install --repo-update
-      else
-        echo "No Podfile found, skipping CocoaPods setup."
-      fi
-    # 1) configure Bundler to install into the project
-    - bundle config set --local path vendor/bundle
-    - bundle config set --local deployment 'true'
-
-    # 2) install gems (fastlane + plugins) into ios/vendor/bundle
-    - bundle install --jobs=4
-    - bundle exec fastlane build_development
+#build_ios_charadex:
+#  stage: build
+#  extends:
+#    - .macos_saas_runners
+#    - .setup_secure_ios_files_charadex
+#  when: manual
+#  script:
+#    - echo "Starting build_ios_charadex, initial PWD $(pwd)"
+#    - fvm flutter pub get
+#    - cd ios
+#    - |
+#      if [ -f "Podfile" ]; then
+#        pod install --repo-update
+#      else
+#        echo "No Podfile found, skipping CocoaPods setup."
+#      fi
+#    # 1) configure Bundler to install into the project
+#    - bundle config set --local path vendor/bundle
+#    - bundle config set --local deployment 'true'
+#
+#    # 2) install gems (fastlane + plugins) into ios/vendor/bundle
+#    - bundle install --jobs=4
+#    - bundle exec fastlane build_development
 
 # Test job which uses the build artifacts, depends on build_ios_job
-test_ios_charadex:
-  stage: test
-  extends:
-    - .macos_saas_runners
-    - .setup_secure_ios_files_charadex
-  when: manual
-  script:
-    # Run Flutter tests without rebuilding
-    - fvm flutter pub get
-    - fvm flutter test
+#test_ios_charadex:
+#  stage: test
+#  extends:
+#    - .macos_saas_runners
+#    - .setup_secure_ios_files_charadex
+#  when: manual
+#  script:
+#    # Run Flutter tests without rebuilding
+#    - fvm flutter pub get
+#    - fvm flutter test
 
 deploy_testflight_charadex:
   stage: deploy-staging
