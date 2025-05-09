@@ -1,9 +1,10 @@
 stages:
   - empty
-  - build
-  - test
+  # - build
+  # - test
+  - metadata-screenshots
   - deploy-staging
-  - promote-production
+  # - promote-production
 
 
 # if something changes in apps/charadex paths we run the jobs
