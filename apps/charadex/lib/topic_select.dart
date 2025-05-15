@@ -32,8 +32,8 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     'Autos': 'assets/topics/topic_car.png',
     'Geografie': 'assets/topics/topic_geography.png',
     'Sport': 'assets/topics/topic_sport.png',
-    'Rund um Sex': 'assets/topics/topic_sex.png',
-    'Drogen': 'assets/topics/topic_drugs.png',
+    // 'Rund um Sex': 'assets/topics/topic_sex.png',
+    // 'Drogen': 'assets/topics/topic_drugs.png',
     'Party': 'assets/topics/topic_party.png',
     'Film': 'assets/topics/topic_film.png',
     'Serien': 'assets/topics/topic_serien.png',
@@ -59,6 +59,9 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     final loaded = <Topic>[];
 
     jsonMap.forEach((label, list) {
+      if (label == 'Drogen' || label == 'Rund um Sex')
+        return; // überspringe diese Topics
+
       final words = List<String>.from(list as List);
       final imagePath = _imageMap[label] ?? 'assets/topics/default.png';
       final translatedLabel = Translations.topicLabel(label);
