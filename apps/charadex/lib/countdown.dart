@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'game_screen.dart'; // <--- WICHTIG: Importiere GameScreen
 
 class Countdown extends StatefulWidget {
   const Countdown({Key? key}) : super(key: key);
@@ -37,14 +38,18 @@ class _CountdownState extends State<Countdown> {
           _showStartText = true;
         });
 
-        // Optional: Nach 1 Sekunde zurück zur Portrait-Ausrichtung oder schließen
         Future.delayed(const Duration(seconds: 1), () {
           if (mounted) {
             SystemChrome.setPreferredOrientations([
               DeviceOrientation.portraitUp,
               DeviceOrientation.portraitDown,
             ]);
-            Navigator.pop(context); // Optional: zurück zur vorherigen Seite
+
+            // ✅ Hier GameScreen starten
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const GameScreen()),
+            );
           }
         });
       }

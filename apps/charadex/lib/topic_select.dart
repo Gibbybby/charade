@@ -1,17 +1,10 @@
-import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'countdown.dart';
-
-class Topic {
-  final String imagePath;
-  final String label;
-  final List<String> words;
-
-  Topic({required this.imagePath, required this.label, required this.words});
-}
+import 'package:provider/provider.dart';
+import '../models/topic.dart';
+import '../countdown.dart';
+import '../app_state.dart';
 
 class TopicSelectScreen extends StatefulWidget {
   const TopicSelectScreen({Key? key}) : super(key: key);
@@ -21,227 +14,217 @@ class TopicSelectScreen extends StatefulWidget {
 }
 
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
+  final List<Topic> topics = [
+    Topic(
+      imagePath: 'assets/topics/topic_car.png',
+      label: 'Cars',
+      words: ['Car1', 'Car2', 'Car3'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_geography.png',
+      label: 'Geography',
+      words: ['Country1', 'Mountain2', 'Ocean3'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_sport.png',
+      label: 'Sports',
+      words: ['Football', 'Tennis', 'Basketball'],
+    ),
+  ];
+
   final Set<int> _selectedIndices = {};
-  List<Topic> _topics = [];
 
-  static const Map<String, String> _imageMap = {
-    'Autos': 'assets/topics/topic_car.png',
-    'Geografie': 'assets/topics/topic_geography.png',
-    'Sport': 'assets/topics/topic_sport.png',
-    'Party': 'assets/topics/topic_party.png',
-    'Film': 'assets/topics/topic_film.png',
-    'Serien': 'assets/topics/topic_serien.png',
-    'Stars': 'assets/topics/topic_stars.png',
-    'Tiere': 'assets/topics/topic_animal.png',
-    'Jobs': 'assets/topics/topic_jobs.png',
-    'Music': 'assets/topics/topic_music.png',
-  };
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTopicsFromJson();
-  }
-
-  Future<void> _loadTopicsFromJson() async {
-    const langCode = 'de'; // Feste Spracheinstellung
-    final jsonString = await rootBundle.loadString(
-      'assets/charades_topics_$langCode.json',
-    );
-    final Map<String, dynamic> jsonMap = json.decode(jsonString);
-    final loaded = <Topic>[];
-
-    jsonMap.forEach((label, list) {
-      if (label == 'Drogen' || label == 'Rund um Sex') return;
-
-      final words = List<String>.from(list as List);
-      final imagePath = _imageMap[label] ?? 'assets/topics/default.png';
-      loaded.add(Topic(imagePath: imagePath, label: label, words: words));
-    });
-
+  void _toggleSelection(int index) {
     setState(() {
-      _topics = loaded;
+      if (_selectedIndices.contains(index)) {
+        _selectedIndices.remove(index);
+      } else {
+        _selectedIndices.add(index);
+      }
     });
   }
 
-  void _onStartPressed() {
+  void _onStartPressed(BuildContext context) {
+    final selectedTopics =
+        _selectedIndices.map((index) => topics[index]).toList();
+
+    Provider.of<AppState>(
+      context,
+      listen: false,
+    ).setSelectedTopics(selectedTopics);
+
     final route =
         Platform.isIOS
             ? CupertinoPageRoute(builder: (_) => const Countdown())
             : MaterialPageRoute(builder: (_) => const Countdown());
-
     Navigator.of(context).push(route);
   }
 
   @override
   Widget build(BuildContext context) {
-    final canStart = _selectedIndices.isNotEmpty;
-
-    final content = Column(
-      children: [
-        if (!Platform.isIOS)
-          Row(
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
             children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Topics',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 48),
+                  ],
+                ),
               ),
-              const Expanded(
-                child: Text(
-                  'Themen',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GridView.builder(
+                    itemCount: topics.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 0.75,
+                        ),
+                    itemBuilder: (context, index) {
+                      final topic = topics[index];
+                      final isSelected = _selectedIndices.contains(index);
+
+                      return GestureDetector(
+                        onTap: () => _toggleSelection(index),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color:
+                                  isSelected
+                                      ? Colors.white
+                                      : Colors.transparent,
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(13),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                Image.asset(topic.imagePath, fit: BoxFit.cover),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.center,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        Colors.black.withOpacity(0.5),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Text(
+                                      topic.label,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        shadows: [
+                                          Shadow(
+                                            offset: Offset(1, 1),
+                                            blurRadius: 2,
+                                            color: Colors.black,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
-              const SizedBox(width: 48), // Platzhalter für frühere Uhr
-            ],
-          ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child:
-                _topics.isEmpty
-                    ? const Center(child: CircularProgressIndicator())
-                    : GridView.count(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.75,
-                      children: List.generate(_topics.length, (index) {
-                        final topic = _topics[index];
-                        final isSelected = _selectedIndices.contains(index);
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (isSelected) {
-                                _selectedIndices.remove(index);
-                              } else {
-                                _selectedIndices.add(index);
-                              }
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border:
-                                  isSelected
-                                      ? Border.all(
-                                        color: Colors.white,
-                                        width: 3,
-                                      )
-                                      : null,
-                              borderRadius: BorderRadius.circular(16),
-                              image: DecorationImage(
-                                image: AssetImage(topic.imagePath),
-                                fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child:
+                      Platform.isIOS
+                          ? CupertinoButton(
+                            color:
+                                _selectedIndices.isNotEmpty
+                                    ? Colors.white
+                                    : Colors.white.withOpacity(0.2),
+                            onPressed:
+                                _selectedIndices.isNotEmpty
+                                    ? () => _onStartPressed(context)
+                                    : null,
+                            child: const Text(
+                              'Start',
+                              style: TextStyle(
+                                color: Color(0xFFFF5F8D),
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            clipBehavior: Clip.antiAlias,
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 6,
-                                ),
-                                width: double.infinity,
-                                child: Text(
-                                  topic.label,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                          )
+                          : FloatingActionButton.extended(
+                            onPressed:
+                                _selectedIndices.isNotEmpty
+                                    ? () => _onStartPressed(context)
+                                    : null,
+                            backgroundColor:
+                                _selectedIndices.isNotEmpty
+                                    ? Colors.white
+                                    : Colors.white.withOpacity(0.2),
+                            label: const Text(
+                              'Start',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFF5F8D),
                               ),
                             ),
                           ),
-                        );
-                      }),
-                    ),
+                ),
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SizedBox(
-            width: double.infinity,
-            height: 50,
-            child:
-                Platform.isIOS
-                    ? CupertinoButton(
-                      color: Colors.white,
-                      disabledColor: Colors.white54,
-                      onPressed: canStart ? _onStartPressed : null,
-                      child: Text(
-                        'Start',
-                        style: TextStyle(
-                          color: const Color(
-                            0xFFFF5F8D,
-                          ).withOpacity(canStart ? 1.0 : 0.5),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                    : FloatingActionButton.extended(
-                      onPressed: canStart ? _onStartPressed : null,
-                      backgroundColor: canStart ? Colors.white : Colors.white54,
-                      label: Text(
-                        'Start',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(
-                            0xFFFF5F8D,
-                          ).withOpacity(canStart ? 1.0 : 0.5),
-                        ),
-                      ),
-                    ),
-          ),
-        ),
-        const SizedBox(height: 16),
-      ],
-    );
-
-    final decorated = Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
         ),
       ),
-      child: SafeArea(child: content),
     );
-
-    return Platform.isIOS
-        ? CupertinoTheme(
-          data: const CupertinoThemeData(primaryColor: Colors.white),
-          child: CupertinoPageScaffold(
-            backgroundColor: Colors.transparent,
-            navigationBar: CupertinoNavigationBar(
-              backgroundColor: Colors.transparent,
-              border: null,
-              previousPageTitle: '',
-              middle: const Text(
-                'Themen',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            child: DefaultTextStyle(
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-              child: decorated,
-            ),
-          ),
-        )
-        : Scaffold(
-          body: decorated,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-        );
   }
 }

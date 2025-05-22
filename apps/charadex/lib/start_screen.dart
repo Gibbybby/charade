@@ -72,7 +72,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     if (mounted) {
       Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (_) => const TopicSelectScreen()));
+      ).push(MaterialPageRoute(builder: (_) => TopicSelectScreen()));
     }
   }
 
@@ -125,12 +125,12 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                             FadeTransition(
                               opacity: _fadeAnimation,
                               child: Image.asset(
-                                'assets/welcome_pic.png',
+                                'assets/images/startscreen_logo.png',
                                 width: 100,
                               ),
                             ),
                             Image.asset(
-                              'assets/charade_party_title.png',
+                              'assets/images/startscreen_title.png',
                               width: 250,
                             ),
                           ],

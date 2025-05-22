@@ -24,11 +24,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/welcome_pic.png
-    - assets/charade_party_title.png
-    - assets/solo.png
-    - assets/team.png
-    - assets/round_end.png
+    - assets/images/startscreen_logo.png
+    - assets/images/startscreen_title.png
+    - assets/images/round_end.png
     - assets/topics/topic_car.png
     - assets/topics/topic_sport.png
     - assets/topics/topic_geography.png
@@ -41,9 +39,6 @@ flutter:
     - assets/topics/topic_party.png
     - assets/topics/topic_serien.png
     - assets/topics/topic_sex.png
-    - assets/charades_topics_de.json
-    - assets/charades_topics_us.json
-    - assets/charades_topics_es.json
     - assets/sounds/ding.mp3
     - assets/sounds/buzz.mp3
     - assets/sounds/beep.mp3
