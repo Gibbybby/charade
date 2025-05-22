@@ -15,6 +15,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   Timer? _timer;
+  int _secondsRemaining = 0;
 
   @override
   void initState() {
@@ -26,30 +27,33 @@ class _GameScreenState extends State<GameScreen> {
       DeviceOrientation.landscapeRight,
     ]);
 
-    // Warte, bis das erste Frame gerendert ist, dann setWords & Timer starten
+    // Starte nach dem ersten Frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final appState = Provider.of<AppState>(context, listen: false);
       final topics = appState.selectedTopics;
       final allWords = topics.expand((t) => t.words).toList();
       appState.setWords(allWords);
 
+      _secondsRemaining = appState.timerSeconds; // Initialwert lokal kopieren
       _startTimer();
     });
   }
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      final appState = Provider.of<AppState>(context, listen: false);
-      if (appState.timerSeconds > 0) {
-        appState.setTimer(appState.timerSeconds - 1);
+      if (_secondsRemaining > 0) {
+        setState(() {
+          _secondsRemaining--;
+        });
       } else {
         timer.cancel();
+
         // Orientierung zurücksetzen
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
         ]);
-        // Sofortiger Wechsel ohne Animation
+
         Future.delayed(const Duration(milliseconds: 50), () {
           if (mounted) {
             Navigator.pushReplacement(
@@ -70,7 +74,6 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void dispose() {
     _timer?.cancel();
-    // Orientierung zurücksetzen
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -81,7 +84,6 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
-    final timerSeconds = appState.timerSeconds;
     final currentWord = appState.currentWord;
 
     return Scaffold(
@@ -89,7 +91,7 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // Hauptinhalt: nur ein Wort
+            // Hauptinhalt: Wortanzeige
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -136,7 +138,7 @@ class _GameScreenState extends State<GameScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '$timerSeconds s',
+                  '$_secondsRemaining s',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

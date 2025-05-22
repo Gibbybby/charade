@@ -111,10 +111,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   void _showTimerPicker(BuildContext context) {
     final currentSeconds =
         Provider.of<AppState>(context, listen: false).timerSeconds;
-    // Liste von 10s bis 120s in 5s Schritten
     final options = List<int>.generate(23, (i) => (i + 2) * 5);
-
-    // Finde Index oder setze auf 0
     int initialIndex = options.indexOf(currentSeconds);
     if (initialIndex == -1) initialIndex = 0;
     int selectedIndex = initialIndex;
@@ -167,6 +164,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                       onSelectedItemChanged: (int index) {
                         setState(() {
                           selectedIndex = index;
+                          Provider.of<AppState>(
+                            context,
+                            listen: false,
+                          ).setTimer(options[index]);
                         });
                       },
                       children:
@@ -189,6 +190,8 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentSeconds = Provider.of<AppState>(context).timerSeconds;
+
     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pushAndRemoveUntil(
@@ -227,20 +230,41 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                           );
                         },
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Text(
                           'Topics',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.timer, color: Colors.white),
-                        onPressed: () => _showTimerPicker(context),
+                      GestureDetector(
+                        onTap: () => _showTimerPicker(context),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              AnimatedDefaultTextStyle(
+                                duration: const Duration(milliseconds: 200),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.white,
+                                ),
+                                child: Text('$currentSeconds s'),
+                              ),
+                              const Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),

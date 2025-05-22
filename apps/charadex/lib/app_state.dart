@@ -11,7 +11,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Gewählte Sprache
+  // Sprache
   String _language = 'Deutsch';
   String get language => _language;
 
@@ -30,17 +30,14 @@ class AppState extends ChangeNotifier {
   }
 
   // --- Wortverwaltung ---
-
-  // Liste aller Wörter der ausgewählten Topics
   List<String> _words = [];
   List<bool> _answers = [];
   int _currentWordIndex = 0;
 
-  // Getter für Wörter und Antworten
   List<String> get words => List.unmodifiable(_words);
   List<bool> get answers => List.unmodifiable(_answers);
 
-  /// Setzt die Wortliste (z. B. aus den gewählten Topics), mischt sie und startet bei Index 0.
+  /// Setzt neue Wortliste und startet bei 0
   void setWords(List<String> words) {
     _words = List<String>.from(words)..shuffle();
     _currentWordIndex = 0;
@@ -48,26 +45,37 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Gibt das aktuell angezeigte Wort zurück.
+  /// Gibt das aktuelle Wort zurück oder leeren String, wenn Spiel vorbei
   String get currentWord {
-    if (_words.isEmpty) return '';
+    if (_words.isEmpty || _currentWordIndex >= _words.length) {
+      return '';
+    }
     return _words[_currentWordIndex];
   }
 
-  /// Speichert die Antwort für das aktuelle Wort: true = richtig, false = übersprungen.
+  /// Antwort speichern (nur wenn Wort vorhanden)
   void recordAnswer(bool isCorrect) {
-    _answers.add(isCorrect);
-    notifyListeners();
+    if (_currentWordIndex < _words.length) {
+      _answers.add(isCorrect);
+      notifyListeners();
+    }
   }
 
-  /// Springt zum nächsten Wort in der Liste (zyklisch).
+  /// Geht zum nächsten Wort, falls vorhanden – sonst bleibt leer
   void nextWord() {
     if (_words.isEmpty) return;
-    _currentWordIndex = (_currentWordIndex + 1) % _words.length;
+
+    if (_currentWordIndex < _words.length - 1) {
+      _currentWordIndex++;
+    } else {
+      // Spiel vorbei: Index auf Länge setzen → currentWord wird ""
+      _currentWordIndex = _words.length;
+    }
+
     notifyListeners();
   }
 
-  /// Setzt den Wort-Index zurück (optional).
+  /// Setzt Wortstatus zurück (z. B. für neues Spiel)
   void resetWords() {
     _currentWordIndex = 0;
     _answers.clear();
