@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -65,16 +66,23 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   }
 
   Future<void> _onStartGamePressed() async {
+    // Button-Feedback
     await _scaleController.reverse();
     await _scaleController.forward();
-
     await Future.delayed(const Duration(milliseconds: 100));
 
-    if (mounted) {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const TopicSelectScreen()));
-    }
+    if (!mounted) return;
+
+    // Erstelle plattformspezifische Route
+    final Route route =
+        Platform.isIOS
+            ? CupertinoPageRoute(builder: (_) => const TopicSelectScreen())
+            : MaterialPageRoute(builder: (_) => const TopicSelectScreen());
+
+    // Navigiere und entferne alle Routen bis zur ersten (StartScreen)
+    Navigator.of(
+      context,
+    ).pushAndRemoveUntil(route, (Route<dynamic> route) => route.isFirst);
   }
 
   void _onSettingsPressed() {
