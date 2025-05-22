@@ -26,25 +26,29 @@ class _GameScreenState extends State<GameScreen> {
       DeviceOrientation.landscapeRight,
     ]);
 
-    // Starte Countdown
-    _startTimer();
+    // Warte, bis das erste Frame gerendert ist, dann setWords & Timer starten
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final appState = Provider.of<AppState>(context, listen: false);
+      final topics = appState.selectedTopics;
+      final allWords = topics.expand((t) => t.words).toList();
+      appState.setWords(allWords);
+
+      _startTimer();
+    });
   }
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final appState = Provider.of<AppState>(context, listen: false);
-
       if (appState.timerSeconds > 0) {
         appState.setTimer(appState.timerSeconds - 1);
       } else {
         timer.cancel();
-
         // Orientierung zurücksetzen
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
         ]);
-
         // Sofortiger Wechsel ohne Animation
         Future.delayed(const Duration(milliseconds: 50), () {
           if (mounted) {
@@ -66,62 +70,55 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void dispose() {
     _timer?.cancel();
-
     // Orientierung zurücksetzen
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final selectedTopics = Provider.of<AppState>(context).selectedTopics;
-    final timerSeconds = Provider.of<AppState>(context).timerSeconds;
+    final appState = Provider.of<AppState>(context);
+    final timerSeconds = appState.timerSeconds;
+    final currentWord = appState.currentWord;
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
-            // Hauptinhalt zentriert
+            // Hauptinhalt: nur ein Wort
             Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Ausgewählte Kategorien:',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Wort:',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Chip(
+                    label: Text(
+                      currentWord,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 24,
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    Wrap(
-                      spacing: 16,
-                      runSpacing: 16,
-                      alignment: WrapAlignment.center,
-                      children:
-                          selectedTopics.map((topic) {
-                            return Chip(
-                              label: Text(
-                                topic.label,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              backgroundColor: Colors.white,
-                              labelStyle: const TextStyle(color: Colors.black),
-                            );
-                          }).toList(),
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
 
@@ -146,6 +143,48 @@ class _GameScreenState extends State<GameScreen> {
                     color: Colors.white,
                   ),
                 ),
+              ),
+            ),
+
+            // Skip-Button unten links
+            Positioned(
+              bottom: 16,
+              left: 16,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                ),
+                onPressed: () {
+                  final appState = Provider.of<AppState>(
+                    context,
+                    listen: false,
+                  );
+                  appState.recordAnswer(false);
+                  appState.nextWord();
+                },
+                child: const Text('Skip'),
+              ),
+            ),
+
+            // Weiter-Button unten rechts
+            Positioned(
+              bottom: 16,
+              right: 16,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                ),
+                onPressed: () {
+                  final appState = Provider.of<AppState>(
+                    context,
+                    listen: false,
+                  );
+                  appState.recordAnswer(true);
+                  appState.nextWord();
+                },
+                child: const Text('Weiter'),
               ),
             ),
           ],
