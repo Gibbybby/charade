@@ -31,6 +31,41 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
       label: 'Sports',
       words: ['Football', 'Tennis', 'Basketball'],
     ),
+    Topic(
+      imagePath: 'assets/topics/topic_party.png',
+      label: 'Sports',
+      words: ['topic_party', 'topic_party', 'topic_party'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_film.png',
+      label: 'Sports',
+      words: ['topic_film', 'topic_film', 'topic_film'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_serien.png',
+      label: 'Sports',
+      words: ['topic_serien', 'topic_serien', 'topic_serien'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_stars.png',
+      label: 'Sports',
+      words: ['topic_stars', 'topic_stars', 'topic_stars'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_animal.png',
+      label: 'Sports',
+      words: ['topic_animal', 'topic_animal', 'topic_animal'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_jobs.png',
+      label: 'Sports',
+      words: ['topic_jobs', 'topic_jobs', 'topic_jobs'],
+    ),
+    Topic(
+      imagePath: 'assets/topics/topic_music.png',
+      label: 'Sports',
+      words: ['topic_music', 'topic_music', 'topic_music'],
+    ),
   ];
 
   final Set<int> _selectedIndices = {};

@@ -51,7 +51,7 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Slider(
               value: appState.timerSeconds.toDouble(),
-              min: 3,
+              min: 10,
               max: 120,
               divisions: 11,
               label: '${appState.timerSeconds} s',
