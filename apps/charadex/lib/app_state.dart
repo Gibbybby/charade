@@ -11,7 +11,7 @@ class AppState extends ChangeNotifier {
   late SharedPreferences _prefs;
 
   // Standardeinstellungen
-  String _languageCode = 'en';
+  String _languageCode = 'de';
   int _timerSeconds = 60;
 
   // Ausgewählte Topics (nur temporär gespeichert)
