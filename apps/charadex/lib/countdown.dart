@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'game_screen.dart';
 
@@ -80,11 +81,12 @@ class _CountdownState extends State<Countdown> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: Text(
-          _showStartText ? 'START' : '$_count',
+          _showStartText ? loc.start : '$_count',
           style: const TextStyle(
             fontSize: 96,
             fontWeight: FontWeight.bold,

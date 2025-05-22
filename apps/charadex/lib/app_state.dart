@@ -1,22 +1,28 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'models/topic.dart';
 
 class AppState extends ChangeNotifier {
   // Ausgewählte Topics (nur temporär gespeichert)
   List<Topic> _selectedTopics = [];
-  List<Topic> get selectedTopics => _selectedTopics;
+  List<Topic> get selectedTopics => List.unmodifiable(_selectedTopics);
 
   void setSelectedTopics(List<Topic> topics) {
-    _selectedTopics = topics;
+    _selectedTopics = List<Topic>.from(topics);
     notifyListeners();
   }
 
-  // Sprache
-  String _language = 'Deutsch';
-  String get language => _language;
+  // Sprache als Locale-Code ('de', 'en', ...)
+  String _languageCode = 'de';
+  String get languageCode => _languageCode;
 
-  void setLanguage(String newLang) {
-    _language = newLang;
+  /// Gibt das aktuelle Locale-Objekt zurück
+  Locale get locale => Locale(_languageCode);
+
+  /// Setzt den Sprach-Code und benachrichtigt Zuhörer
+  void setLanguageCode(String code) {
+    if (_languageCode == code) return;
+    _languageCode = code;
     notifyListeners();
   }
 

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:charadex/start_screen_animation.dart';
 import 'package:charadex/settings.dart';
 import 'package:charadex/topic_select.dart';
@@ -72,7 +73,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     if (mounted) {
       Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (_) => TopicSelectScreen()));
+      ).push(MaterialPageRoute(builder: (_) => const TopicSelectScreen()));
     }
   }
 
@@ -84,6 +85,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       body: AnimatedBuilder(
         animation: _confettiController,
@@ -111,6 +113,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                       color: Colors.white,
                       size: 30,
                     ),
+                    tooltip: loc.settings,
                     onPressed: _onSettingsPressed,
                   ),
                 ),
@@ -150,9 +153,9 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                               vertical: 20,
                             ),
                           ),
-                          child: const Text(
-                            'Spiel starten',
-                            style: TextStyle(
+                          child: Text(
+                            loc.startGame,
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,

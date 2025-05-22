@@ -1,0 +1,70 @@
+{
+  "@@locale": "de",
+  "title": "Charadex",
+  "@title": {
+    "description": "App-Titel auf dem Startbildschirm"
+  },
+  "play": "Spielen",
+  "@play": {
+    "description": "Button-Text, um das Spiel zu starten"
+  },
+  "options": "Optionen",
+  "@options": {
+    "description": "Button-Text für Einstellungen"
+  },
+  "start": "START",
+  "@start": {
+    "description": "Text angezeigt, wenn der Countdown fertig ist"
+  },
+  "goodJob": "Gut gemacht",
+  "@goodJob": {
+    "description": "Text, wenn eine Runde erfolgreich abgeschlossen ist"
+  },
+  "results": "{correctCount} richtig – {wrongCount} falsch",
+  "@results": {
+    "description": "Zusammenfassung der richtigen und falschen Antworten",
+    "placeholders": {
+      "correctCount": { "type": "Object" },
+      "wrongCount":  { "type": "Object" }
+    }
+  },
+  "backToSelection": "Zurück zur Auswahl",
+  "@backToSelection": {
+    "description": "Button-Text, um zur Themenauswahl zurückzukehren"
+  },
+  "settings": "Einstellungen",
+  "@settings": {
+    "description": "Titel des Einstellungsbildschirms"
+  },
+  "languageLabel": "Sprache",
+  "@languageLabel": {
+    "description": "Label über dem Sprach-Auswahlfeld"
+  },
+  "languageGerman": "Deutsch",
+  "@languageGerman": {
+    "description": "Option Deutsch"
+  },
+  "languageEnglish": "Englisch",
+  "@languageEnglish": {
+    "description": "Option Englisch"
+  },
+  "timerLabel": "Timer (Sekunden)",
+  "@timerLabel": {
+    "description": "Label über dem Timer-Schieberegler"
+  },
+  "secondsAbbr": "s",
+  "@secondsAbbr": {
+    "description": "Abkürzung für Sekunden"
+  },
+  "currentTimer": "Aktueller Timer: {seconds} Sekunden",
+  "@currentTimer": {
+    "description": "Text, der den aktuellen Timer-Wert anzeigt",
+    "placeholders": {
+      "seconds": { "type": "Object" }
+    }
+  },
+  "startGame": "Spiel starten",
+  "@startGame": {
+    "description": "Button-Text, um das Spiel vom Startbildschirm zu starten"
+  }
+}

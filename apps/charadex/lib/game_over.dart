@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../app_state.dart';
 import 'topic_select.dart';
 
@@ -16,6 +18,7 @@ class GameOverScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Play finish sound once after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _playFinishSound();
     });
@@ -26,6 +29,8 @@ class GameOverScreen extends StatelessWidget {
 
     final int correctCount = answers.where((a) => a).length;
     final int wrongCount = answers.length - correctCount;
+
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Container(
@@ -51,10 +56,10 @@ class GameOverScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32),
-                const Text(
-                  'Gut gemacht',
+                Text(
+                  loc.goodJob,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 56,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -62,7 +67,7 @@ class GameOverScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  '$correctCount richtig – $wrongCount falsch',
+                  loc.results(correctCount, wrongCount),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
@@ -118,9 +123,9 @@ class GameOverScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: const Text(
-                                'Zurück zur Auswahl',
-                                style: TextStyle(
+                              child: Text(
+                                loc.backToSelection,
+                                style: const TextStyle(
                                   color: Color(0xFFFF5F8D),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -136,9 +141,9 @@ class GameOverScreen extends StatelessWidget {
                                 );
                               },
                               backgroundColor: Colors.white,
-                              label: const Text(
-                                'Zurück zur Auswahl',
-                                style: TextStyle(
+                              label: Text(
+                                loc.backToSelection,
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFFFF5F8D),

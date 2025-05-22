@@ -1,0 +1,70 @@
+{
+  "@@locale": "en",
+  "title": "Charadex",
+  "@title": {
+    "description": "App title on the home screen"
+  },
+  "play": "Play",
+  "@play": {
+    "description": "Button text to start the game"
+  },
+  "options": "Options",
+  "@options": {
+    "description": "Button text for settings"
+  },
+  "start": "START",
+  "@start": {
+    "description": "Text shown when countdown finishes"
+  },
+  "goodJob": "Well done",
+  "@goodJob": {
+    "description": "Text shown for a successful round"
+  },
+  "results": "{correctCount} correct – {wrongCount} wrong",
+  "@results": {
+    "description": "Summary of correct and wrong answers",
+    "placeholders": {
+      "correctCount": { "type": "Object" },
+      "wrongCount":  { "type": "Object" }
+    }
+  },
+  "backToSelection": "Back to selection",
+  "@backToSelection": {
+    "description": "Button text to go back to topic selection"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Title of the settings screen"
+  },
+  "languageLabel": "Language",
+  "@languageLabel": {
+    "description": "Label above language dropdown"
+  },
+  "languageGerman": "Deutsch",
+  "@languageGerman": {
+    "description": "German language option"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language option"
+  },
+  "timerLabel": "Timer (seconds)",
+  "@timerLabel": {
+    "description": "Label above the timer slider"
+  },
+  "secondsAbbr": "s",
+  "@secondsAbbr": {
+    "description": "Abbreviation for seconds"
+  },
+  "currentTimer": "Current timer: {seconds} seconds",
+  "@currentTimer": {
+    "description": "Text showing the current timer value",
+    "placeholders": {
+      "seconds": { "type": "Object" }
+    }
+  },
+  "startGame": "Start Game",
+  "@startGame": {
+    "description": "Button text to start the game from home screen"
+  }
+}

@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'app_state.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
-  final List<String> _languages = const ['Deutsch', 'Englisch'];
+  // Die Sprache-Codes, nicht die Display-Namen
+  static const _languageCodes = ['de', 'en'];
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final appState = Provider.of<AppState>(context);
     final sliderValue = appState.timerSeconds.clamp(10, 120).toDouble();
+    final currentLangCode =
+        appState.languageCode; // angenommen ist jetzt 'de' oder 'en'
 
     return Scaffold(
-      extendBodyBehindAppBar: true, // AppBar über den Hintergrund
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'Einstellungen',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        title: Text(
+          loc.settings,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -36,9 +44,9 @@ class SettingsScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(24, 100, 24, 24),
           child: ListView(
             children: [
-              const Text(
-                'Sprache',
-                style: TextStyle(
+              Text(
+                loc.languageLabel,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -47,17 +55,21 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 dropdownColor: Colors.white,
-                value: appState.language,
+                value: currentLangCode,
                 items:
-                    _languages
-                        .map(
-                          (lang) =>
-                              DropdownMenuItem(value: lang, child: Text(lang)),
-                        )
-                        .toList(),
-                onChanged: (newLang) {
-                  if (newLang != null) {
-                    appState.setLanguage(newLang);
+                    _languageCodes.map((code) {
+                      final display =
+                          code == 'de'
+                              ? loc.languageGerman
+                              : loc.languageEnglish;
+                      return DropdownMenuItem(
+                        value: code,
+                        child: Text(display),
+                      );
+                    }).toList(),
+                onChanged: (newCode) {
+                  if (newCode != null) {
+                    appState.setLanguageCode(newCode);
                   }
                 },
                 decoration: const InputDecoration(
@@ -67,9 +79,9 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 32),
-              const Text(
-                'Timer (Sekunden)',
-                style: TextStyle(
+              Text(
+                loc.timerLabel,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -81,7 +93,7 @@ class SettingsScreen extends StatelessWidget {
                 min: 10,
                 max: 120,
                 divisions: 11,
-                label: '${sliderValue.round()} s',
+                label: '${sliderValue.round()} ${loc.secondsAbbr}',
                 onChanged: (newValue) {
                   appState.setTimer(newValue.round());
                 },
@@ -91,7 +103,7 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Center(
                 child: Text(
-                  'Aktueller Timer: ${appState.timerSeconds} Sekunden',
+                  loc.currentTimer(appState.timerSeconds),
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),

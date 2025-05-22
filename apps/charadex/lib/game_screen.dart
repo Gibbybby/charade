@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:vibration/vibration.dart';
+// ignore: unused_import
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../app_state.dart';
 import 'game_over.dart';
@@ -43,12 +46,28 @@ class _GameScreenState extends State<GameScreen> {
     _audioPlayer.setReleaseMode(ReleaseMode.stop);
     _audioPlayer.setVolume(1.0);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final appState = Provider.of<AppState>(context, listen: false);
-      final topics = appState.selectedTopics;
-      final allWords = topics.expand((t) => t.words).toList();
-      appState.setWords(allWords);
+    // Nach Build: Lokalisierte Wörter laden und Spiel starten
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Aktuelle Locale
+      final locale = Localizations.localeOf(context).languageCode;
+      // JSON-Map laden
+      final jsonStr = await rootBundle.loadString('assets/words/$locale.json');
+      final Map<String, dynamic> data = json.decode(jsonStr);
 
+      final appState = Provider.of<AppState>(context, listen: false);
+      // Wörter aus allen ausgewählten Kategorien sammeln
+      List<String> localizedWords = [];
+      for (final topic in appState.selectedTopics) {
+        // Verwende das topic.label (Kategorie-Name) als Key in Kleinbuchstaben
+        final String key = topic.label.toLowerCase();
+        final List<dynamic>? entries = data[key];
+        if (entries != null) {
+          localizedWords.addAll(entries.cast<String>());
+        }
+      }
+      appState.setWords(localizedWords);
+
+      // Timer initialisieren
       _secondsRemaining = appState.timerSeconds;
       _startTimer();
       _startListeningTilt();
@@ -101,7 +120,7 @@ class _GameScreenState extends State<GameScreen> {
         Vibration.vibrate(duration: 50);
       }
 
-      // Sound effect: sicherstellen, dass vorherige Wiedergabe gestoppt ist
+      // Sound effect
       final soundPath = correct ? 'sounds/ding.mp3' : 'sounds/buzz.mp3';
       await _audioPlayer.stop();
       await _audioPlayer.play(AssetSource(soundPath));
