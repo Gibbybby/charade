@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../models/topic.dart';
 import '../countdown.dart';
 import '../app_state.dart';
-import '../start_screen.dart';
 
 class TopicSelectScreen extends StatefulWidget {
   const TopicSelectScreen({Key? key}) : super(key: key);
@@ -69,6 +68,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
         Platform.isIOS
             ? CupertinoPageRoute(builder: (_) => const Countdown())
             : MaterialPageRoute(builder: (_) => const Countdown());
+
     Navigator.of(context).push(route);
   }
 
@@ -157,224 +157,221 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     final currentSeconds = Provider.of<AppState>(context).timerSeconds;
     final loc = AppLocalizations.of(context)!;
 
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const CharadePartyHomePage()),
-          (route) => false,
-        );
-        return false;
-      },
-      child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
-            ),
+    return Scaffold(
+      // Hinweis: Wir entfernen das WillPopScope, damit iOS-Swipe-to-Pop wieder funktioniert.
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFFF5F8D), Color(0xFFFFA726)],
           ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (_) => const CharadePartyHomePage(),
-                            ),
-                            (route) => false,
-                          );
-                        },
-                      ),
-                      const Expanded(
-                        child: Text(
-                          'Topics',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => _showTimerPicker(context),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            children: [
-                              AnimatedDefaultTextStyle(
-                                duration: const Duration(milliseconds: 200),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.white,
-                                ),
-                                child: Text('$currentSeconds s'),
-                              ),
-                              const Icon(
-                                Icons.arrow_drop_down,
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Header mit adaptivem Back-Button
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon:
+                          Platform.isIOS
+                              ? const Icon(
+                                CupertinoIcons.back,
+                                color: Colors.white,
+                              )
+                              : const Icon(
+                                Icons.arrow_back,
                                 color: Colors.white,
                               ),
-                            ],
-                          ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    Expanded(
+                      child: Text(
+                        // Falls du 'Topics' lokalisiert haben möchtest, benutze loc.topics o.ä.
+                        'Topics',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GridView.builder(
-                      itemCount: topics.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 12,
-                            crossAxisSpacing: 12,
-                            childAspectRatio: 0.75,
-                          ),
-                      itemBuilder: (context, index) {
-                        final topic = topics[index];
-                        final isSelected = _selectedIndices.contains(index);
-
-                        final label =
-                            {
-                              'topicCars': loc.topicCars,
-                              'topicGeography': loc.topicGeography,
-                              'topicSports': loc.topicSports,
-                              'topicParty': loc.topicParty,
-                              'topicFilm': loc.topicFilm,
-                              'topicSeries': loc.topicSeries,
-                              'topicStars': loc.topicStars,
-                              'topicAnimals': loc.topicAnimals,
-                              'topicJobs': loc.topicJobs,
-                              'topicMusic': loc.topicMusic,
-                            }[topic.labelKey] ??
-                            topic.labelKey;
-
-                        return GestureDetector(
-                          onTap: () => _toggleSelection(index),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color:
-                                    isSelected
-                                        ? Colors.white
-                                        : Colors.transparent,
-                                width: 3,
+                    ),
+                    GestureDetector(
+                      onTap: () => _showTimerPicker(context),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                          children: [
+                            AnimatedDefaultTextStyle(
+                              duration: const Duration(milliseconds: 200),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.white,
                               ),
-                              borderRadius: BorderRadius.circular(16),
+                              child: Text('$currentSeconds s'),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(13),
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: [
-                                  Image.asset(
-                                    topic.imagePath,
-                                    fit: BoxFit.cover,
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Grid mit Topics
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GridView.builder(
+                    itemCount: topics.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 0.75,
+                        ),
+                    itemBuilder: (context, index) {
+                      final topic = topics[index];
+                      final isSelected = _selectedIndices.contains(index);
+
+                      final label =
+                          {
+                            'topicCars': loc.topicCars,
+                            'topicGeography': loc.topicGeography,
+                            'topicSports': loc.topicSports,
+                            'topicParty': loc.topicParty,
+                            'topicFilm': loc.topicFilm,
+                            'topicSeries': loc.topicSeries,
+                            'topicStars': loc.topicStars,
+                            'topicAnimals': loc.topicAnimals,
+                            'topicJobs': loc.topicJobs,
+                            'topicMusic': loc.topicMusic,
+                          }[topic.labelKey] ??
+                          topic.labelKey;
+
+                      return GestureDetector(
+                        onTap: () => _toggleSelection(index),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color:
+                                  isSelected
+                                      ? Colors.white
+                                      : Colors.transparent,
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(13),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                Image.asset(topic.imagePath, fit: BoxFit.cover),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.center,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        Colors.black.withOpacity(0.5),
+                                      ],
+                                    ),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.center,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.transparent,
-                                          Colors.black.withOpacity(0.5),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Text(
+                                      label,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        shadows: [
+                                          Shadow(
+                                            offset: Offset(1, 1),
+                                            blurRadius: 2,
+                                            color: Colors.black,
+                                          ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        label,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                          shadows: [
-                                            Shadow(
-                                              offset: Offset(1, 1),
-                                              blurRadius: 2,
-                                              color: Colors.black,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              // Start-Button
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child:
+                      Platform.isIOS
+                          ? CupertinoButton(
+                            color:
+                                _selectedIndices.isNotEmpty
+                                    ? Colors.white
+                                    : Colors.white.withOpacity(0.2),
+                            onPressed:
+                                _selectedIndices.isNotEmpty
+                                    ? () => _onStartPressed(context)
+                                    : null,
+                            child: const Text(
+                              'Start',
+                              style: TextStyle(
+                                color: Color(0xFFFF5F8D),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                          : FloatingActionButton.extended(
+                            onPressed:
+                                _selectedIndices.isNotEmpty
+                                    ? () => _onStartPressed(context)
+                                    : null,
+                            backgroundColor:
+                                _selectedIndices.isNotEmpty
+                                    ? Colors.white
+                                    : Colors.white.withOpacity(0.2),
+                            label: const Text(
+                              'Start',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFF5F8D),
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child:
-                        Platform.isIOS
-                            ? CupertinoButton(
-                              color:
-                                  _selectedIndices.isNotEmpty
-                                      ? Colors.white
-                                      : Colors.white.withOpacity(0.2),
-                              onPressed:
-                                  _selectedIndices.isNotEmpty
-                                      ? () => _onStartPressed(context)
-                                      : null,
-                              child: const Text(
-                                'Start',
-                                style: TextStyle(
-                                  color: Color(0xFFFF5F8D),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            )
-                            : FloatingActionButton.extended(
-                              onPressed:
-                                  _selectedIndices.isNotEmpty
-                                      ? () => _onStartPressed(context)
-                                      : null,
-                              backgroundColor:
-                                  _selectedIndices.isNotEmpty
-                                      ? Colors.white
-                                      : Colors.white.withOpacity(0.2),
-                              label: const Text(
-                                'Start',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFFF5F8D),
-                                ),
-                              ),
-                            ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

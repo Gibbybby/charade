@@ -8,28 +8,54 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../app_state.dart';
 import 'topic_select.dart';
 
-class GameOverScreen extends StatelessWidget {
+class GameOverScreen extends StatefulWidget {
   const GameOverScreen({Key? key}) : super(key: key);
 
-  void _playFinishSound() async {
-    final player = AudioPlayer();
-    await player.play(AssetSource('sounds/finish.mp3'));
+  @override
+  _GameOverScreenState createState() => _GameOverScreenState();
+}
+
+class _GameOverScreenState extends State<GameOverScreen> {
+  late final AudioPlayer _player;
+  bool _hasPlayed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _player = AudioPlayer();
+    _playFinishSoundOnce();
+  }
+
+  void _playFinishSoundOnce() {
+    if (!_hasPlayed) {
+      _hasPlayed = true;
+      _player.play(AssetSource('sounds/finish.mp3'));
+    }
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
+  }
+
+  void _onBackPressed() {
+    // Sound stoppen
+    _player.stop();
+    // zurück zur Auswahl
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const TopicSelectScreen()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Play finish sound once after first frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _playFinishSound();
-    });
-
     final appState = Provider.of<AppState>(context, listen: false);
     final words = appState.words;
     final answers = appState.answers;
-
     final int correctCount = answers.where((a) => a).length;
     final int wrongCount = answers.length - correctCount;
-
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -60,7 +86,7 @@ class GameOverScreen extends StatelessWidget {
                   loc.goodJob,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 56,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -115,14 +141,7 @@ class GameOverScreen extends StatelessWidget {
                         Platform.isIOS
                             ? CupertinoButton(
                               color: Colors.white,
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const TopicSelectScreen(),
-                                  ),
-                                );
-                              },
+                              onPressed: _onBackPressed,
                               child: Text(
                                 loc.backToSelection,
                                 style: const TextStyle(
@@ -132,14 +151,7 @@ class GameOverScreen extends StatelessWidget {
                               ),
                             )
                             : FloatingActionButton.extended(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const TopicSelectScreen(),
-                                  ),
-                                );
-                              },
+                              onPressed: _onBackPressed,
                               backgroundColor: Colors.white,
                               label: Text(
                                 loc.backToSelection,
