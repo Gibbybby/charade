@@ -1,45 +1,53 @@
 {
-  "@@locale": "en",
   "title": "Charadex",
   "@title": {
     "description": "App title on the home screen"
   },
+
   "play": "Play",
   "@play": {
     "description": "Button text to start the game"
   },
+
   "options": "Options",
   "@options": {
     "description": "Button text for settings"
   },
+
   "start": "START",
   "@start": {
     "description": "Text shown when countdown finishes"
   },
+
   "goodJob": "Well done",
   "@goodJob": {
     "description": "Text shown for a successful round"
   },
+
   "results": "{correctCount} correct – {wrongCount} wrong",
   "@results": {
     "description": "Summary of correct and wrong answers",
     "placeholders": {
       "correctCount": { "type": "Object" },
-      "wrongCount":  { "type": "Object" }
+      "wrongCount":   { "type": "Object" }
     }
   },
+
   "backToSelection": "Back to selection",
   "@backToSelection": {
     "description": "Button text to go back to topic selection"
   },
+
   "settings": "Settings",
   "@settings": {
     "description": "Title of the settings screen"
   },
+
   "languageLabel": "Language",
   "@languageLabel": {
     "description": "Label above language dropdown"
   },
+
   "languageGerman": "Deutsch",
   "@languageGerman": {
     "description": "German language option"
@@ -48,14 +56,29 @@
   "@languageEnglish": {
     "description": "English language option"
   },
+  "languageCroatian": "Croatian",
+  "@languageCroatian": {
+    "description": "Croatian language option"
+  },
+  "languageSpanish": "Spanish",
+  "@languageSpanish": {
+    "description": "Spanish language option"
+  },
+  "languageChinese": "Chinese",
+  "@languageChinese": {
+    "description": "Chinese language option"
+  },
+
   "timerLabel": "Timer (seconds)",
   "@timerLabel": {
     "description": "Label above the timer slider"
   },
+
   "secondsAbbr": "s",
   "@secondsAbbr": {
     "description": "Abbreviation for seconds"
   },
+
   "currentTimer": "Current timer: {seconds} seconds",
   "@currentTimer": {
     "description": "Text showing the current timer value",
@@ -63,8 +86,50 @@
       "seconds": { "type": "Object" }
     }
   },
+
   "startGame": "Start Game",
   "@startGame": {
     "description": "Button text to start the game from home screen"
+  },
+
+  "topicCars": "Cars",
+  "@topicCars": {
+    "description": "Topic: Cars"
+  },
+  "topicGeography": "Geography",
+  "@topicGeography": {
+    "description": "Topic: Geography"
+  },
+  "topicSports": "Sports",
+  "@topicSports": {
+    "description": "Topic: Sports"
+  },
+  "topicParty": "Party",
+  "@topicParty": {
+    "description": "Topic: Party"
+  },
+  "topicFilm": "Film",
+  "@topicFilm": {
+    "description": "Topic: Film"
+  },
+  "topicSeries": "Series",
+  "@topicSeries": {
+    "description": "Topic: Series"
+  },
+  "topicStars": "Stars",
+  "@topicStars": {
+    "description": "Topic: Stars"
+  },
+  "topicAnimals": "Animals",
+  "@topicAnimals": {
+    "description": "Topic: Animals"
+  },
+  "topicJobs": "Jobs",
+  "@topicJobs": {
+    "description": "Topic: Jobs"
+  },
+  "topicMusic": "Music",
+  "@topicMusic": {
+    "description": "Topic: Music"
   }
 }

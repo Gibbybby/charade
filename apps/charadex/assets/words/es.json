@@ -1,0 +1,20 @@
+{
+  "car": ["coche", "camión", "motocicleta", "bicicleta", "autobús"],
+  "sport": ["fútbol", "baloncesto", "tenis", "natación", "carrera"],
+  "geography": ["montaña", "río", "país", "ciudad", "bosque"],
+  "film": ["acción", "comedia", "drama", "thriller", "terror"],
+  "animal": ["perro", "gato", "elefante", "tigre", "oso"],
+  "jobs": ["profesor", "médico", "ingeniero", "chef", "abogado"],
+  "stars": ["sol", "luna", "Próxima Centauri", "Sirio", "Vega"],
+  "drugs": ["aspirina", "penicilina", "insulina", "ibuprofeno", "morfina"],
+  "music": ["rock", "pop", "jazz", "clásica", "hip hop"],
+  "party": ["cumpleaños", "aniversario", "festival", "celebración", "carnaval"],
+  "series": [
+    "Friends",
+    "Breaking Bad",
+    "Juego de Tronos",
+    "Stranger Things",
+    "Dark"
+  ],
+  "sex": ["beso", "abrazo", "romance", "coqueteo", "pasión"]
+}

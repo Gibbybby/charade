@@ -18,9 +18,15 @@ class MyApp extends StatelessWidget {
     return Consumer<AppState>(
       builder: (context, appState, _) {
         return MaterialApp(
+          // Debug-Banner ausschalten
+          debugShowCheckedModeBanner: false,
+
+          // Lokalisierung
           locale: appState.locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
+
+          // Startscreen
           home: const CharadePartyHomePage(),
         );
       },

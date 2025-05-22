@@ -1,7 +1,6 @@
 class Topic {
   final String imagePath;
-  final String label;
-  final List<String> words;
+  final String labelKey; // z.B. 'topicCars', 'topicGeography', …
 
-  Topic({required this.imagePath, required this.label, required this.words});
+  Topic({required this.imagePath, required this.labelKey});
 }

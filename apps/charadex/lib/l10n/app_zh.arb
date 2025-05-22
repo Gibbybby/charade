@@ -1,0 +1,83 @@
+{
+  "title": "Charadex",
+  "@title": { "description": "App title on the home screen" },
+
+  "play": "玩",
+  "@play": { "description": "Button text to start the game" },
+
+  "options": "选项",
+  "@options": { "description": "Button text for settings" },
+
+  "start": "开始",
+  "@start": { "description": "Text shown when countdown finishes" },
+
+  "goodJob": "干得好",
+  "@goodJob": { "description": "Text shown for a successful round" },
+
+  "results": "{correctCount} 正确 – {wrongCount} 错误",
+  "@results": {
+    "description": "Summary of correct and wrong answers",
+    "placeholders": {
+      "correctCount": { "type": "Object" },
+      "wrongCount":   { "type": "Object" }
+    }
+  },
+
+  "backToSelection": "返回选择",
+  "@backToSelection": { "description": "Button text to go back to topic selection" },
+
+  "settings": "设置",
+  "@settings": { "description": "Title of the settings screen" },
+
+  "languageLabel": "语言",
+  "@languageLabel": { "description": "Label above language dropdown" },
+
+  "languageGerman": "德语",
+  "@languageGerman": { "description": "German language option" },
+  "languageEnglish": "英语",
+  "@languageEnglish": { "description": "English language option" },
+  "languageCroatian": "克罗地亚语",
+  "@languageCroatian": { "description": "Croatian language option" },
+  "languageSpanish": "西班牙语",
+  "@languageSpanish": { "description": "Spanish language option" },
+  "languageChinese": "中文",
+  "@languageChinese": { "description": "Chinese language option" },
+
+  "timerLabel": "计时器（秒）",
+  "@timerLabel": { "description": "Label above the timer slider" },
+
+  "secondsAbbr": "秒",
+  "@secondsAbbr": { "description": "Abbreviation for seconds" },
+
+  "currentTimer": "当前计时器：{seconds} 秒",
+  "@currentTimer": {
+    "description": "Text showing the current timer value",
+    "placeholders": {
+      "seconds": { "type": "Object" }
+    }
+  },
+
+  "startGame": "开始游戏",
+  "@startGame": { "description": "Button text to start the game from home screen" },
+
+  "topicCars": "汽车",
+  "@topicCars": { "description": "Topic: Cars" },
+  "topicGeography": "地理",
+  "@topicGeography": { "description": "Topic: Geography" },
+  "topicSports": "体育",
+  "@topicSports": { "description": "Topic: Sports" },
+  "topicParty": "派对",
+  "@topicParty": { "description": "Topic: Party" },
+  "topicFilm": "电影",
+  "@topicFilm": { "description": "Topic: Film" },
+  "topicSeries": "系列",
+  "@topicSeries": { "description": "Topic: Series" },
+  "topicStars": "明星",
+  "@topicStars": { "description": "Topic: Stars" },
+  "topicAnimals": "动物",
+  "@topicAnimals": { "description": "Topic: Animals" },
+  "topicJobs": "职业",
+  "@topicJobs": { "description": "Topic: Jobs" },
+  "topicMusic": "音乐",
+  "@topicMusic": { "description": "Topic: Music" }
+}

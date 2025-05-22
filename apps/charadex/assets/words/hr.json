@@ -1,0 +1,20 @@
+{
+  "car": ["automobil", "kamion", "motocikl", "bicikl", "autobus"],
+  "sport": ["nogomet", "košarka", "tenis", "plivanje", "trčanje"],
+  "geography": ["planina", "rijeka", "država", "grad", "šuma"],
+  "film": ["akcija", "komedija", "drama", "triler", "horor"],
+  "animal": ["pas", "mačka", "slon", "tigar", "medvjed"],
+  "jobs": ["učitelj", "liječnik", "inženjer", "kuhar", "odvjetnik"],
+  "stars": ["sunce", "mjesec", "Proksima Kentaur", "Sirij", "Vega"],
+  "drugs": ["aspirin", "penicilin", "inzulin", "ibuprofen", "morfin"],
+  "music": ["rock", "pop", "jazz", "klasična", "hip hop"],
+  "party": ["rođendan", "godišnjica", "festival", "proslava", "karneval"],
+  "series": [
+    "Prijatelji",
+    "Breaking Bad",
+    "Igra prijestolja",
+    "Stranger Things",
+    "Dark"
+  ],
+  "sex": ["poljubac", "zagrljaj", "romantika", "udvaranje", "strast"]
+}

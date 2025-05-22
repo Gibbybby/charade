@@ -54,8 +54,11 @@ flutter:
     - assets/sounds/beep.mp3
     - assets/sounds/highbeep.mp3
     - assets/sounds/finish.mp3
-    - assets/words/en.json
     - assets/words/de.json
+    - assets/words/en.json
+    - assets/words/es.json
+    - assets/words/hr.json
+    - assets/words/zh.json
 
 flutter_launcher_icons:
   android: true

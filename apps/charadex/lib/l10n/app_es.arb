@@ -1,0 +1,83 @@
+{
+  "title": "Charadex",
+  "@title": { "description": "App title on the home screen" },
+
+  "play": "Jugar",
+  "@play": { "description": "Button text to start the game" },
+
+  "options": "Opciones",
+  "@options": { "description": "Button text for settings" },
+
+  "start": "EMPEZAR",
+  "@start": { "description": "Text shown when countdown finishes" },
+
+  "goodJob": "¡Buen trabajo!",
+  "@goodJob": { "description": "Text shown for a successful round" },
+
+  "results": "{correctCount} correctos – {wrongCount} incorrectos",
+  "@results": {
+    "description": "Summary of correct and wrong answers",
+    "placeholders": {
+      "correctCount": { "type": "Object" },
+      "wrongCount":   { "type": "Object" }
+    }
+  },
+
+  "backToSelection": "Volver a la selección",
+  "@backToSelection": { "description": "Button text to go back to topic selection" },
+
+  "settings": "Configuración",
+  "@settings": { "description": "Title of the settings screen" },
+
+  "languageLabel": "Idioma",
+  "@languageLabel": { "description": "Label above language dropdown" },
+
+  "languageGerman": "Alemán",
+  "@languageGerman": { "description": "German language option" },
+  "languageEnglish": "Inglés",
+  "@languageEnglish": { "description": "English language option" },
+  "languageCroatian": "Croata",
+  "@languageCroatian": { "description": "Croatian language option" },
+  "languageSpanish": "Español",
+  "@languageSpanish": { "description": "Spanish language option" },
+  "languageChinese": "Chino",
+  "@languageChinese": { "description": "Chinese language option" },
+
+  "timerLabel": "Temporizador (segundos)",
+  "@timerLabel": { "description": "Label above the timer slider" },
+
+  "secondsAbbr": "s",
+  "@secondsAbbr": { "description": "Abbreviation for seconds" },
+
+  "currentTimer": "Temporizador actual: {seconds} segundos",
+  "@currentTimer": {
+    "description": "Text showing the current timer value",
+    "placeholders": {
+      "seconds": { "type": "Object" }
+    }
+  },
+
+  "startGame": "Iniciar Juego",
+  "@startGame": { "description": "Button text to start the game from home screen" },
+
+  "topicCars": "Coches",
+  "@topicCars": { "description": "Topic: Cars" },
+  "topicGeography": "Geografía",
+  "@topicGeography": { "description": "Topic: Geography" },
+  "topicSports": "Deportes",
+  "@topicSports": { "description": "Topic: Sports" },
+  "topicParty": "Fiesta",
+  "@topicParty": { "description": "Topic: Party" },
+  "topicFilm": "Cine",
+  "@topicFilm": { "description": "Topic: Film" },
+  "topicSeries": "Series",
+  "@topicSeries": { "description": "Topic: Series" },
+  "topicStars": "Estrellas",
+  "@topicStars": { "description": "Topic: Stars" },
+  "topicAnimals": "Animales",
+  "@topicAnimals": { "description": "Topic: Animals" },
+  "topicJobs": "Profesiones",
+  "@topicJobs": { "description": "Topic: Jobs" },
+  "topicMusic": "Música",
+  "@topicMusic": { "description": "Topic: Music" }
+}

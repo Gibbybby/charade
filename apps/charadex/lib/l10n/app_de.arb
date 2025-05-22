@@ -1,70 +1,135 @@
 {
-  "@@locale": "de",
   "title": "Charadex",
   "@title": {
-    "description": "App-Titel auf dem Startbildschirm"
+    "description": "App title on the home screen"
   },
+
   "play": "Spielen",
   "@play": {
-    "description": "Button-Text, um das Spiel zu starten"
+    "description": "Button text to start the game"
   },
+
   "options": "Optionen",
   "@options": {
-    "description": "Button-Text für Einstellungen"
+    "description": "Button text for settings"
   },
+
   "start": "START",
   "@start": {
-    "description": "Text angezeigt, wenn der Countdown fertig ist"
+    "description": "Text shown when countdown finishes"
   },
+
   "goodJob": "Gut gemacht",
   "@goodJob": {
-    "description": "Text, wenn eine Runde erfolgreich abgeschlossen ist"
+    "description": "Text shown for a successful round"
   },
+
   "results": "{correctCount} richtig – {wrongCount} falsch",
   "@results": {
-    "description": "Zusammenfassung der richtigen und falschen Antworten",
+    "description": "Summary of correct and wrong answers",
     "placeholders": {
       "correctCount": { "type": "Object" },
-      "wrongCount":  { "type": "Object" }
+      "wrongCount":   { "type": "Object" }
     }
   },
+
   "backToSelection": "Zurück zur Auswahl",
   "@backToSelection": {
-    "description": "Button-Text, um zur Themenauswahl zurückzukehren"
+    "description": "Button text to go back to topic selection"
   },
+
   "settings": "Einstellungen",
   "@settings": {
-    "description": "Titel des Einstellungsbildschirms"
+    "description": "Title of the settings screen"
   },
+
   "languageLabel": "Sprache",
   "@languageLabel": {
-    "description": "Label über dem Sprach-Auswahlfeld"
+    "description": "Label above language dropdown"
   },
+
   "languageGerman": "Deutsch",
   "@languageGerman": {
-    "description": "Option Deutsch"
+    "description": "German language option"
   },
   "languageEnglish": "Englisch",
   "@languageEnglish": {
-    "description": "Option Englisch"
+    "description": "English language option"
   },
+  "languageCroatian": "Kroatisch",
+  "@languageCroatian": {
+    "description": "Croatian language option"
+  },
+  "languageSpanish": "Spanisch",
+  "@languageSpanish": {
+    "description": "Spanish language option"
+  },
+  "languageChinese": "Chinesisch",
+  "@languageChinese": {
+    "description": "Chinese language option"
+  },
+
   "timerLabel": "Timer (Sekunden)",
   "@timerLabel": {
-    "description": "Label über dem Timer-Schieberegler"
+    "description": "Label above the timer slider"
   },
+
   "secondsAbbr": "s",
   "@secondsAbbr": {
-    "description": "Abkürzung für Sekunden"
+    "description": "Abbreviation for seconds"
   },
+
   "currentTimer": "Aktueller Timer: {seconds} Sekunden",
   "@currentTimer": {
-    "description": "Text, der den aktuellen Timer-Wert anzeigt",
+    "description": "Text showing the current timer value",
     "placeholders": {
       "seconds": { "type": "Object" }
     }
   },
+
   "startGame": "Spiel starten",
   "@startGame": {
-    "description": "Button-Text, um das Spiel vom Startbildschirm zu starten"
+    "description": "Button text to start the game from home screen"
+  },
+
+  "topicCars": "Autos",
+  "@topicCars": {
+    "description": "Topic: Cars"
+  },
+  "topicGeography": "Geografie",
+  "@topicGeography": {
+    "description": "Topic: Geography"
+  },
+  "topicSports": "Sport",
+  "@topicSports": {
+    "description": "Topic: Sports"
+  },
+  "topicParty": "Party",
+  "@topicParty": {
+    "description": "Topic: Party"
+  },
+  "topicFilm": "Film",
+  "@topicFilm": {
+    "description": "Topic: Film"
+  },
+  "topicSeries": "Serien",
+  "@topicSeries": {
+    "description": "Topic: Series"
+  },
+  "topicStars": "Sterne",
+  "@topicStars": {
+    "description": "Topic: Stars"
+  },
+  "topicAnimals": "Tiere",
+  "@topicAnimals": {
+    "description": "Topic: Animals"
+  },
+  "topicJobs": "Berufe",
+  "@topicJobs": {
+    "description": "Topic: Jobs"
+  },
+  "topicMusic": "Musik",
+  "@topicMusic": {
+    "description": "Topic: Music"
   }
 }

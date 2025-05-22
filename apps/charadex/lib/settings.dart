@@ -6,16 +6,33 @@ import 'app_state.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
-  // Die Sprache-Codes, nicht die Display-Namen
-  static const _languageCodes = ['de', 'en'];
+  // Jetzt alle fünf unterstützten Sprache-Codes
+  static const _languageCodes = ['de', 'en', 'hr', 'es', 'zh'];
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final appState = Provider.of<AppState>(context);
     final sliderValue = appState.timerSeconds.clamp(10, 120).toDouble();
-    final currentLangCode =
-        appState.languageCode; // angenommen ist jetzt 'de' oder 'en'
+    final currentLangCode = appState.languageCode;
+
+    // Helper, um aus dem Sprach-Code den passenden Display-Text zu holen
+    String _displayName(String code) {
+      switch (code) {
+        case 'de':
+          return loc.languageGerman;
+        case 'en':
+          return loc.languageEnglish;
+        case 'hr':
+          return loc.languageCroatian;
+        case 'es':
+          return loc.languageSpanish;
+        case 'zh':
+          return loc.languageChinese;
+        default:
+          return code;
+      }
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -58,13 +75,9 @@ class SettingsScreen extends StatelessWidget {
                 value: currentLangCode,
                 items:
                     _languageCodes.map((code) {
-                      final display =
-                          code == 'de'
-                              ? loc.languageGerman
-                              : loc.languageEnglish;
                       return DropdownMenuItem(
                         value: code,
-                        child: Text(display),
+                        child: Text(_displayName(code)),
                       );
                     }).toList(),
                 onChanged: (newCode) {

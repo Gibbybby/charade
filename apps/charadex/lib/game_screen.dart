@@ -29,45 +29,29 @@ class _GameScreenState extends State<GameScreen> {
   TiltState _tiltState = TiltState.none;
   TiltState _lastTiltPlayed = TiltState.none;
 
-  /// Low-Latency AudioPlayer für kurze Effekte
-  final AudioPlayer _audioPlayer = AudioPlayer(playerId: 'tilt_sound_player');
-
   @override
   void initState() {
     super.initState();
 
-    // Nur Landscape im Spiel
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
 
-    // ReleaseMode und Lautstärke sicherstellen
-    _audioPlayer.setReleaseMode(ReleaseMode.stop);
-    _audioPlayer.setVolume(1.0);
-
-    // Nach Build: Lokalisierte Wörter laden und Spiel starten
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Aktuelle Locale
       final locale = Localizations.localeOf(context).languageCode;
-      // JSON-Map laden
       final jsonStr = await rootBundle.loadString('assets/words/$locale.json');
       final Map<String, dynamic> data = json.decode(jsonStr);
 
       final appState = Provider.of<AppState>(context, listen: false);
-      // Wörter aus allen ausgewählten Kategorien sammeln
       List<String> localizedWords = [];
       for (final topic in appState.selectedTopics) {
-        // Verwende das topic.label (Kategorie-Name) als Key in Kleinbuchstaben
-        final String key = topic.label.toLowerCase();
-        final List<dynamic>? entries = data[key];
-        if (entries != null) {
-          localizedWords.addAll(entries.cast<String>());
-        }
+        final key = topic.labelKey.replaceFirst('topic', '').toLowerCase();
+        final entries = data[key] as List<dynamic>?;
+        if (entries != null) localizedWords.addAll(entries.cast<String>());
       }
       appState.setWords(localizedWords);
 
-      // Timer initialisieren
       _secondsRemaining = appState.timerSeconds;
       _startTimer();
       _startListeningTilt();
@@ -79,9 +63,7 @@ class _GameScreenState extends State<GameScreen> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_tiltState == TiltState.none) {
         if (_secondsRemaining > 0) {
-          setState(() {
-            _secondsRemaining--;
-          });
+          setState(() => _secondsRemaining--);
         } else {
           _goToGameOver();
         }
@@ -92,17 +74,14 @@ class _GameScreenState extends State<GameScreen> {
   void _startListeningTilt() {
     _accelSub = accelerometerEvents.listen((event) {
       final z = event.z;
-
       if (_tiltState == TiltState.none) {
         if (z > 7) {
           _onTilt(TiltState.up, false);
         } else if (z < -7) {
           _onTilt(TiltState.down, true);
         }
-      } else {
-        if (z.abs() < 2) {
-          _onReturnToCenter();
-        }
+      } else if (z.abs() < 2) {
+        _onReturnToCenter();
       }
     });
   }
@@ -115,33 +94,30 @@ class _GameScreenState extends State<GameScreen> {
     if (_lastTiltPlayed != state) {
       _lastTiltPlayed = state;
 
-      // Vibration
       if (await Vibration.hasVibrator()) {
         Vibration.vibrate(duration: 50);
       }
 
-      // Sound effect
       final soundPath = correct ? 'sounds/ding.mp3' : 'sounds/buzz.mp3';
-      await _audioPlayer.stop();
-      await _audioPlayer.play(AssetSource(soundPath));
+      final player = AudioPlayer();
+      await player.setPlayerMode(PlayerMode.lowLatency);
+      await player.play(AssetSource(soundPath));
     }
   }
 
   void _onReturnToCenter() {
     setState(() => _tiltState = TiltState.none);
-    final appState = Provider.of<AppState>(context, listen: false);
-    appState.nextWord();
+    _lastTiltPlayed = TiltState.none;
+    Provider.of<AppState>(context, listen: false).nextWord();
   }
 
   Future<void> _goToGameOver() async {
     _timer?.cancel();
     _accelSub?.cancel();
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
     Future.delayed(const Duration(milliseconds: 50), () {
       if (mounted) {
         Navigator.pushReplacement(
@@ -174,7 +150,6 @@ class _GameScreenState extends State<GameScreen> {
   void dispose() {
     _timer?.cancel();
     _accelSub?.cancel();
-    _audioPlayer.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -205,7 +180,6 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // X-Button oben links
             Positioned(
               top: 12,
               left: 12,
@@ -218,8 +192,6 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               ),
             ),
-
-            // Timer oben zentriert
             Positioned(
               top: 16,
               left: 0,
@@ -235,8 +207,6 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               ),
             ),
-
-            // Wort zentriert
             Center(
               child: Text(
                 currentWord,
@@ -247,8 +217,6 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               ),
             ),
-
-            // Punkteanzeige unten
             Positioned(
               bottom: 24,
               left: 0,
@@ -292,7 +260,6 @@ class _GameScreenState extends State<GameScreen> {
   }
 }
 
-/// Extension zum Take-Last auf Listen
 extension TakeLast<T> on List<T> {
   Iterable<T> takeLast(int n) => length <= n ? this : skip(length - n);
 }

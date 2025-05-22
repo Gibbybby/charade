@@ -1,0 +1,83 @@
+{
+  "title": "Charadex",
+  "@title": { "description": "App title on the home screen" },
+
+  "play": "Igraj",
+  "@play": { "description": "Button text to start the game" },
+
+  "options": "Opcije",
+  "@options": { "description": "Button text for settings" },
+
+  "start": "POČNI",
+  "@start": { "description": "Text shown when countdown finishes" },
+
+  "goodJob": "Dobro odrađeno",
+  "@goodJob": { "description": "Text shown for a successful round" },
+
+  "results": "{correctCount} točno – {wrongCount} krivo",
+  "@results": {
+    "description": "Summary of correct and wrong answers",
+    "placeholders": {
+      "correctCount": { "type": "Object" },
+      "wrongCount":   { "type": "Object" }
+    }
+  },
+
+  "backToSelection": "Povratak na odabir",
+  "@backToSelection": { "description": "Button text to go back to topic selection" },
+
+  "settings": "Postavke",
+  "@settings": { "description": "Title of the settings screen" },
+
+  "languageLabel": "Jezik",
+  "@languageLabel": { "description": "Label above language dropdown" },
+
+  "languageGerman": "Njemački",
+  "@languageGerman": { "description": "German language option" },
+  "languageEnglish": "Engleski",
+  "@languageEnglish": { "description": "English language option" },
+  "languageCroatian": "Hrvatski",
+  "@languageCroatian": { "description": "Croatian language option" },
+  "languageSpanish": "Španjolski",
+  "@languageSpanish": { "description": "Spanish language option" },
+  "languageChinese": "Kineski",
+  "@languageChinese": { "description": "Chinese language option" },
+
+  "timerLabel": "Tajmer (sekunde)",
+  "@timerLabel": { "description": "Label above the timer slider" },
+
+  "secondsAbbr": "s",
+  "@secondsAbbr": { "description": "Abbreviation for seconds" },
+
+  "currentTimer": "Trenutni tajmer: {seconds} sekundi",
+  "@currentTimer": {
+    "description": "Text showing the current timer value",
+    "placeholders": {
+      "seconds": { "type": "Object" }
+    }
+  },
+
+  "startGame": "Pokreni igru",
+  "@startGame": { "description": "Button text to start the game from home screen" },
+
+  "topicCars": "Automobili",
+  "@topicCars": { "description": "Topic: Cars" },
+  "topicGeography": "Geografija",
+  "@topicGeography": { "description": "Topic: Geography" },
+  "topicSports": "Sport",
+  "@topicSports": { "description": "Topic: Sports" },
+  "topicParty": "Zabava",
+  "@topicParty": { "description": "Topic: Party" },
+  "topicFilm": "Film",
+  "@topicFilm": { "description": "Topic: Film" },
+  "topicSeries": "Serije",
+  "@topicSeries": { "description": "Topic: Series" },
+  "topicStars": "Zvijezde",
+  "@topicStars": { "description": "Topic: Stars" },
+  "topicAnimals": "Životinje",
+  "@topicAnimals": { "description": "Topic: Animals" },
+  "topicJobs": "Poslovi",
+  "@topicJobs": { "description": "Topic: Jobs" },
+  "topicMusic": "Glazba",
+  "@topicMusic": { "description": "Topic: Music" }
+}
