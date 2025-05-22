@@ -2,14 +2,24 @@ import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../app_state.dart';
-import 'topic_select.dart'; // ggf. Pfad anpassen
+import 'topic_select.dart';
 
 class GameOverScreen extends StatelessWidget {
   const GameOverScreen({Key? key}) : super(key: key);
 
+  void _playFinishSound() async {
+    final player = AudioPlayer();
+    await player.play(AssetSource('sounds/finish.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _playFinishSound();
+    });
+
     final appState = Provider.of<AppState>(context, listen: false);
     final words = appState.words;
     final answers = appState.answers;

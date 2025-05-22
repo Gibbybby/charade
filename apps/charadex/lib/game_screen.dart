@@ -25,16 +25,23 @@ class _GameScreenState extends State<GameScreen> {
   int _secondsRemaining = 0;
   TiltState _tiltState = TiltState.none;
   TiltState _lastTiltPlayed = TiltState.none;
-  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  /// Low-Latency AudioPlayer für kurze Effekte
+  final AudioPlayer _audioPlayer = AudioPlayer(playerId: 'tilt_sound_player');
 
   @override
   void initState() {
     super.initState();
 
+    // Nur Landscape im Spiel
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+
+    // ReleaseMode und Lautstärke sicherstellen
+    _audioPlayer.setReleaseMode(ReleaseMode.stop);
+    _audioPlayer.setVolume(1.0);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final appState = Provider.of<AppState>(context, listen: false);
@@ -90,13 +97,13 @@ class _GameScreenState extends State<GameScreen> {
       _lastTiltPlayed = state;
 
       // Vibration
-      if (await Vibration.hasVibrator() ?? false) {
+      if (await Vibration.hasVibrator()) {
         Vibration.vibrate(duration: 50);
       }
 
-      // Sound
-      final soundPath =
-          correct ? 'assets/sounds/ding.mp3' : 'assets/sounds/buzz.mp3';
+      // Sound effect: sicherstellen, dass vorherige Wiedergabe gestoppt ist
+      final soundPath = correct ? 'sounds/ding.mp3' : 'sounds/buzz.mp3';
+      await _audioPlayer.stop();
       await _audioPlayer.play(AssetSource(soundPath));
     }
   }
@@ -110,7 +117,6 @@ class _GameScreenState extends State<GameScreen> {
   Future<void> _goToGameOver() async {
     _timer?.cancel();
     _accelSub?.cancel();
-    await _audioPlayer.play(AssetSource('assets/sounds/finish.mp3'));
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -267,6 +273,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 }
 
+/// Extension zum Take-Last auf Listen
 extension TakeLast<T> on List<T> {
   Iterable<T> takeLast(int n) => length <= n ? this : skip(length - n);
 }
