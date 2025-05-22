@@ -111,8 +111,13 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   void _showTimerPicker(BuildContext context) {
     final currentSeconds =
         Provider.of<AppState>(context, listen: false).timerSeconds;
-    // compute selected factor (5 sec steps), min factor = 2 => 10s
-    int selected = (currentSeconds / 5).round().clamp(2, 24);
+    // Liste von 10s bis 120s in 5s Schritten
+    final options = List<int>.generate(23, (i) => (i + 2) * 5);
+
+    // Finde Index oder setze auf 0
+    int initialIndex = options.indexOf(currentSeconds);
+    if (initialIndex == -1) initialIndex = 0;
+    int selectedIndex = initialIndex;
 
     showCupertinoModalPopup(
       context: context,
@@ -133,10 +138,11 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                         vertical: 4,
                       ),
                       onPressed: () {
+                        final seconds = options[selectedIndex];
                         Provider.of<AppState>(
                           context,
                           listen: false,
-                        ).setTimer(selected * 5);
+                        ).setTimer(seconds);
                         Navigator.of(context).pop();
                       },
                       child: const Text(
@@ -151,20 +157,27 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                 ),
               ),
               Expanded(
-                child: CupertinoPicker(
-                  scrollController: FixedExtentScrollController(
-                    initialItem: selected - 2,
-                  ),
-                  itemExtent: 36.0,
-                  onSelectedItemChanged: (int index) {
-                    // index 0 => factor 2 => 10s
-                    selected = index + 2;
+                child: StatefulBuilder(
+                  builder: (context, setState) {
+                    return CupertinoPicker(
+                      scrollController: FixedExtentScrollController(
+                        initialItem: initialIndex,
+                      ),
+                      itemExtent: 36.0,
+                      onSelectedItemChanged: (int index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      children:
+                          options
+                              .map(
+                                (seconds) =>
+                                    Center(child: Text('$seconds Sekunden')),
+                              )
+                              .toList(),
+                    );
                   },
-                  // generate 23 options: 10s,15s,...,120s
-                  children: List<Widget>.generate(23, (int index) {
-                    final seconds = (index + 2) * 5;
-                    return Center(child: Text('$seconds Sekunden'));
-                  }),
                 ),
               ),
             ],
