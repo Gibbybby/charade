@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+
 import '../models/topic.dart';
 import '../countdown.dart';
 import '../app_state.dart';
@@ -110,7 +111,8 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   void _showTimerPicker(BuildContext context) {
     final currentSeconds =
         Provider.of<AppState>(context, listen: false).timerSeconds;
-    int selected = (currentSeconds / 5).round().clamp(1, 24); // 5–120 Sekunden
+    // compute selected factor (5 sec steps), min factor = 2 => 10s
+    int selected = (currentSeconds / 5).round().clamp(2, 24);
 
     showCupertinoModalPopup(
       context: context,
@@ -151,14 +153,16 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
               Expanded(
                 child: CupertinoPicker(
                   scrollController: FixedExtentScrollController(
-                    initialItem: selected - 1,
+                    initialItem: selected - 2,
                   ),
                   itemExtent: 36.0,
                   onSelectedItemChanged: (int index) {
-                    selected = index + 1;
+                    // index 0 => factor 2 => 10s
+                    selected = index + 2;
                   },
-                  children: List<Widget>.generate(24, (int index) {
-                    final seconds = (index + 1) * 5;
+                  // generate 23 options: 10s,15s,...,120s
+                  children: List<Widget>.generate(23, (int index) {
+                    final seconds = (index + 2) * 5;
                     return Center(child: Text('$seconds Sekunden'));
                   }),
                 ),

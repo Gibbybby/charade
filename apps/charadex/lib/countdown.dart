@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'game_screen.dart'; // <--- WICHTIG: Importiere GameScreen
+import 'game_screen.dart'; // WICHTIG: Importiere GameScreen
 
 class Countdown extends StatefulWidget {
   const Countdown({Key? key}) : super(key: key);
@@ -40,12 +40,7 @@ class _CountdownState extends State<Countdown> {
 
         Future.delayed(const Duration(seconds: 1), () {
           if (mounted) {
-            SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp,
-              DeviceOrientation.portraitDown,
-            ]);
-
-            // ✅ Hier GameScreen starten
+            // Orientierung bleibt Querformat für nächsten Screen
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (_) => const GameScreen()),
@@ -59,10 +54,6 @@ class _CountdownState extends State<Countdown> {
   @override
   void dispose() {
     _timer?.cancel();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     super.dispose();
   }
 

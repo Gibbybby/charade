@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 import '../app_state.dart';
 import 'game_over.dart';
 
@@ -32,6 +33,7 @@ class _GameScreenState extends State<GameScreen> {
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final appState = Provider.of<AppState>(context, listen: false);
+
       if (appState.timerSeconds > 0) {
         appState.setTimer(appState.timerSeconds - 1);
       } else {
@@ -43,17 +45,16 @@ class _GameScreenState extends State<GameScreen> {
           DeviceOrientation.portraitDown,
         ]);
 
-        // Navigation nach kurzer Verzögerung für sanften Übergang
+        // Sofortiger Wechsel ohne Animation
         Future.delayed(const Duration(milliseconds: 50), () {
           if (mounted) {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                transitionDuration: const Duration(milliseconds: 500),
                 pageBuilder: (_, __, ___) => const GameOverScreen(),
-                transitionsBuilder: (_, animation, __, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+                transitionsBuilder: (_, __, ___, child) => child,
               ),
             );
           }
