@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'app_state.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
   static const _languageCodes = ['de', 'en', 'hr', 'es', 'zh'];
+
+  Future<void> _openLink(String url) async {
+    final uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      // Fehlerbehandlung, falls nötig
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +67,7 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Sprache
               _buildCard(
                 context,
                 icon: Icons.language,
@@ -99,30 +108,127 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
+
+              // Timer
               _buildCardWithValue(
                 context,
                 icon: Icons.timer,
                 title: loc.timerLabel,
                 value: "${appState.timerSeconds} ${loc.secondsAbbr}",
                 child: SliderTheme(
-                  data: SliderTheme.of(
-                    context,
-                  ).copyWith(showValueIndicator: ShowValueIndicator.never),
+                  data: SliderTheme.of(context).copyWith(
+                    thumbColor: const Color(0xFFFFA726),
+                    activeTrackColor: const Color(0xFFFFA726),
+                    inactiveTrackColor: const Color(
+                      0xFFFFA726,
+                    ).withOpacity(0.3),
+                    overlayColor: Colors.transparent,
+                    showValueIndicator: ShowValueIndicator.never,
+                  ),
                   child: Slider(
                     value: sliderValue,
                     min: 10,
                     max: 120,
                     divisions: 11,
-                    onChanged: (newValue) {
-                      appState.setTimer(newValue.round());
-                    },
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.white38,
+                    onChanged:
+                        (newValue) => appState.setTimer(newValue.round()),
                   ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Box: Weitere Gratis-Apps von uns mit drei Einträgen
+              _buildCard(
+                context,
+                icon: Icons.apps,
+                title: 'Weitere Gratis-Apps von uns',
+                child: Column(
+                  children: [
+                    _appEntry(
+                      asset: 'assets/icons/partybomb.png',
+                      title: 'PartyBomb',
+                      subtitle: 'Das Explosive Spiel!',
+                      link:
+                          'https://apps.apple.com/app/apple-store/id6746101066?pt=126797007&ct=GuessUp&mt=8',
+                    ),
+                    _appEntry(
+                      asset: 'assets/icons/imposter.png',
+                      title: 'Imposter',
+                      subtitle: 'Traue keinem!',
+                      link:
+                          'https://apps.apple.com/app/apple-store/id6745120053?pt=126797007&ct=GuessUp&mt=8',
+                    ),
+                    _appEntry(
+                      asset: 'assets/icons/pikapika.png',
+                      title: 'PikaPika',
+                      subtitle: 'Der Entscheidungshelfer!',
+                      link:
+                          'https://apps.apple.com/app/apple-store/id6744726904?pt=126797007&ct=GuessUp&mt=8',
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _appEntry({
+    required String asset,
+    required String title,
+    required String subtitle,
+    required String link,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: InkWell(
+        onTap: () => _openLink(link),
+        borderRadius: BorderRadius.circular(12),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                asset,
+                width: 48,
+                height: 48,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (subtitle.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: Colors.black45,
+            ),
+          ],
         ),
       ),
     );
@@ -189,7 +295,7 @@ class SettingsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.1),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -197,12 +303,12 @@ class SettingsScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: Colors.white),
+              Icon(icon, color: Colors.black87),
               const SizedBox(width: 8),
               Text(
                 title,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black87,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -226,20 +332,20 @@ class SettingsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.1),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              Icon(icon, color: Colors.white),
+              Icon(icon, color: Colors.black87),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   title,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.black87,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -248,7 +354,7 @@ class SettingsScreen extends StatelessWidget {
               Text(
                 value,
                 style: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black54,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
