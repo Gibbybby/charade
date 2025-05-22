@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:vibration/vibration.dart';
-// ignore: unused_import
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../app_state.dart';
 import 'game_over.dart';
@@ -33,29 +31,44 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
 
+    // Erzwinge Landscape-Modus
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final locale = Localizations.localeOf(context).languageCode;
-      final jsonStr = await rootBundle.loadString('assets/words/$locale.json');
-      final Map<String, dynamic> data = json.decode(jsonStr);
-
-      final appState = Provider.of<AppState>(context, listen: false);
-      List<String> localizedWords = [];
-      for (final topic in appState.selectedTopics) {
-        final key = topic.labelKey.replaceFirst('topic', '').toLowerCase();
-        final entries = data[key] as List<dynamic>?;
-        if (entries != null) localizedWords.addAll(entries.cast<String>());
-      }
-      appState.setWords(localizedWords);
-
-      _secondsRemaining = appState.timerSeconds;
-      _startTimer();
-      _startListeningTilt();
+    // Nach Frame-Render die Wörter laden und dann Timer + Tilt-Listener starten
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadWordsAndStart();
     });
+  }
+
+  Future<void> _loadWordsAndStart() async {
+    final localeCode = Localizations.localeOf(context).languageCode;
+    // Lade die entsprechende JSON-Datei, z.B. assets/words/de.json
+    final jsonStr = await rootBundle.loadString(
+      'assets/words/$localeCode.json',
+    );
+    final Map<String, dynamic> data = json.decode(jsonStr);
+
+    final appState = Provider.of<AppState>(context, listen: false);
+    final selectedTopics = appState.selectedTopics;
+    final List<String> localizedWords = [];
+
+    for (final topic in selectedTopics) {
+      // topic.labelKey z.B. "topicAnimals" → "animals"
+      final key = topic.labelKey.replaceFirst('topic', '').toLowerCase();
+      final entries = data[key] as List<dynamic>?;
+      if (entries != null) {
+        localizedWords.addAll(entries.cast<String>());
+      }
+    }
+
+    // Setze die gefilterten Wörter ins AppState und starte das Spiel
+    appState.setWords(localizedWords);
+    _secondsRemaining = appState.timerSeconds;
+    _startTimer();
+    _startListeningTilt();
   }
 
   void _startTimer() {
@@ -162,6 +175,7 @@ class _GameScreenState extends State<GameScreen> {
     final appState = Provider.of<AppState>(context);
     final currentWord = appState.currentWord;
     final answers = appState.answers;
+    final selectedTopics = appState.selectedTopics;
 
     Color background;
     switch (_tiltState) {
@@ -180,6 +194,7 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Stack(
           children: [
+            // Close-Button
             Positioned(
               top: 12,
               left: 12,
@@ -192,6 +207,8 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               ),
             ),
+
+            // Timer
             Positioned(
               top: 16,
               left: 0,
@@ -207,6 +224,33 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               ),
             ),
+
+            // Ausgewählte Topics als Chips
+            Positioned(
+              top: 60,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  children:
+                      selectedTopics.map((topic) {
+                        final raw = topic.labelKey.replaceFirst('topic', '');
+                        final displayLabel =
+                            raw.isNotEmpty
+                                ? raw[0].toUpperCase() + raw.substring(1)
+                                : raw;
+                        return Chip(
+                          label: Text(displayLabel),
+                          backgroundColor: Colors.white70,
+                        );
+                      }).toList(),
+                ),
+              ),
+            ),
+
+            // Aktuelles Wort
             Center(
               child: Text(
                 currentWord,
@@ -217,6 +261,8 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               ),
             ),
+
+            // Letzte 10 Antworten
             Positioned(
               bottom: 24,
               left: 0,
@@ -234,21 +280,24 @@ class _GameScreenState extends State<GameScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children:
-                        answers.takeLast(10).map((correct) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4.0,
-                            ),
-                            child: Container(
-                              width: 14,
-                              height: 14,
-                              decoration: BoxDecoration(
-                                color: correct ? Colors.green : Colors.red,
-                                shape: BoxShape.circle,
+                        answers
+                            .takeLast(10)
+                            .map(
+                              (correct) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4.0,
+                                ),
+                                child: Container(
+                                  width: 14,
+                                  height: 14,
+                                  decoration: BoxDecoration(
+                                    color: correct ? Colors.green : Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
                               ),
-                            ),
-                          );
-                        }).toList(),
+                            )
+                            .toList(),
                   ),
                 ),
               ),

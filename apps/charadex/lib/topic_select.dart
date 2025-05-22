@@ -18,22 +18,19 @@ class TopicSelectScreen extends StatefulWidget {
 
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
   final List<Topic> topics = [
-    Topic(imagePath: 'assets/topics/topic_car.png', labelKey: 'topicCars'),
+    Topic(imagePath: 'assets/topics/topic_car.png', labelKey: 'car'),
     Topic(
       imagePath: 'assets/topics/topic_geography.png',
-      labelKey: 'topicGeography',
+      labelKey: 'geography',
     ),
-    Topic(imagePath: 'assets/topics/topic_sport.png', labelKey: 'topicSports'),
-    Topic(imagePath: 'assets/topics/topic_party.png', labelKey: 'topicParty'),
-    Topic(imagePath: 'assets/topics/topic_film.png', labelKey: 'topicFilm'),
-    Topic(imagePath: 'assets/topics/topic_serien.png', labelKey: 'topicSeries'),
-    Topic(imagePath: 'assets/topics/topic_stars.png', labelKey: 'topicStars'),
-    Topic(
-      imagePath: 'assets/topics/topic_animal.png',
-      labelKey: 'topicAnimals',
-    ),
-    Topic(imagePath: 'assets/topics/topic_jobs.png', labelKey: 'topicJobs'),
-    Topic(imagePath: 'assets/topics/topic_music.png', labelKey: 'topicMusic'),
+    Topic(imagePath: 'assets/topics/topic_sport.png', labelKey: 'sport'),
+    Topic(imagePath: 'assets/topics/topic_party.png', labelKey: 'party'),
+    Topic(imagePath: 'assets/topics/topic_film.png', labelKey: 'film'),
+    Topic(imagePath: 'assets/topics/topic_serien.png', labelKey: 'series'),
+    Topic(imagePath: 'assets/topics/topic_stars.png', labelKey: 'stars'),
+    Topic(imagePath: 'assets/topics/topic_animal.png', labelKey: 'animal'),
+    Topic(imagePath: 'assets/topics/topic_jobs.png', labelKey: 'jobs'),
+    Topic(imagePath: 'assets/topics/topic_music.png', labelKey: 'music'),
   ];
 
   final Set<int> _selectedIndices = {};
