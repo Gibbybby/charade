@@ -4,7 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'app_state.dart';
 
-void main() {
+void main() async {
+  // Sicherstellen, dass Widgets und Binding bereit sind
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // AppState lädt beim Erzeugen automatisch SharedPreferences
   runApp(
     ChangeNotifierProvider(create: (_) => AppState(), child: const MyApp()),
   );
@@ -25,6 +29,9 @@ class MyApp extends StatelessWidget {
           locale: appState.locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
+
+          // Optional: Theme und weitere Einstellungen
+          theme: ThemeData(primarySwatch: Colors.orange),
 
           // Startscreen
           home: const CharadePartyHomePage(),
