@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:charadex/start_screen_animation.dart';
 import 'package:charadex/settings.dart';
 import 'package:charadex/topic_select.dart';
+import 'package:charadex/main_tutorial.dart';
 
 class CharadePartyHomePage extends StatefulWidget {
   const CharadePartyHomePage({Key? key}) : super(key: key);
@@ -66,23 +67,18 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
   }
 
   Future<void> _onStartGamePressed() async {
-    // Button-Feedback
     await _scaleController.reverse();
     await _scaleController.forward();
     await Future.delayed(const Duration(milliseconds: 100));
 
     if (!mounted) return;
 
-    // Erstelle plattformspezifische Route
     final Route route =
         Platform.isIOS
             ? CupertinoPageRoute(builder: (_) => const TopicSelectScreen())
             : MaterialPageRoute(builder: (_) => const TopicSelectScreen());
 
-    // Navigiere und entferne alle Routen bis zur ersten (StartScreen)
-    Navigator.of(
-      context,
-    ).pushAndRemoveUntil(route, (Route<dynamic> route) => route.isFirst);
+    Navigator.of(context).pushAndRemoveUntil(route, (route) => route.isFirst);
   }
 
   void _onSettingsPressed() {
@@ -91,9 +87,16 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
     ).push(MaterialPageRoute(builder: (_) => const SettingsScreen()));
   }
 
+  void _onTutorialPressed() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const MainTutorialPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: AnimatedBuilder(
         animation: _confettiController,
@@ -111,6 +114,20 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
               children: [
                 Positioned.fill(
                   child: CustomPaint(painter: ConfettiPainter(_confettiPieces)),
+                ),
+                Positioned(
+                  top: 40,
+                  left: 20,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.help_outline,
+                      color: Colors.white,
+                      size: 36,
+                    ),
+                    tooltip:
+                        loc.options, // You can add a separate key like "tooltipHelp"
+                    onPressed: _onTutorialPressed,
+                  ),
                 ),
                 Positioned(
                   top: 40,
@@ -143,6 +160,7 @@ class _CharadePartyHomePageState extends State<CharadePartyHomePage>
                             Image.asset(
                               'assets/images/startscreen_title.png',
                               width: 250,
+                              semanticLabel: loc.title,
                             ),
                           ],
                         ),

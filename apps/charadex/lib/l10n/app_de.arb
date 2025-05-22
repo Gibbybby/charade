@@ -3,51 +3,42 @@
   "@title": {
     "description": "App title on the home screen"
   },
-
   "play": "Spielen",
   "@play": {
     "description": "Button text to start the game"
   },
-
   "options": "Optionen",
   "@options": {
     "description": "Button text for settings"
   },
-
   "start": "START",
   "@start": {
     "description": "Text shown when countdown finishes"
   },
-
   "goodJob": "Gut gemacht",
   "@goodJob": {
     "description": "Text shown for a successful round"
   },
-
   "results": "{correctCount} richtig – {wrongCount} falsch",
   "@results": {
     "description": "Summary of correct and wrong answers",
     "placeholders": {
       "correctCount": { "type": "Object" },
-      "wrongCount":   { "type": "Object" }
+      "wrongCount": { "type": "Object" }
     }
   },
-
   "backToSelection": "Zurück zur Auswahl",
   "@backToSelection": {
     "description": "Button text to go back to topic selection"
   },
-
   "settings": "Einstellungen",
   "@settings": {
     "description": "Title of the settings screen"
   },
-
   "languageLabel": "Sprache",
   "@languageLabel": {
     "description": "Label above language dropdown"
   },
-
   "languageGerman": "Deutsch",
   "@languageGerman": {
     "description": "German language option"
@@ -68,17 +59,14 @@
   "@languageChinese": {
     "description": "Chinese language option"
   },
-
   "timerLabel": "Timer (Sekunden)",
   "@timerLabel": {
     "description": "Label above the timer slider"
   },
-
   "secondsAbbr": "s",
   "@secondsAbbr": {
     "description": "Abbreviation for seconds"
   },
-
   "currentTimer": "Aktueller Timer: {seconds} Sekunden",
   "@currentTimer": {
     "description": "Text showing the current timer value",
@@ -86,12 +74,10 @@
       "seconds": { "type": "Object" }
     }
   },
-
   "startGame": "Spiel starten",
   "@startGame": {
     "description": "Button text to start the game from home screen"
   },
-
   "topicCars": "Autos",
   "@topicCars": {
     "description": "Topic: Cars"
@@ -131,5 +117,61 @@
   "topicMusic": "Musik",
   "@topicMusic": {
     "description": "Topic: Music"
+  },
+  "tutorialTitle": "Spielanleitung",
+  "@tutorialTitle": {
+    "description": "Title of the tutorial screen"
+  },
+  "tutorialText": "1. iPhone waagerecht an die Stirn halten (Display zeigt weg).\n\n2. Mitspieler liest und erklärt das Wort pantomimisch oder umschreibend.\n\n3. Nach unten kippen = richtig, nach oben kippen = falsch/überspringen.\n\n4. Wenn das nächste Wort nicht angezeigt wird, iPhone wieder waagerecht halten. (Display zeigt weg)",
+  "@tutorialText": {
+    "description": "Instructional steps for the game tutorial"
+  },
+  "done": "Fertig",
+  "@done": {
+    "description": "Text for the 'Done' button in pickers or dialogs"
+  },
+  "selectTopics": "Kategorien wählen",
+  "@selectTopics": {
+    "description": "Title shown above the topic selection screen"
+  },
+  "tutorialInstruction": "Halte dein iPhone an die Stirn und kippe es nach vorne, um zu starten!",
+  "@tutorialInstruction": {
+    "description": "Instruction shown in the tutorial center text"
+  },
+  "tiltDown": "Nach unten kippen",
+  "@tiltDown": {
+    "description": "Instruction text for tilt down"
+  },
+  "forTrue": "für richtig",
+  "@forTrue": {
+    "description": "Text under tilt down icon"
+  },
+  "tiltUp": "Nach oben kippen",
+  "@tiltUp": {
+    "description": "Instruction text for tilt up"
+  },
+  "forFalse": "für falsch",
+  "@forFalse": {
+    "description": "Text under tilt up icon"
+  },
+  "topic": "Kategorie",
+  "@topic": {
+    "description": "Label for a single topic"
+  },
+  "moreApps": "Weitere Gratis-Apps von uns",
+  "@moreApps": {
+    "description": "Header for section listing other apps by the developer"
+  },
+  "appPartyBombSubtitle": "Das explosive Spiel!",
+  "@appPartyBombSubtitle": {
+    "description": "Subtitle for the Party Bomb app"
+  },
+  "appImposterSubtitle": "Vertraue niemandem!",
+  "@appImposterSubtitle": {
+    "description": "Subtitle for the Imposter game"
+  },
+  "appPikaPikaSubtitle": "Dein Entscheidungshelfer!",
+  "@appPikaPikaSubtitle": {
+    "description": "Subtitle for the PikaPika decision app"
   }
 }

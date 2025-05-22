@@ -104,9 +104,9 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                         ).setTimer(seconds);
                         Navigator.of(context).pop();
                       },
-                      child: const Text(
-                        'Fertig',
-                        style: TextStyle(
+                      child: Text(
+                        "save",
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
@@ -200,7 +200,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          'Topics',
+                          loc.topic,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 28,
@@ -348,9 +348,9 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                                   _selectedIndices.isNotEmpty
                                       ? () => _onStartPressed(context)
                                       : null,
-                              child: const Text(
-                                'Start',
-                                style: TextStyle(
+                              child: Text(
+                                loc.start,
+                                style: const TextStyle(
                                   color: Color(0xFFFF5F8D),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -365,9 +365,9 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                                   _selectedIndices.isNotEmpty
                                       ? Colors.white
                                       : Colors.white.withOpacity(0.2),
-                              label: const Text(
-                                'Start',
-                                style: TextStyle(
+                              label: Text(
+                                loc.start,
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFFFF5F8D),

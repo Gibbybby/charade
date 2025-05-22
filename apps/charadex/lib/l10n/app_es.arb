@@ -1,83 +1,177 @@
 {
   "title": "Charadex",
-  "@title": { "description": "App title on the home screen" },
-
+  "@title": {
+    "description": "Título de la app en la pantalla de inicio"
+  },
   "play": "Jugar",
-  "@play": { "description": "Button text to start the game" },
-
+  "@play": {
+    "description": "Texto del botón para comenzar el juego"
+  },
   "options": "Opciones",
-  "@options": { "description": "Button text for settings" },
-
-  "start": "EMPEZAR",
-  "@start": { "description": "Text shown when countdown finishes" },
-
-  "goodJob": "¡Buen trabajo!",
-  "@goodJob": { "description": "Text shown for a successful round" },
-
-  "results": "{correctCount} correctos – {wrongCount} incorrectos",
+  "@options": {
+    "description": "Texto del botón para la configuración"
+  },
+  "start": "¡COMIENZA!",
+  "@start": {
+    "description": "Texto que aparece cuando termina la cuenta regresiva"
+  },
+  "goodJob": "¡Bien hecho!",
+  "@goodJob": {
+    "description": "Texto mostrado tras una ronda exitosa"
+  },
+  "results": "{correctCount} correctas – {wrongCount} incorrectas",
   "@results": {
-    "description": "Summary of correct and wrong answers",
+    "description": "Resumen de respuestas correctas e incorrectas",
     "placeholders": {
       "correctCount": { "type": "Object" },
-      "wrongCount":   { "type": "Object" }
+      "wrongCount": { "type": "Object" }
     }
   },
-
   "backToSelection": "Volver a la selección",
-  "@backToSelection": { "description": "Button text to go back to topic selection" },
-
+  "@backToSelection": {
+    "description": "Texto del botón para volver a elegir categoría"
+  },
   "settings": "Configuración",
-  "@settings": { "description": "Title of the settings screen" },
-
+  "@settings": {
+    "description": "Título de la pantalla de configuración"
+  },
   "languageLabel": "Idioma",
-  "@languageLabel": { "description": "Label above language dropdown" },
-
+  "@languageLabel": {
+    "description": "Etiqueta sobre el menú desplegable de idiomas"
+  },
   "languageGerman": "Alemán",
-  "@languageGerman": { "description": "German language option" },
+  "@languageGerman": {
+    "description": "Opción de idioma: alemán"
+  },
   "languageEnglish": "Inglés",
-  "@languageEnglish": { "description": "English language option" },
+  "@languageEnglish": {
+    "description": "Opción de idioma: inglés"
+  },
   "languageCroatian": "Croata",
-  "@languageCroatian": { "description": "Croatian language option" },
+  "@languageCroatian": {
+    "description": "Opción de idioma: croata"
+  },
   "languageSpanish": "Español",
-  "@languageSpanish": { "description": "Spanish language option" },
+  "@languageSpanish": {
+    "description": "Opción de idioma: español"
+  },
   "languageChinese": "Chino",
-  "@languageChinese": { "description": "Chinese language option" },
-
+  "@languageChinese": {
+    "description": "Opción de idioma: chino"
+  },
   "timerLabel": "Temporizador (segundos)",
-  "@timerLabel": { "description": "Label above the timer slider" },
-
+  "@timerLabel": {
+    "description": "Etiqueta encima del control deslizante del temporizador"
+  },
   "secondsAbbr": "s",
-  "@secondsAbbr": { "description": "Abbreviation for seconds" },
-
+  "@secondsAbbr": {
+    "description": "Abreviatura de segundos"
+  },
   "currentTimer": "Temporizador actual: {seconds} segundos",
   "@currentTimer": {
-    "description": "Text showing the current timer value",
+    "description": "Texto que muestra el valor actual del temporizador",
     "placeholders": {
       "seconds": { "type": "Object" }
     }
   },
-
-  "startGame": "Iniciar Juego",
-  "@startGame": { "description": "Button text to start the game from home screen" },
-
+  "startGame": "Comenzar juego",
+  "@startGame": {
+    "description": "Texto del botón para comenzar desde la pantalla de inicio"
+  },
   "topicCars": "Coches",
-  "@topicCars": { "description": "Topic: Cars" },
+  "@topicCars": {
+    "description": "Tema: coches"
+  },
   "topicGeography": "Geografía",
-  "@topicGeography": { "description": "Topic: Geography" },
+  "@topicGeography": {
+    "description": "Tema: geografía"
+  },
   "topicSports": "Deportes",
-  "@topicSports": { "description": "Topic: Sports" },
+  "@topicSports": {
+    "description": "Tema: deportes"
+  },
   "topicParty": "Fiesta",
-  "@topicParty": { "description": "Topic: Party" },
-  "topicFilm": "Cine",
-  "@topicFilm": { "description": "Topic: Film" },
+  "@topicParty": {
+    "description": "Tema: fiesta"
+  },
+  "topicFilm": "Películas",
+  "@topicFilm": {
+    "description": "Tema: películas"
+  },
   "topicSeries": "Series",
-  "@topicSeries": { "description": "Topic: Series" },
-  "topicStars": "Estrellas",
-  "@topicStars": { "description": "Topic: Stars" },
+  "@topicSeries": {
+    "description": "Tema: series"
+  },
+  "topicStars": "Famosos",
+  "@topicStars": {
+    "description": "Tema: celebridades"
+  },
   "topicAnimals": "Animales",
-  "@topicAnimals": { "description": "Topic: Animals" },
-  "topicJobs": "Profesiones",
-  "@topicJobs": { "description": "Topic: Jobs" },
+  "@topicAnimals": {
+    "description": "Tema: animales"
+  },
+  "topicJobs": "Trabajos",
+  "@topicJobs": {
+    "description": "Tema: trabajos"
+  },
   "topicMusic": "Música",
-  "@topicMusic": { "description": "Topic: Music" }
+  "@topicMusic": {
+    "description": "Tema: música"
+  },
+  "tutorialTitle": "Cómo jugar",
+  "@tutorialTitle": {
+    "description": "Título de la pantalla de tutorial"
+  },
+  "tutorialText": "1. Sostén el iPhone horizontalmente en tu frente (pantalla hacia afuera).\n\n2. Un compañero actúa o describe la palabra.\n\n3. Inclina hacia abajo = correcto, hacia arriba = incorrecto / saltar.\n\n4. Si no aparece la siguiente palabra, vuelve a poner el iPhone horizontal.",
+  "@tutorialText": {
+    "description": "Pasos para jugar"
+  },
+  "done": "Hecho",
+  "@done": {
+    "description": "Texto para el botón de 'Hecho' en selectores o diálogos"
+  },
+  "selectTopics": "Elegir categorías",
+  "@selectTopics": {
+    "description": "Título en la pantalla de selección de temas"
+  },
+  "tutorialInstruction": "Sostén tu iPhone en la frente e inclínalo hacia adelante para comenzar.",
+  "@tutorialInstruction": {
+    "description": "Instrucción mostrada en el tutorial"
+  },
+  "tiltDown": "Inclinar hacia abajo",
+  "@tiltDown": {
+    "description": "Instrucción para inclinar hacia abajo"
+  },
+  "forTrue": "para correcto",
+  "@forTrue": {
+    "description": "Texto bajo el icono de inclinar hacia abajo"
+  },
+  "tiltUp": "Inclinar hacia arriba",
+  "@tiltUp": {
+    "description": "Instrucción para inclinar hacia arriba"
+  },
+  "forFalse": "para incorrecto",
+  "@forFalse": {
+    "description": "Texto bajo el icono de inclinar hacia arriba"
+  },
+  "topic": "Categoría",
+  "@topic": {
+    "description": "Etiqueta para una sola categoría"
+  },
+  "moreApps": "Más apps gratuitas de nosotros",
+  "@moreApps": {
+    "description": "Encabezado para sección de otras apps del desarrollador"
+  },
+  "appPartyBombSubtitle": "¡El juego explosivo!",
+  "@appPartyBombSubtitle": {
+    "description": "Subtítulo para la app Party Bomb"
+  },
+  "appImposterSubtitle": "¡No confíes en nadie!",
+  "@appImposterSubtitle": {
+    "description": "Subtítulo para la app Imposter"
+  },
+  "appPikaPikaSubtitle": "¡Tu ayudante de decisiones!",
+  "@appPikaPikaSubtitle": {
+    "description": "Subtítulo para la app PikaPika"
+  }
 }

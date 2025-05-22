@@ -1,83 +1,177 @@
 {
   "title": "Charadex",
-  "@title": { "description": "App title on the home screen" },
-
-  "play": "玩",
-  "@play": { "description": "Button text to start the game" },
-
+  "@title": {
+    "description": "应用首页标题"
+  },
+  "play": "开始游戏",
+  "@play": {
+    "description": "开始游戏按钮文本"
+  },
   "options": "选项",
-  "@options": { "description": "Button text for settings" },
-
-  "start": "开始",
-  "@start": { "description": "Text shown when countdown finishes" },
-
-  "goodJob": "干得好",
-  "@goodJob": { "description": "Text shown for a successful round" },
-
+  "@options": {
+    "description": "设置按钮文本"
+  },
+  "start": "开始！",
+  "@start": {
+    "description": "倒计时结束时显示的文本"
+  },
+  "goodJob": "干得好！",
+  "@goodJob": {
+    "description": "成功回合后显示的文本"
+  },
   "results": "{correctCount} 正确 – {wrongCount} 错误",
   "@results": {
-    "description": "Summary of correct and wrong answers",
+    "description": "正确和错误答案的摘要",
     "placeholders": {
       "correctCount": { "type": "Object" },
-      "wrongCount":   { "type": "Object" }
+      "wrongCount": { "type": "Object" }
     }
   },
-
   "backToSelection": "返回选择",
-  "@backToSelection": { "description": "Button text to go back to topic selection" },
-
+  "@backToSelection": {
+    "description": "返回主题选择的按钮文本"
+  },
   "settings": "设置",
-  "@settings": { "description": "Title of the settings screen" },
-
+  "@settings": {
+    "description": "设置页面标题"
+  },
   "languageLabel": "语言",
-  "@languageLabel": { "description": "Label above language dropdown" },
-
+  "@languageLabel": {
+    "description": "语言选择下拉菜单上方的标签"
+  },
   "languageGerman": "德语",
-  "@languageGerman": { "description": "German language option" },
+  "@languageGerman": {
+    "description": "语言选项：德语"
+  },
   "languageEnglish": "英语",
-  "@languageEnglish": { "description": "English language option" },
+  "@languageEnglish": {
+    "description": "语言选项：英语"
+  },
   "languageCroatian": "克罗地亚语",
-  "@languageCroatian": { "description": "Croatian language option" },
+  "@languageCroatian": {
+    "description": "语言选项：克罗地亚语"
+  },
   "languageSpanish": "西班牙语",
-  "@languageSpanish": { "description": "Spanish language option" },
+  "@languageSpanish": {
+    "description": "语言选项：西班牙语"
+  },
   "languageChinese": "中文",
-  "@languageChinese": { "description": "Chinese language option" },
-
+  "@languageChinese": {
+    "description": "语言选项：中文"
+  },
   "timerLabel": "计时器（秒）",
-  "@timerLabel": { "description": "Label above the timer slider" },
-
+  "@timerLabel": {
+    "description": "计时器滑块上方的标签"
+  },
   "secondsAbbr": "秒",
-  "@secondsAbbr": { "description": "Abbreviation for seconds" },
-
+  "@secondsAbbr": {
+    "description": "“秒”的缩写"
+  },
   "currentTimer": "当前计时器：{seconds} 秒",
   "@currentTimer": {
-    "description": "Text showing the current timer value",
+    "description": "显示当前计时器值的文本",
     "placeholders": {
       "seconds": { "type": "Object" }
     }
   },
-
   "startGame": "开始游戏",
-  "@startGame": { "description": "Button text to start the game from home screen" },
-
+  "@startGame": {
+    "description": "从首页开始游戏的按钮文本"
+  },
   "topicCars": "汽车",
-  "@topicCars": { "description": "Topic: Cars" },
+  "@topicCars": {
+    "description": "主题：汽车"
+  },
   "topicGeography": "地理",
-  "@topicGeography": { "description": "Topic: Geography" },
+  "@topicGeography": {
+    "description": "主题：地理"
+  },
   "topicSports": "体育",
-  "@topicSports": { "description": "Topic: Sports" },
+  "@topicSports": {
+    "description": "主题：体育"
+  },
   "topicParty": "派对",
-  "@topicParty": { "description": "Topic: Party" },
+  "@topicParty": {
+    "description": "主题：派对"
+  },
   "topicFilm": "电影",
-  "@topicFilm": { "description": "Topic: Film" },
-  "topicSeries": "系列",
-  "@topicSeries": { "description": "Topic: Series" },
+  "@topicFilm": {
+    "description": "主题：电影"
+  },
+  "topicSeries": "剧集",
+  "@topicSeries": {
+    "description": "主题：剧集"
+  },
   "topicStars": "明星",
-  "@topicStars": { "description": "Topic: Stars" },
+  "@topicStars": {
+    "description": "主题：明星"
+  },
   "topicAnimals": "动物",
-  "@topicAnimals": { "description": "Topic: Animals" },
+  "@topicAnimals": {
+    "description": "主题：动物"
+  },
   "topicJobs": "职业",
-  "@topicJobs": { "description": "Topic: Jobs" },
+  "@topicJobs": {
+    "description": "主题：职业"
+  },
   "topicMusic": "音乐",
-  "@topicMusic": { "description": "Topic: Music" }
+  "@topicMusic": {
+    "description": "主题：音乐"
+  },
+  "tutorialTitle": "游戏说明",
+  "@tutorialTitle": {
+    "description": "教程页面标题"
+  },
+  "tutorialText": "1. 将 iPhone 横向放在额头前（屏幕朝外）。\n\n2. 队友表演或描述单词。\n\n3. 向下倾斜 = 正确，向上倾斜 = 错误 / 跳过。\n\n4. 如果没有出现下一个单词，请重新将 iPhone 横向放回（屏幕朝外）。",
+  "@tutorialText": {
+    "description": "游戏操作步骤"
+  },
+  "done": "完成",
+  "@done": {
+    "description": "选择器或对话框中的“完成”按钮"
+  },
+  "selectTopics": "选择分类",
+  "@selectTopics": {
+    "description": "主题选择页面上的标题"
+  },
+  "tutorialInstruction": "将 iPhone 放在额头上，向下倾斜以开始游戏！",
+  "@tutorialInstruction": {
+    "description": "教程中心文本"
+  },
+  "tiltDown": "向下倾斜",
+  "@tiltDown": {
+    "description": "“向下倾斜”的提示"
+  },
+  "forTrue": "表示正确",
+  "@forTrue": {
+    "description": "正确图标下的文字"
+  },
+  "tiltUp": "向上倾斜",
+  "@tiltUp": {
+    "description": "“向上倾斜”的提示"
+  },
+  "forFalse": "表示错误",
+  "@forFalse": {
+    "description": "错误图标下的文字"
+  },
+  "topic": "分类",
+  "@topic": {
+    "description": "单个分类的标签"
+  },
+  "moreApps": "我们的更多免费应用",
+  "@moreApps": {
+    "description": "开发者其他应用展示部分标题"
+  },
+  "appPartyBombSubtitle": "爆炸性的游戏！",
+  "@appPartyBombSubtitle": {
+    "description": "Party Bomb 应用的副标题"
+  },
+  "appImposterSubtitle": "不要相信任何人！",
+  "@appImposterSubtitle": {
+    "description": "Imposter 应用的副标题"
+  },
+  "appPikaPikaSubtitle": "你的决定助手！",
+  "@appPikaPikaSubtitle": {
+    "description": "PikaPika 应用的副标题"
+  }
 }

@@ -12,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
   Future<void> _openLink(String url) async {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      // Fehlerbehandlung, falls nötig
+      // Handle error if needed
     }
   }
 
@@ -67,7 +67,7 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Sprache
+              // Language
               _buildCard(
                 context,
                 icon: Icons.language,
@@ -137,31 +137,31 @@ class SettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Box: Weitere Gratis-Apps von uns mit drei Einträgen
+              // More Free Apps Section
               _buildCard(
                 context,
                 icon: Icons.apps,
-                title: 'Weitere Gratis-Apps von uns',
+                title: loc.moreApps,
                 child: Column(
                   children: [
                     _appEntry(
                       asset: 'assets/icons/partybomb.png',
                       title: 'PartyBomb',
-                      subtitle: 'Das Explosive Spiel!',
+                      subtitle: loc.appPartyBombSubtitle,
                       link:
                           'https://apps.apple.com/app/apple-store/id6746101066?pt=126797007&ct=GuessUp&mt=8',
                     ),
                     _appEntry(
                       asset: 'assets/icons/imposter.png',
                       title: 'Imposter',
-                      subtitle: 'Traue keinem!',
+                      subtitle: loc.appImposterSubtitle,
                       link:
                           'https://apps.apple.com/app/apple-store/id6745120053?pt=126797007&ct=GuessUp&mt=8',
                     ),
                     _appEntry(
                       asset: 'assets/icons/pikapika.png',
                       title: 'PikaPika',
-                      subtitle: 'Der Entscheidungshelfer!',
+                      subtitle: loc.appPikaPikaSubtitle,
                       link:
                           'https://apps.apple.com/app/apple-store/id6744726904?pt=126797007&ct=GuessUp&mt=8',
                     ),
@@ -239,6 +239,7 @@ class SettingsScreen extends StatelessWidget {
     AppState appState,
     String Function(String) displayName,
   ) {
+    final loc = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -250,11 +251,11 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
-                  'Sprache',
-                  style: TextStyle(
+                  loc.languageLabel,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

@@ -47,11 +47,11 @@ keywords({
 
 # TODO uncomment on second release
 release_notes({
-  'default' => "Brand new charades game! Play with friends, laugh together, and enjoy countless categories.",
-  'de-DE' => "Neues Charade-Spiel! Spiele mit Freunden, lache gemeinsam und entdecke viele neue Kategorien.",
-  'es-ES' => "¡Nuevo juego de charadas! Juega con amigos, ríe sin parar y explora muchas categorías divertidas.",
-  'hr' => "Nova igra pantomime! Igraj s prijateljima, smij se i uživaj u brojnim kategorijama.",
-  'zh-Hans' => "全新猜词游戏上线！和朋友一起欢笑、畅玩，体验多种趣味分类！"
+  'default' => "Bug fixes and stability improvements. Added a step-by-step tutorial to guide new users through the app’s features and onboarding process.",
+  'de-DE'   => "Fehlerbehebungen und Stabilitätsverbesserungen. Schritt-für-Schritt-Tutorial hinzugefügt, das neue Nutzer durch alle Funktionen und das Onboarding führt.",
+  'es-ES'   => "Corrección de errores y mejoras de estabilidad. Añadido un tutorial paso a paso para guiar a los nuevos usuarios a través de las funcionalidades de la app y el proceso de incorporación.",
+  'hr'      => "Ispravljeni bugovi i poboljšana stabilnost. Dodan detaljan vodič korak po korak koji nove korisnike vodi kroz značajke aplikacije i proces pokretanja.",
+  'zh-Hans' => "修复了已知问题并提升了稳定性。新增循序渐进教程，引导新用户了解应用功能和使用流程。"
 })
 
 privacy_url({
