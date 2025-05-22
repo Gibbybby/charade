@@ -5,10 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/topic.dart';
-import '../countdown.dart';
 import '../app_state.dart';
-// Import für deinen Start Screen
 import '../start_screen.dart';
+import 'tutorial.dart';
 
 class TopicSelectScreen extends StatefulWidget {
   const TopicSelectScreen({Key? key}) : super(key: key);
@@ -66,12 +65,9 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
       listen: false,
     ).setSelectedTopics(selectedTopics);
 
-    final route =
-        Platform.isIOS
-            ? CupertinoPageRoute(builder: (_) => const Countdown())
-            : MaterialPageRoute(builder: (_) => const Countdown());
-
-    Navigator.of(context).push(route);
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const Tutorial()));
   }
 
   void _showTimerPicker(BuildContext context) {
@@ -154,7 +150,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     );
   }
 
-  // Gemeinsame Logik für zurück: pushAndRemoveUntil zur StartScreen
   Future<bool> _onWillPop() async {
     final backRoute =
         Platform.isIOS
@@ -183,7 +178,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
           child: SafeArea(
             child: Column(
               children: [
-                // Header mit adaptivem Back-Button
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -243,7 +237,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                     ],
                   ),
                 ),
-                // Grid mit Topics
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -339,7 +332,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                     ),
                   ),
                 ),
-                // Start-Button
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: SizedBox(
