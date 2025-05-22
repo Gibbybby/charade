@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:vibration/vibration.dart';
 
 import '../app_state.dart';
 import 'game_over.dart';
-import 'topic_select.dart'; // für Navigation zurück
+import 'topic_select.dart';
 
 enum TiltState { none, up, down }
 
@@ -22,6 +24,8 @@ class _GameScreenState extends State<GameScreen> {
   Timer? _timer;
   int _secondsRemaining = 0;
   TiltState _tiltState = TiltState.none;
+  TiltState _lastTiltPlayed = TiltState.none;
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -77,10 +81,24 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void _onTilt(TiltState state, bool correct) {
+  void _onTilt(TiltState state, bool correct) async {
     setState(() => _tiltState = state);
     final appState = Provider.of<AppState>(context, listen: false);
     appState.recordAnswer(correct);
+
+    if (_lastTiltPlayed != state) {
+      _lastTiltPlayed = state;
+
+      // Vibration
+      if (await Vibration.hasVibrator() ?? false) {
+        Vibration.vibrate(duration: 50);
+      }
+
+      // Sound
+      final soundPath =
+          correct ? 'assets/sounds/ding.mp3' : 'assets/sounds/buzz.mp3';
+      await _audioPlayer.play(AssetSource(soundPath));
+    }
   }
 
   void _onReturnToCenter() {
@@ -89,13 +107,16 @@ class _GameScreenState extends State<GameScreen> {
     appState.nextWord();
   }
 
-  void _goToGameOver() {
+  Future<void> _goToGameOver() async {
     _timer?.cancel();
     _accelSub?.cancel();
+    await _audioPlayer.play(AssetSource('assets/sounds/finish.mp3'));
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     Future.delayed(const Duration(milliseconds: 50), () {
       if (mounted) {
         Navigator.pushReplacement(
@@ -128,6 +149,7 @@ class _GameScreenState extends State<GameScreen> {
   void dispose() {
     _timer?.cancel();
     _accelSub?.cancel();
+    _audioPlayer.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -201,7 +223,7 @@ class _GameScreenState extends State<GameScreen> {
               ),
             ),
 
-            // Punkteanzeige unten mit schwarzem Container
+            // Punkteanzeige unten
             Positioned(
               bottom: 24,
               left: 0,
@@ -245,7 +267,6 @@ class _GameScreenState extends State<GameScreen> {
   }
 }
 
-// Falls du Dart < 3.1 hast, füge am Ende diese Extension hinzu:
 extension TakeLast<T> on List<T> {
   Iterable<T> takeLast(int n) => length <= n ? this : skip(length - n);
 }
