@@ -175,7 +175,6 @@ class _GameScreenState extends State<GameScreen> {
     final appState = Provider.of<AppState>(context);
     final currentWord = appState.currentWord;
     final answers = appState.answers;
-    final selectedTopics = appState.selectedTopics;
 
     Color background;
     switch (_tiltState) {
@@ -221,31 +220,6 @@ class _GameScreenState extends State<GameScreen> {
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
-                ),
-              ),
-            ),
-
-            // Ausgewählte Topics als Chips
-            Positioned(
-              top: 60,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 4,
-                  children:
-                      selectedTopics.map((topic) {
-                        final raw = topic.labelKey.replaceFirst('topic', '');
-                        final displayLabel =
-                            raw.isNotEmpty
-                                ? raw[0].toUpperCase() + raw.substring(1)
-                                : raw;
-                        return Chip(
-                          label: Text(displayLabel),
-                          backgroundColor: Colors.white70,
-                        );
-                      }).toList(),
                 ),
               ),
             ),
