@@ -33,38 +33,38 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     ),
     Topic(
       imagePath: 'assets/topics/topic_party.png',
-      label: 'Sports',
-      words: ['topic_party', 'topic_party', 'topic_party'],
+      label: 'Party',
+      words: ['topic_party'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_film.png',
-      label: 'Sports',
-      words: ['topic_film', 'topic_film', 'topic_film'],
+      label: 'Film',
+      words: ['topic_film'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_serien.png',
-      label: 'Sports',
-      words: ['topic_serien', 'topic_serien', 'topic_serien'],
+      label: 'Series',
+      words: ['topic_serien'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_stars.png',
-      label: 'Sports',
-      words: ['topic_stars', 'topic_stars', 'topic_stars'],
+      label: 'Stars',
+      words: ['topic_stars'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_animal.png',
-      label: 'Sports',
-      words: ['topic_animal', 'topic_animal', 'topic_animal'],
+      label: 'Animals',
+      words: ['topic_animal'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_jobs.png',
-      label: 'Sports',
-      words: ['topic_jobs', 'topic_jobs', 'topic_jobs'],
+      label: 'Jobs',
+      words: ['topic_jobs'],
     ),
     Topic(
       imagePath: 'assets/topics/topic_music.png',
-      label: 'Sports',
-      words: ['topic_music', 'topic_music', 'topic_music'],
+      label: 'Music',
+      words: ['topic_music'],
     ),
   ];
 
@@ -73,7 +73,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   @override
   void initState() {
     super.initState();
-
     final selectedTopics =
         Provider.of<AppState>(context, listen: false).selectedTopics;
     for (int i = 0; i < topics.length; i++) {
@@ -96,7 +95,6 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   void _onStartPressed(BuildContext context) {
     final selectedTopics =
         _selectedIndices.map((index) => topics[index]).toList();
-
     Provider.of<AppState>(
       context,
       listen: false,
@@ -107,6 +105,69 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
             ? CupertinoPageRoute(builder: (_) => const Countdown())
             : MaterialPageRoute(builder: (_) => const Countdown());
     Navigator.of(context).push(route);
+  }
+
+  void _showTimerPicker(BuildContext context) {
+    final currentSeconds =
+        Provider.of<AppState>(context, listen: false).timerSeconds;
+    int selected = (currentSeconds / 5).round().clamp(1, 24); // 5–120 Sekunden
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 300,
+          color: Colors.white,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8, right: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CupertinoButton(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      onPressed: () {
+                        Provider.of<AppState>(
+                          context,
+                          listen: false,
+                        ).setTimer(selected * 5);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        'Fertig',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                    initialItem: selected - 1,
+                  ),
+                  itemExtent: 36.0,
+                  onSelectedItemChanged: (int index) {
+                    selected = index + 1;
+                  },
+                  children: List<Widget>.generate(24, (int index) {
+                    final seconds = (index + 1) * 5;
+                    return Center(child: Text('$seconds Sekunden'));
+                  }),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -160,7 +221,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 48),
+                      IconButton(
+                        icon: const Icon(Icons.timer, color: Colors.white),
+                        onPressed: () => _showTimerPicker(context),
+                      ),
                     ],
                   ),
                 ),

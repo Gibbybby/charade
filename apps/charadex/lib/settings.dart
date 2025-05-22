@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'app_state.dart'; // Achte darauf, dass der Pfad stimmt
+import 'app_state.dart'; // Achte darauf, dass der Pfad korrekt ist
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -10,6 +10,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
+    final sliderValue = appState.timerSeconds.clamp(10, 120).toDouble();
 
     return Scaffold(
       appBar: AppBar(
@@ -50,11 +51,11 @@ class SettingsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Slider(
-              value: appState.timerSeconds.toDouble(),
+              value: sliderValue,
               min: 10,
               max: 120,
               divisions: 11,
-              label: '${appState.timerSeconds} s',
+              label: '${sliderValue.round()} s',
               onChanged: (newValue) {
                 appState.setTimer(newValue.round());
               },
