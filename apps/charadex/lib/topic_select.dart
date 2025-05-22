@@ -3,9 +3,6 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:charadex/app_state.dart';
-import 'package:charadex/translations.dart';
 import 'countdown.dart';
 
 class Topic {
@@ -25,15 +22,12 @@ class TopicSelectScreen extends StatefulWidget {
 
 class _TopicSelectScreenState extends State<TopicSelectScreen> {
   final Set<int> _selectedIndices = {};
-  int _timerLength = 60;
   List<Topic> _topics = [];
 
   static const Map<String, String> _imageMap = {
     'Autos': 'assets/topics/topic_car.png',
     'Geografie': 'assets/topics/topic_geography.png',
     'Sport': 'assets/topics/topic_sport.png',
-    // 'Rund um Sex': 'assets/topics/topic_sex.png',
-    // 'Drogen': 'assets/topics/topic_drugs.png',
     'Party': 'assets/topics/topic_party.png',
     'Film': 'assets/topics/topic_film.png',
     'Serien': 'assets/topics/topic_serien.png',
@@ -47,11 +41,10 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
   void initState() {
     super.initState();
     _loadTopicsFromJson();
-    _loadSavedTimer();
   }
 
   Future<void> _loadTopicsFromJson() async {
-    final langCode = AppState.getLanguageCode();
+    const langCode = 'de'; // Feste Spracheinstellung
     final jsonString = await rootBundle.loadString(
       'assets/charades_topics_$langCode.json',
     );
@@ -59,15 +52,11 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     final loaded = <Topic>[];
 
     jsonMap.forEach((label, list) {
-      if (label == 'Drogen' || label == 'Rund um Sex')
-        return; // überspringe diese Topics
+      if (label == 'Drogen' || label == 'Rund um Sex') return;
 
       final words = List<String>.from(list as List);
       final imagePath = _imageMap[label] ?? 'assets/topics/default.png';
-      final translatedLabel = Translations.topicLabel(label);
-      loaded.add(
-        Topic(imagePath: imagePath, label: translatedLabel, words: words),
-      );
+      loaded.add(Topic(imagePath: imagePath, label: label, words: words));
     });
 
     setState(() {
@@ -75,130 +64,11 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
     });
   }
 
-  Future<void> _loadSavedTimer() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _timerLength = prefs.getInt('timer_length') ?? 60;
-    });
-  }
-
-  Future<void> _saveTimer(int value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('timer_length', value);
-  }
-
-  void _showTimerPicker() {
-    if (Platform.isIOS) {
-      int selected = _timerLength;
-
-      showCupertinoModalPopup(
-        context: context,
-        builder:
-            (_) => Container(
-              height: 300,
-              color: CupertinoColors.systemBackground.resolveFrom(context),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: CupertinoPicker(
-                      scrollController: FixedExtentScrollController(
-                        initialItem: selected - 10,
-                      ),
-                      itemExtent: 32.0,
-                      onSelectedItemChanged: (int index) {
-                        selected = index + 10;
-                      },
-                      children: List<Widget>.generate(111, (int index) {
-                        final seconds = index + 10;
-                        return Center(child: Text('$seconds s'));
-                      }),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: CupertinoButton(
-                      child: Text(Translations.t('ok')),
-                      onPressed: () {
-                        setState(() => _timerLength = selected);
-                        _saveTimer(selected);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-      );
-    } else {
-      double temp = _timerLength.toDouble();
-      showDialog(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              return AlertDialog(
-                title: Text(Translations.t('timer_title')),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      Translations.t(
-                        'seconds',
-                        params: {'value': temp.toInt().toString()},
-                      ),
-                    ),
-                    Slider(
-                      min: 10,
-                      max: 120,
-                      value: temp,
-                      divisions: 110,
-                      label: '${temp.toInt()}',
-                      onChanged: (val) => setState(() => temp = val),
-                    ),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(Translations.t('cancel')),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() => _timerLength = temp.toInt());
-                      _saveTimer(temp.toInt());
-                      Navigator.pop(context);
-                    },
-                    child: Text(Translations.t('ok')),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-      );
-    }
-  }
-
   void _onStartPressed() {
-    final selectedWords =
-        _selectedIndices.map((i) => _topics[i].words).expand((w) => w).toList();
-
     final route =
         Platform.isIOS
-            ? CupertinoPageRoute(
-              builder:
-                  (_) => Countdown(
-                    words: selectedWords,
-                    initialTimer: _timerLength,
-                  ),
-            )
-            : MaterialPageRoute(
-              builder:
-                  (_) => Countdown(
-                    words: selectedWords,
-                    initialTimer: _timerLength,
-                  ),
-            );
+            ? CupertinoPageRoute(builder: (_) => const Countdown())
+            : MaterialPageRoute(builder: (_) => const Countdown());
 
     Navigator.of(context).push(route);
   }
@@ -216,21 +86,18 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                 icon: const Icon(Icons.arrow_back, color: Colors.white),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              Expanded(
+              const Expanded(
                 child: Text(
-                  Translations.t('topics'),
+                  'Themen',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.timer, color: Colors.white),
-                onPressed: _showTimerPicker,
-              ),
+              const SizedBox(width: 48), // Platzhalter für frühere Uhr
             ],
           ),
         const SizedBox(height: 16),
@@ -311,7 +178,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                       disabledColor: Colors.white54,
                       onPressed: canStart ? _onStartPressed : null,
                       child: Text(
-                        Translations.t('start'),
+                        'Start',
                         style: TextStyle(
                           color: const Color(
                             0xFFFF5F8D,
@@ -324,7 +191,7 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
                       onPressed: canStart ? _onStartPressed : null,
                       backgroundColor: canStart ? Colors.white : Colors.white54,
                       label: Text(
-                        Translations.t('start'),
+                        'Start',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -360,13 +227,9 @@ class _TopicSelectScreenState extends State<TopicSelectScreen> {
               backgroundColor: Colors.transparent,
               border: null,
               previousPageTitle: '',
-              middle: Text(
-                Translations.t('topics'),
-                style: const TextStyle(color: Colors.white),
-              ),
-              trailing: GestureDetector(
-                onTap: _showTimerPicker,
-                child: const Icon(CupertinoIcons.timer, color: Colors.white),
+              middle: const Text(
+                'Themen',
+                style: TextStyle(color: Colors.white),
               ),
             ),
             child: DefaultTextStyle(

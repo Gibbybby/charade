@@ -19,6 +19,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^5.0.0
+  provider: ^6.1.0
 
 flutter:
   uses-material-design: true
@@ -43,9 +44,6 @@ flutter:
     - assets/charades_topics_de.json
     - assets/charades_topics_us.json
     - assets/charades_topics_es.json
-    - assets/flags/de.png
-    - assets/flags/us.png
-    - assets/flags/es.png
     - assets/sounds/ding.mp3
     - assets/sounds/buzz.mp3
     - assets/sounds/beep.mp3

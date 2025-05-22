@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'translations.dart';
 
 class WordList extends StatelessWidget {
   final List<String> words;
@@ -40,7 +39,6 @@ class WordList extends StatelessWidget {
                     itemCount: (currentIndex + 1).clamp(0, words.length) + 1,
                     itemBuilder: (context, index) {
                       if (index == 0) {
-                        // Statistik: letzte unbewertete Antwort zählt als falsch
                         int correct = 0;
                         int incorrect = 0;
                         for (
@@ -87,9 +85,9 @@ class WordList extends StatelessWidget {
                                 ),
                                 child: Column(
                                   children: [
-                                    Text(
-                                      Translations.t('well_done'),
-                                      style: const TextStyle(
+                                    const Text(
+                                      'Gut gemacht!', // <-- Ehemals Translations.t('well_done')
+                                      style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -104,9 +102,9 @@ class WordList extends StatelessWidget {
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
-                                          label: Text(
-                                            Translations.t('back_to_menu'),
-                                          ),
+                                          label: const Text(
+                                            'Zurück zum Menü',
+                                          ), // <-- Ehemals Translations.t('back_to_menu')
                                           icon: const Icon(Icons.arrow_back),
                                         ),
                                       ],
@@ -116,13 +114,7 @@ class WordList extends StatelessWidget {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                Translations.t(
-                                  'correct_incorrect',
-                                  params: {
-                                    'correct': correct.toString(),
-                                    'incorrect': incorrect.toString(),
-                                  },
-                                ),
+                                'Richtig: $correct | Falsch: $incorrect', // <-- Ehemals Translations.t('correct_incorrect')
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -169,7 +161,7 @@ class WordList extends StatelessWidget {
                               words[wordIndex],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 24, // 👈 Größerer Text in der Liste
+                                fontSize: 24,
                                 fontWeight: FontWeight.w500,
                                 color: color,
                               ),
@@ -184,7 +176,7 @@ class WordList extends StatelessWidget {
                       words[currentIndex],
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 64, // 👈 Größerer Spiel-Worttext
+                        fontSize: 64,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),

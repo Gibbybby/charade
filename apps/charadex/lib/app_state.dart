@@ -1,11 +1,19 @@
-class AppState {
-  static String languageCode = 'de'; // Standard: Deutsch
+import 'package:flutter/material.dart';
 
-  static void setLanguageCode(String code) {
-    languageCode = code;
+class AppState extends ChangeNotifier {
+  String _language = 'Deutsch';
+  int _timerSeconds = 60;
+
+  String get language => _language;
+  int get timerSeconds => _timerSeconds;
+
+  void setLanguage(String newLang) {
+    _language = newLang;
+    notifyListeners();
   }
 
-  static String getLanguageCode() {
-    return languageCode;
+  void setTimer(int seconds) {
+    _timerSeconds = seconds;
+    notifyListeners();
   }
 }

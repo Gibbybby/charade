@@ -1,43 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sensors_plus/sensors_plus.dart';
-import 'package:audioplayers/audioplayers.dart';
-
-import 'word_list.dart';
-import 'translations.dart';
 
 class Countdown extends StatefulWidget {
-  final List<String> words;
-  final int initialTimer;
-
-  const Countdown({Key? key, required this.words, this.initialTimer = 10})
-    : super(key: key);
+  const Countdown({Key? key}) : super(key: key);
 
   @override
-  _CountdownState createState() => _CountdownState();
+  State<Countdown> createState() => _CountdownState();
 }
 
 class _CountdownState extends State<Countdown> {
-  late final List<String> _shuffledWords;
-  late List<Color?> _markedColors;
-
-  final AudioPlayer _player = AudioPlayer();
-
-  Timer? _prepTimer;
-  Timer? _mainTimer;
-  Timer? _sensorTimer;
-
-  int _prepRemaining = 3;
-  late int _remaining;
-  int _currentIndex = 0;
-  bool _prepFinished = false;
-  bool _finished = false;
-  bool _tiltCooldown = false;
-  bool _showStartScreen = false;
-
-  double _lastZ = 0;
-  Color? _overlayColor;
+  int _count = 3;
+  bool _showStartText = false;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -48,110 +23,37 @@ class _CountdownState extends State<Countdown> {
       DeviceOrientation.landscapeRight,
     ]);
 
-    _shuffledWords = List.of(widget.words)..shuffle();
-    _markedColors = List.filled(_shuffledWords.length, null);
-    _remaining = widget.initialTimer;
+    _startCountdown();
+  }
 
-    setState(() => _prepRemaining = 3);
-    _player.play(AssetSource('sounds/beep.mp3'));
-
-    _prepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_prepRemaining > 1) {
-        setState(() => _prepRemaining--);
-        _player.play(AssetSource('sounds/beep.mp3'));
+  void _startCountdown() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_count > 1) {
+        setState(() => _count--);
       } else {
         timer.cancel();
-
         setState(() {
-          _prepRemaining = 0;
-          _showStartScreen = true;
+          _count = 0;
+          _showStartText = true;
         });
-        _player.play(AssetSource('sounds/highbeep.mp3'));
 
+        // Optional: Nach 1 Sekunde zurück zur Portrait-Ausrichtung oder schließen
         Future.delayed(const Duration(seconds: 1), () {
-          setState(() {
-            _showStartScreen = false;
-            _prepFinished = true;
-          });
-          _startMainTimer();
+          if (mounted) {
+            SystemChrome.setPreferredOrientations([
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.portraitDown,
+            ]);
+            Navigator.pop(context); // Optional: zurück zur vorherigen Seite
+          }
         });
       }
-    });
-
-    accelerometerEvents.listen((event) {
-      _lastZ = event.z;
-    });
-
-    _sensorTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
-      if (_finished || _tiltCooldown) return;
-
-      if (_lastZ < -4) {
-        _handleTilt(Colors.green);
-      } else if (_lastZ > 4) {
-        _handleTilt(Colors.red);
-      }
-    });
-  }
-
-  void _startMainTimer() {
-    _mainTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remaining > 0) {
-        setState(() => _remaining--);
-      }
-      if (_remaining == 0) {
-        timer.cancel();
-        _showResults();
-      }
-    });
-  }
-
-  void _handleTilt(Color color) {
-    if (!_prepFinished || _finished || _tiltCooldown) return;
-
-    if (color == Colors.green) {
-      _player.play(AssetSource('sounds/ding.mp3'));
-    } else if (color == Colors.red) {
-      _player.play(AssetSource('sounds/buzz.mp3'));
-    }
-
-    setState(() {
-      _overlayColor = color;
-      _markedColors[_currentIndex] = color;
-      _currentIndex++;
-      if (_currentIndex >= _shuffledWords.length) {
-        _showResults();
-      }
-    });
-
-    _tiltCooldown = true;
-    Future.delayed(const Duration(milliseconds: 800), () {
-      if (mounted) {
-        setState(() {
-          _overlayColor = null;
-          _tiltCooldown = false;
-        });
-      }
-    });
-  }
-
-  void _showResults() {
-    _mainTimer?.cancel();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    _player.play(AssetSource('sounds/finish.mp3'));
-    setState(() {
-      _finished = true;
     });
   }
 
   @override
   void dispose() {
-    _prepTimer?.cancel();
-    _mainTimer?.cancel();
-    _sensorTimer?.cancel();
-    _player.dispose();
+    _timer?.cancel();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -159,145 +61,19 @@ class _CountdownState extends State<Countdown> {
     super.dispose();
   }
 
-  Widget _buildActionHints() {
-    return Stack(
-      children: [
-        Positioned(
-          left: 16,
-          bottom: 16,
-          child: Column(
-            children: [
-              const Icon(Icons.arrow_downward, color: Colors.green, size: 36),
-              const SizedBox(height: 4),
-              Text(
-                Translations.t('tilt_phone'),
-                style: const TextStyle(color: Colors.green, fontSize: 16),
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          right: 16,
-          bottom: 16,
-          child: Column(
-            children: [
-              const Icon(Icons.arrow_upward, color: Colors.red, size: 36),
-              const SizedBox(height: 4),
-              Text(
-                Translations.t('tilt_phone'),
-                style: const TextStyle(color: Colors.red, fontSize: 16),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_showStartScreen) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            const Center(
-              child: Text(
-                'START',
-                style: TextStyle(
-                  fontSize: 72,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            _buildActionHints(),
-          ],
-        ),
-      );
-    }
-
-    if (!_prepFinished) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            Center(
-              child: Text(
-                '$_prepRemaining',
-                style: const TextStyle(
-                  fontSize: 96,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            _buildActionHints(),
-          ],
-        ),
-      );
-    }
-
-    final showList = _finished;
-
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          WordList(
-            words: _shuffledWords,
-            currentIndex: _currentIndex,
-            showList: showList,
-            markedColors: _markedColors,
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Text(
+          _showStartText ? 'START' : '$_count',
+          style: const TextStyle(
+            fontSize: 96,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
-          if (!showList && _overlayColor != null)
-            Positioned.fill(child: Container(color: _overlayColor)),
-
-          if (!showList)
-            Positioned(
-              top: 32,
-              right: 16,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.access_time,
-                      size: 18,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 3),
-                    Text(
-                      '$_remaining',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-          if (!_finished)
-            Positioned(
-              top: 32,
-              left: 16,
-              child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.black, size: 28),
-                onPressed: _showResults,
-                tooltip: 'Beenden',
-              ),
-            ),
-
-          if (!_showStartScreen && !_prepFinished) _buildActionHints(),
-        ],
+        ),
       ),
     );
   }
