@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:charadex/start_screen_animation.dart';
 import 'package:charadex/settings.dart';
 import 'package:charadex/topic_select.dart';
-import 'package:charadex/main_tutorial.dart';
+import 'package:charadex/how_to_play.dart';
 
 class CharadePartyHomePage extends StatefulWidget {
   const CharadePartyHomePage({Key? key}) : super(key: key);
