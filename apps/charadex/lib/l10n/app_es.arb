@@ -1,177 +1,49 @@
 {
   "title": "Charadex",
-  "@title": {
-    "description": "Título de la app en la pantalla de inicio"
-  },
   "play": "Jugar",
-  "@play": {
-    "description": "Texto del botón para comenzar el juego"
-  },
   "options": "Opciones",
-  "@options": {
-    "description": "Texto del botón para la configuración"
-  },
   "start": "¡COMIENZA!",
-  "@start": {
-    "description": "Texto que aparece cuando termina la cuenta regresiva"
-  },
   "goodJob": "¡Bien hecho!",
-  "@goodJob": {
-    "description": "Texto mostrado tras una ronda exitosa"
-  },
   "results": "{correctCount} correctas – {wrongCount} incorrectas",
-  "@results": {
-    "description": "Resumen de respuestas correctas e incorrectas",
-    "placeholders": {
-      "correctCount": { "type": "Object" },
-      "wrongCount": { "type": "Object" }
-    }
-  },
   "backToSelection": "Volver a la selección",
-  "@backToSelection": {
-    "description": "Texto del botón para volver a elegir categoría"
-  },
   "settings": "Configuración",
-  "@settings": {
-    "description": "Título de la pantalla de configuración"
-  },
   "languageLabel": "Idioma",
-  "@languageLabel": {
-    "description": "Etiqueta sobre el menú desplegable de idiomas"
-  },
-  "languageGerman": "Alemán",
-  "@languageGerman": {
-    "description": "Opción de idioma: alemán"
-  },
-  "languageEnglish": "Inglés",
-  "@languageEnglish": {
-    "description": "Opción de idioma: inglés"
-  },
-  "languageCroatian": "Croata",
-  "@languageCroatian": {
-    "description": "Opción de idioma: croata"
-  },
-  "languageSpanish": "Español",
-  "@languageSpanish": {
-    "description": "Opción de idioma: español"
-  },
-  "languageChinese": "Chino",
-  "@languageChinese": {
-    "description": "Opción de idioma: chino"
-  },
   "timerLabel": "Temporizador (segundos)",
-  "@timerLabel": {
-    "description": "Etiqueta encima del control deslizante del temporizador"
-  },
   "secondsAbbr": "s",
-  "@secondsAbbr": {
-    "description": "Abreviatura de segundos"
-  },
   "currentTimer": "Temporizador actual: {seconds} segundos",
-  "@currentTimer": {
-    "description": "Texto que muestra el valor actual del temporizador",
-    "placeholders": {
-      "seconds": { "type": "Object" }
-    }
-  },
   "startGame": "Comenzar juego",
-  "@startGame": {
-    "description": "Texto del botón para comenzar desde la pantalla de inicio"
-  },
   "topicCars": "Coches",
-  "@topicCars": {
-    "description": "Tema: coches"
-  },
   "topicGeography": "Geografía",
-  "@topicGeography": {
-    "description": "Tema: geografía"
-  },
   "topicSports": "Deportes",
-  "@topicSports": {
-    "description": "Tema: deportes"
-  },
   "topicParty": "Fiesta",
-  "@topicParty": {
-    "description": "Tema: fiesta"
-  },
   "topicFilm": "Películas",
-  "@topicFilm": {
-    "description": "Tema: películas"
-  },
   "topicSeries": "Series",
-  "@topicSeries": {
-    "description": "Tema: series"
-  },
   "topicStars": "Famosos",
-  "@topicStars": {
-    "description": "Tema: celebridades"
-  },
   "topicAnimals": "Animales",
-  "@topicAnimals": {
-    "description": "Tema: animales"
-  },
   "topicJobs": "Trabajos",
-  "@topicJobs": {
-    "description": "Tema: trabajos"
-  },
   "topicMusic": "Música",
-  "@topicMusic": {
-    "description": "Tema: música"
-  },
   "tutorialTitle": "Cómo jugar",
-  "@tutorialTitle": {
-    "description": "Título de la pantalla de tutorial"
-  },
   "tutorialText": "1. Sostén el iPhone horizontalmente en tu frente (pantalla hacia afuera).\n\n2. Un compañero actúa o describe la palabra.\n\n3. Inclina hacia abajo = correcto, hacia arriba = incorrecto / saltar.\n\n4. Si no aparece la siguiente palabra, vuelve a poner el iPhone horizontal.",
-  "@tutorialText": {
-    "description": "Pasos para jugar"
-  },
   "done": "Hecho",
-  "@done": {
-    "description": "Texto para el botón de 'Hecho' en selectores o diálogos"
-  },
   "selectTopics": "Elegir categorías",
-  "@selectTopics": {
-    "description": "Título en la pantalla de selección de temas"
-  },
   "tutorialInstruction": "Sostén tu iPhone en la frente e inclínalo hacia adelante para comenzar.",
-  "@tutorialInstruction": {
-    "description": "Instrucción mostrada en el tutorial"
-  },
   "tiltDown": "Inclinar hacia abajo",
-  "@tiltDown": {
-    "description": "Instrucción para inclinar hacia abajo"
-  },
   "forTrue": "para correcto",
-  "@forTrue": {
-    "description": "Texto bajo el icono de inclinar hacia abajo"
-  },
   "tiltUp": "Inclinar hacia arriba",
-  "@tiltUp": {
-    "description": "Instrucción para inclinar hacia arriba"
-  },
   "forFalse": "para incorrecto",
-  "@forFalse": {
-    "description": "Texto bajo el icono de inclinar hacia arriba"
-  },
   "topic": "Categoría",
-  "@topic": {
-    "description": "Etiqueta para una sola categoría"
-  },
   "moreApps": "Más apps gratuitas de nosotros",
-  "@moreApps": {
-    "description": "Encabezado para sección de otras apps del desarrollador"
-  },
   "appPartyBombSubtitle": "¡El juego explosivo!",
-  "@appPartyBombSubtitle": {
-    "description": "Subtítulo para la app Party Bomb"
-  },
   "appImposterSubtitle": "¡No confíes en nadie!",
-  "@appImposterSubtitle": {
-    "description": "Subtítulo para la app Imposter"
-  },
   "appPikaPikaSubtitle": "¡Tu ayudante de decisiones!",
-  "@appPikaPikaSubtitle": {
-    "description": "Subtítulo para la app PikaPika"
-  }
+  "tutorialStepCategoryTitle": "Configurar categoría y tiempo",
+  "tutorialStepCategoryDesc": "– Primero elige una categoría de palabras (p. ej. Animales, Trabajos, Películas).\n– Luego establece el tiempo que durará la cuenta regresiva para tu ronda.",
+  "tutorialStepStartTitle": "Comenzar el juego",
+  "tutorialStepStartDesc": "– Sostén tu iPhone en tu frente.\n– Inclínalo hacia adelante para iniciar el temporizador y ver la primera palabra.",
+  "tutorialStepGuessTitle": "Adivinar y explicar",
+  "tutorialStepGuessDesc": "– Jueguen en parejas: Jugador 1 sostiene el teléfono en su frente e intenta adivinar la palabra.\n– Jugador 2 explica la palabra sin decirla.\n– Si adivinas correctamente, inclina el teléfono hacia adelante.\n– Si adivinas incorrectamente o quieres pasar, inclina el teléfono hacia arriba.",
+  "tutorialStepResultsTitle": "Ver resultados",
+  "tutorialStepResultsDesc": "– Al final de cada ronda, verás un resumen de las palabras que adivinaste correctamente y las que fallaste.",
+  "tutorialHaveFun": "¡Diviértete adivinando y explicando! 😃",
+  "tutorialDone": "Hecho"
 }

@@ -1,177 +1,49 @@
 {
   "title": "Charadex",
-  "@title": {
-    "description": "Naslov aplikacije na početnom zaslonu"
-  },
   "play": "Igraj",
-  "@play": {
-    "description": "Tekst gumba za pokretanje igre"
-  },
   "options": "Opcije",
-  "@options": {
-    "description": "Tekst gumba za postavke"
-  },
   "start": "START",
-  "@start": {
-    "description": "Tekst prikazan kad odbrojavanje završi"
-  },
   "goodJob": "Bravo!",
-  "@goodJob": {
-    "description": "Tekst prikazan nakon uspješne runde"
-  },
   "results": "{correctCount} točno – {wrongCount} netočno",
-  "@results": {
-    "description": "Sažetak točnih i netočnih odgovora",
-    "placeholders": {
-      "correctCount": { "type": "Object" },
-      "wrongCount": { "type": "Object" }
-    }
-  },
   "backToSelection": "Natrag na odabir",
-  "@backToSelection": {
-    "description": "Tekst gumba za povratak na odabir teme"
-  },
   "settings": "Postavke",
-  "@settings": {
-    "description": "Naslov zaslona postavki"
-  },
   "languageLabel": "Jezik",
-  "@languageLabel": {
-    "description": "Oznaka iznad padajućeg izbornika jezika"
-  },
-  "languageGerman": "Njemački",
-  "@languageGerman": {
-    "description": "Opcija jezika: njemački"
-  },
-  "languageEnglish": "Engleski",
-  "@languageEnglish": {
-    "description": "Opcija jezika: engleski"
-  },
-  "languageCroatian": "Hrvatski",
-  "@languageCroatian": {
-    "description": "Opcija jezika: hrvatski"
-  },
-  "languageSpanish": "Španjolski",
-  "@languageSpanish": {
-    "description": "Opcija jezika: španjolski"
-  },
-  "languageChinese": "Kineski",
-  "@languageChinese": {
-    "description": "Opcija jezika: kineski"
-  },
   "timerLabel": "Tajmer (sekundi)",
-  "@timerLabel": {
-    "description": "Oznaka iznad klizača za tajmer"
-  },
   "secondsAbbr": "s",
-  "@secondsAbbr": {
-    "description": "Kratica za sekunde"
-  },
   "currentTimer": "Trenutni tajmer: {seconds} sekundi",
-  "@currentTimer": {
-    "description": "Tekst koji prikazuje trenutnu vrijednost tajmera",
-    "placeholders": {
-      "seconds": { "type": "Object" }
-    }
-  },
   "startGame": "Započni igru",
-  "@startGame": {
-    "description": "Tekst gumba za početak igre s početnog zaslona"
-  },
   "topicCars": "Automobili",
-  "@topicCars": {
-    "description": "Tema: automobili"
-  },
   "topicGeography": "Geografija",
-  "@topicGeography": {
-    "description": "Tema: geografija"
-  },
   "topicSports": "Sport",
-  "@topicSports": {
-    "description": "Tema: sport"
-  },
   "topicParty": "Zabava",
-  "@topicParty": {
-    "description": "Tema: zabava"
-  },
   "topicFilm": "Filmovi",
-  "@topicFilm": {
-    "description": "Tema: filmovi"
-  },
   "topicSeries": "Serije",
-  "@topicSeries": {
-    "description": "Tema: serije"
-  },
   "topicStars": "Zvijezde",
-  "@topicStars": {
-    "description": "Tema: slavne osobe"
-  },
   "topicAnimals": "Životinje",
-  "@topicAnimals": {
-    "description": "Tema: životinje"
-  },
   "topicJobs": "Zanimanja",
-  "@topicJobs": {
-    "description": "Tema: zanimanja"
-  },
   "topicMusic": "Glazba",
-  "@topicMusic": {
-    "description": "Tema: glazba"
-  },
   "tutorialTitle": "Upute za igru",
-  "@tutorialTitle": {
-    "description": "Naslov zaslona s uputama"
-  },
   "tutorialText": "1. Drži iPhone vodoravno na čelu (zaslon okrenut prema van).\n\n2. Suigrač objašnjava riječ pantomimom ili opisno.\n\n3. Nagnuti prema dolje = točno, prema gore = netočno / preskoči.\n\n4. Ako se nova riječ ne pojavi, vrati iPhone u vodoravni položaj (zaslon prema van).",
-  "@tutorialText": {
-    "description": "Upute za igranje"
-  },
   "done": "Gotovo",
-  "@done": {
-    "description": "Tekst za gumb 'Gotovo' u dijalozima"
-  },
   "selectTopics": "Odaberi kategorije",
-  "@selectTopics": {
-    "description": "Naslov iznad zaslona za odabir tema"
-  },
   "tutorialInstruction": "Drži iPhone na čelu i nagni ga prema dolje za početak!",
-  "@tutorialInstruction": {
-    "description": "Uputa prikazana u sredini tutorijala"
-  },
   "tiltDown": "Nagni prema dolje",
-  "@tiltDown": {
-    "description": "Uputa za naginjanje prema dolje"
-  },
   "forTrue": "za točno",
-  "@forTrue": {
-    "description": "Tekst ispod ikone za točno"
-  },
   "tiltUp": "Nagni prema gore",
-  "@tiltUp": {
-    "description": "Uputa za naginjanje prema gore"
-  },
   "forFalse": "za netočno",
-  "@forFalse": {
-    "description": "Tekst ispod ikone za netočno"
-  },
   "topic": "Kategorija",
-  "@topic": {
-    "description": "Oznaka za pojedinačnu temu"
-  },
   "moreApps": "Još besplatnih aplikacija od nas",
-  "@moreApps": {
-    "description": "Naslov za prikaz drugih aplikacija razvojnog tima"
-  },
   "appPartyBombSubtitle": "Eksplozivna igra!",
-  "@appPartyBombSubtitle": {
-    "description": "Podnaslov za aplikaciju Party Bomb"
-  },
   "appImposterSubtitle": "Ne vjeruj nikome!",
-  "@appImposterSubtitle": {
-    "description": "Podnaslov za aplikaciju Imposter"
-  },
   "appPikaPikaSubtitle": "Tvoj pomagač u odlučivanju!",
-  "@appPikaPikaSubtitle": {
-    "description": "Podnaslov za aplikaciju PikaPika"
-  }
+  "tutorialStepCategoryTitle": "Postavi kategoriju i vrijeme",
+  "tutorialStepCategoryDesc": "– Prvo odaberi kategoriju riječi (npr. Životinje, Zanimanja, Filmovi).\n– Zatim postavi vrijeme koje će odbrojavanje trajati za vašu rundu.",
+  "tutorialStepStartTitle": "Započni igru",
+  "tutorialStepStartDesc": "– Drži iPhone na svom čelu.\n– Nagni ga prema naprijed za pokretanje tajmera i prikaz prve riječi.",
+  "tutorialStepGuessTitle": "Pogađanje i objašnjavanje",
+  "tutorialStepGuessDesc": "– Igrajte u paru: Igrač 1 drži mobitel na čelu i pokušava pogoditi riječ.\n– Igrač 2 objašnjava riječ bez da je izgovori.\n– Ako si točno pogodio/la, nagni mobitel prema naprijed.\n– Ako si netočno pogodio/la ili želiš preskočiti, nagni mobitel prema gore.",
+  "tutorialStepResultsTitle": "Pogledaj rezultate",
+  "tutorialStepResultsDesc": "– Na kraju svake runde, pregled će ti pokazati koje si riječi točno pogodio/la, a koje netočno.",
+  "tutorialHaveFun": "Zabavi se pogađajući i objašnjavajući! 😃",
+  "tutorialDone": "Gotovo"
 }

@@ -1,177 +1,49 @@
 {
   "title": "Charadex",
-  "@title": {
-    "description": "App title on the home screen"
-  },
   "play": "Play",
-  "@play": {
-    "description": "Button text to start the game"
-  },
   "options": "Options",
-  "@options": {
-    "description": "Button text for settings"
-  },
   "start": "START",
-  "@start": {
-    "description": "Text shown when countdown finishes"
-  },
   "goodJob": "Well done",
-  "@goodJob": {
-    "description": "Text shown for a successful round"
-  },
   "results": "{correctCount} correct – {wrongCount} wrong",
-  "@results": {
-    "description": "Summary of correct and wrong answers",
-    "placeholders": {
-      "correctCount": { "type": "Object" },
-      "wrongCount": { "type": "Object" }
-    }
-  },
   "backToSelection": "Back to selection",
-  "@backToSelection": {
-    "description": "Button text to go back to topic selection"
-  },
   "settings": "Settings",
-  "@settings": {
-    "description": "Title of the settings screen"
-  },
   "languageLabel": "Language",
-  "@languageLabel": {
-    "description": "Label above language dropdown"
-  },
-  "languageGerman": "German",
-  "@languageGerman": {
-    "description": "German language option"
-  },
-  "languageEnglish": "English",
-  "@languageEnglish": {
-    "description": "English language option"
-  },
-  "languageCroatian": "Croatian",
-  "@languageCroatian": {
-    "description": "Croatian language option"
-  },
-  "languageSpanish": "Spanish",
-  "@languageSpanish": {
-    "description": "Spanish language option"
-  },
-  "languageChinese": "Chinese",
-  "@languageChinese": {
-    "description": "Chinese language option"
-  },
   "timerLabel": "Timer (seconds)",
-  "@timerLabel": {
-    "description": "Label above the timer slider"
-  },
   "secondsAbbr": "s",
-  "@secondsAbbr": {
-    "description": "Abbreviation for seconds"
-  },
   "currentTimer": "Current timer: {seconds} seconds",
-  "@currentTimer": {
-    "description": "Text showing the current timer value",
-    "placeholders": {
-      "seconds": { "type": "Object" }
-    }
-  },
   "startGame": "Start game",
-  "@startGame": {
-    "description": "Button text to start the game from home screen"
-  },
   "topicCars": "Cars",
-  "@topicCars": {
-    "description": "Topic: Cars"
-  },
   "topicGeography": "Geography",
-  "@topicGeography": {
-    "description": "Topic: Geography"
-  },
   "topicSports": "Sports",
-  "@topicSports": {
-    "description": "Topic: Sports"
-  },
   "topicParty": "Party",
-  "@topicParty": {
-    "description": "Topic: Party"
-  },
   "topicFilm": "Movies",
-  "@topicFilm": {
-    "description": "Topic: Film"
-  },
   "topicSeries": "Series",
-  "@topicSeries": {
-    "description": "Topic: Series"
-  },
   "topicStars": "Celebrities",
-  "@topicStars": {
-    "description": "Topic: Stars"
-  },
   "topicAnimals": "Animals",
-  "@topicAnimals": {
-    "description": "Topic: Animals"
-  },
   "topicJobs": "Jobs",
-  "@topicJobs": {
-    "description": "Topic: Jobs"
-  },
   "topicMusic": "Music",
-  "@topicMusic": {
-    "description": "Topic: Music"
-  },
   "tutorialTitle": "How to Play",
-  "@tutorialTitle": {
-    "description": "Title of the tutorial screen"
-  },
   "tutorialText": "1. Hold your iPhone horizontally against your forehead (screen facing out).\n\n2. Your friends act out or describe the word.\n\n3. Tilt down = correct, tilt up = wrong/skip.\n\n4. If the next word doesn't show up, tilt the iPhone back to horizontal (screen facing out).",
-  "@tutorialText": {
-    "description": "Instructional steps for the game tutorial"
-  },
   "done": "Done",
-  "@done": {
-    "description": "Text for the 'Done' button in pickers or dialogs"
-  },
   "selectTopics": "Choose Categories",
-  "@selectTopics": {
-    "description": "Title shown above the topic selection screen"
-  },
   "tutorialInstruction": "Hold your iPhone to your forehead and tilt it forward to start!",
-  "@tutorialInstruction": {
-    "description": "Instruction shown in the tutorial center text"
-  },
   "tiltDown": "Tilt down",
-  "@tiltDown": {
-    "description": "Instruction text for tilt down"
-  },
   "forTrue": "for correct",
-  "@forTrue": {
-    "description": "Text under tilt down icon"
-  },
   "tiltUp": "Tilt up",
-  "@tiltUp": {
-    "description": "Instruction text for tilt up"
-  },
   "forFalse": "for wrong",
-  "@forFalse": {
-    "description": "Text under tilt up icon"
-  },
   "topic": "Category",
-  "@topic": {
-    "description": "Label for a single topic"
-  },
   "moreApps": "More Free Apps by Us",
-  "@moreApps": {
-    "description": "Header for section listing other apps by the developer"
-  },
   "appPartyBombSubtitle": "The Explosive Game!",
-  "@appPartyBombSubtitle": {
-    "description": "Subtitle for the Party Bomb app"
-  },
   "appImposterSubtitle": "Trust No One!",
-  "@appImposterSubtitle": {
-    "description": "Subtitle for the Imposter game"
-  },
   "appPikaPikaSubtitle": "Your Decision Helper!",
-  "@appPikaPikaSubtitle": {
-    "description": "Subtitle for the PikaPika decision app"
-  }
+  "tutorialStepCategoryTitle": "Set Category and Time",
+  "tutorialStepCategoryDesc": "– First choose a word category (e.g. Animals, Jobs, Movies).\n– Then set the countdown timer for your round.",
+  "tutorialStepStartTitle": "Start Game",
+  "tutorialStepStartDesc": "– Hold your iPhone to your forehead.\n– Tilt it forward to start the timer and see the first word.",
+  "tutorialStepGuessTitle": "Guess and Explain",
+  "tutorialStepGuessDesc": "– Play in pairs: Player 1 holds the phone to their forehead and tries to guess the word.\n– Player 2 explains the word without saying it.\n– If you guess correctly, tilt the phone forward.\n– If you guess wrong or want to skip, tilt the phone upward.",
+  "tutorialStepResultsTitle": "View Results",
+  "tutorialStepResultsDesc": "– At the end of each round, you'll see an overview of which words you guessed correctly and which ones you missed.",
+  "tutorialHaveFun": "Have fun guessing and explaining! 😃",
+  "tutorialDone": "Done"
 }

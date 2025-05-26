@@ -25,15 +25,15 @@ class SettingsScreen extends StatelessWidget {
     String _displayName(String code) {
       switch (code) {
         case 'de':
-          return loc.languageGerman;
+          return 'Deutsch';
         case 'en':
-          return loc.languageEnglish;
+          return 'English';
         case 'hr':
-          return loc.languageCroatian;
+          return 'Hrvatski';
         case 'es':
-          return loc.languageSpanish;
+          return 'Español';
         case 'zh':
-          return loc.languageChinese;
+          return 'Chinese (中文)';
         default:
           return code;
       }
