@@ -76,7 +76,7 @@ promotional_text({
   'default' => "Improved, more stable, and fun as ever – GuessUp brings laughter to every party!",
   'de-DE' => "Verbessert, stabiler und spaßiger denn je – GuessUp sorgt für Lacher auf jeder Party!",
   'es-ES' => "¡Mejorado, más estable y tan divertido como siempre – GuessUp anima cualquier fiesta!",
-  'hr-HR' => "Poboljšan, stabilniji i zabavniji nego ikad – GuessUp donosi smijeh na svaku zabavu!",
+  'hr' => "Poboljšan, stabilniji i zabavniji nego ikad – GuessUp donosi smijeh na svaku zabavu!",
   'zh-Hans' => "更稳定、更好玩，GuessUp 让每场派对充满欢笑！"
 })
 
