@@ -47,12 +47,12 @@ keywords({
 
 # TODO uncomment on second release
 release_notes({
-  'default' => "Bug fixes and stability improvements. Added a step-by-step tutorial to guide new users through the app’s features and onboarding process.",
-  'de-DE' => "Fehlerbehebungen und Stabilitätsverbesserungen. Schritt-für-Schritt-Tutorial hinzugefügt, das neue Nutzer durch alle Funktionen und das Onboarding führt.",
-  'en-US' => "Bug fixes and stability improvements. Added a step-by-step tutorial to guide new users through the app’s features and onboarding process.",
-  'es-ES' => "Corrección de errores y mejoras de estabilidad. Añadido un tutorial paso a paso para guiar a los nuevos usuarios a través de las funcionalidades de la app y el proceso de incorporación.",
-  'hr' => "Ispravljeni bugovi i poboljšana stabilnost. Dodan detaljan vodič korak po korak koji nove korisnike vodi kroz značajke aplikacije i proces pokretanja.",
-  'zh-Hans' => "修复了已知问题并提升了稳定性。新增循序渐进教程，引导新用户了解应用功能和使用流程。"
+  'default' => "We’ve made various improvements and fixed minor bugs to make the app better and more stable.",
+  'de-DE' => "Wir haben verschiedene Verbesserungen vorgenommen und kleinere Fehler behoben, um die App besser und stabiler zu machen.",
+  'en-US' => "We’ve made various improvements and fixed minor bugs to make the app better and more stable.",
+  'es-ES' => "Hemos realizado varias mejoras y corregido errores menores para que la aplicación sea mejor y más estable.",
+  'hr' => "Unaprijedili smo aplikaciju i ispravili manje greške kako bi bila bolja i stabilnija.",
+  'zh-Hans' => "我们进行了多项优化并修复了一些小问题，让应用更加出色和稳定。"
 })
 
 privacy_url({
