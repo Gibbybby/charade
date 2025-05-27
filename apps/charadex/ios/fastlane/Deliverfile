@@ -77,7 +77,7 @@ promotional_text({
   'de-DE' => "Verbessert, stabiler und spaßiger denn je – GuessUp sorgt für Lacher auf jeder Party!",
   'es-ES' => "¡Mejorado, más estable y tan divertido como siempre – GuessUp anima cualquier fiesta!",
   'hr-HR' => "Poboljšan, stabilniji i zabavniji nego ikad – GuessUp donosi smijeh na svaku zabavu!",
-  'zh-CN' => "更稳定、更好玩，GuessUp 让每场派对充满欢笑！"
+  'zh-Hans' => "更稳定、更好玩，GuessUp 让每场派对充满欢笑！"
 })
 
 
@@ -91,12 +91,6 @@ support_url({
   'default' => 'https://vucak.at/en/contact',
   'de-DE' => 'https://vucak.at/de/contact',
   'es-ES' => 'https://vucak.at/es/contact'
-})
-
-promotional_text({
-  'default' => "Bring life to your party with GuessUp – The hilarious charades game for all ages!",
-  'de-DE' => "Sorge für Stimmung auf deiner Party – mit GuessUp, dem witzigen Stirnraten-Spiel für alle Altersgruppen!",
-  'es-ES' => "¡Anima tu fiesta con GuessUp – El juego de charadas más divertido para todas las edades!"
 })
 
 app_review_information(
