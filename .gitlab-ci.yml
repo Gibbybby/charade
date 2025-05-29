@@ -1,49 +1,75 @@
 stages:
-  - empty
-  # - build
-  # - test
-  - metadata-screenshots
   - deploy-staging
-  # - promote-production
+  - metadata-screenshots
 
+variables:
+  FLUTTER_PROJECT_PATH: '.'
+  SECURE_FILES_DOWNLOAD_PATH: '$FLUTTER_PROJECT_PATH/.secure_files'
+  PUB_CACHE: '$FLUTTER_PROJECT_PATH/.pub_cache'
 
-# if something changes in apps/charadex paths we run the jobs
-.charadex-change-app-paths: &charadex-change-app-paths
-  - "apps/charadex/**/*"
+  LANG: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
 
-include:
-  - local: '/apps/charadex/.gitlab-ci.yml'
-    rules:
-      # Do not run after Merge Request closing.
-      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-        when: never
-      # Do not run on Merge Request creation.
-      - if: $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
-        when: never
-      # Prevent creating duplicate pipelines because pipelines are already created for PUSH events.
-      - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-        when: always
-      # When to run:
-      - if: $CI_PIPELINE_SOURCE == "push"
-        changes:
-          *charadex-change-app-paths
-      - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-        changes:
-          *charadex-change-app-paths
+  # ensure shell executor sees Homebrew and pub‑cache bins
+  PATH: "$HOME/.rbenv/shims:$HOME/.rbenv/bin:/opt/homebrew/bin:$HOME/.pub-cache/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
-# Example visible job for each stage
-# This GitLab CI configuration is invalid: jobs config should contain at least one visible job.
-empty_job:
+# Reusable job for setting up secure files
+.setup_secure_ios_files_charadex: &setup_secure_ios_files_charadex
+  before_script:
+    # - source ~/.zshrc || true
+    - eval "$(rbenv init - bash)"      # enable rbenv in this shell
+    - ruby -v                          # sanity check: should say 3.x.x
+    # Download and set up secure ios files
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - ls -lah $SECURE_FILES_DOWNLOAD_PATH
+    - cp $SECURE_FILES_DOWNLOAD_PATH/ios-fastlane.env.ci $FLUTTER_PROJECT_PATH/ios/fastlane/.env.default
+    - cp $SECURE_FILES_DOWNLOAD_PATH/ios-AuthKey_Fastlane_9U36FG7Z7G.json $FLUTTER_PROJECT_PATH/ios/fastlane/AuthKey_Fastlane_9U36FG7Z7G.json
+    # 3. use FVM to install & switch to the version from .fvmrc
+    - cd $FLUTTER_PROJECT_PATH
+    # - fvm install       # reads .fvmrc, downloads specified Flutter SDK
+    - fvm use           # sets up .fvm/flutter_sdk symlink
+
+.macos_saas_runners:
   tags:
     - macos-apple
-  stage: empty
+  before_script:
+    - echo "started by ${GITLAB_USER_NAME} / @${GITLAB_USER_LOGIN}"
+
+deploy_testflight_charadex:
+  stage: deploy-staging
+  extends:
+    - .macos_saas_runners
+    - .setup_secure_ios_files_charadex
+  when: manual
   script:
-    - echo "Empty init stage..."
-  rules:
-    # If any of these paths change, do not run empty_job.
-    - changes:
-        - apps/charadex/**/* 
-        # - apps/other_app/**/*  
-      when: never
-    # Otherwise, run the job.
-    - when: always
+    - fvm flutter pub get
+    - cd ios
+    - |
+      if [ -f "Podfile" ]; then
+        pod install --repo-update
+      else
+        echo "No Podfile found, skipping CocoaPods setup."
+      fi
+    # 1) configure Bundler to install into the project
+    - bundle config set --local path vendor/bundle
+    - bundle config set --local deployment 'true'
+
+    # 2) install gems (fastlane + plugins) into ios/vendor/bundle
+    - bundle install --jobs=4
+    - bundle exec fastlane build_and_upload_testflight
+
+update_metadata_charadex:
+  stage: metadata-screenshots
+  extends:
+    - .macos_saas_runners
+    - .setup_secure_ios_files_charadex
+  when: manual
+  script:
+    - cd ios
+    # 1) configure Bundler to install into the project
+    - bundle config set --local path vendor/bundle
+    - bundle config set --local deployment 'true'
+
+    # 2) install gems (fastlane + plugins) into ios/vendor/bundle
+    - bundle install --jobs=4
+    - bundle exec fastlane update_metadata
