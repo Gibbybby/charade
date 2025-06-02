@@ -52,6 +52,10 @@
 		6D054C0EFA0432161FF4AF38 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		775B6B332DEE3B3E001B369C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		775B6B342DEE3B3E001B369C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		775B6B352DEE3B4B001B369C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		775B6B362DEE3B4B001B369C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		779D09B62DDF8E8800925991 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Main.strings; sourceTree = "<group>"; };
 		779D09B72DDF8E8800925991 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		779D09B82DDF8E9500925991 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
@@ -243,13 +247,14 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				hr,
 				es,
 				"es-419",
 				"es-US",
 				"zh-Hans",
+				de,
+				en,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -420,6 +425,8 @@
 				779D09BA2DDF8E9B00925991 /* es-419 */,
 				779D09BC2DDF8EA300925991 /* es-US */,
 				779D09BE2DDF8EB400925991 /* zh-Hans */,
+				775B6B332DEE3B3E001B369C /* de */,
+				775B6B352DEE3B4B001B369C /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -433,6 +440,8 @@
 				779D09BB2DDF8E9B00925991 /* es-419 */,
 				779D09BD2DDF8EA300925991 /* es-US */,
 				779D09BF2DDF8EB400925991 /* zh-Hans */,
+				775B6B342DEE3B3E001B369C /* de */,
+				775B6B362DEE3B4B001B369C /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
