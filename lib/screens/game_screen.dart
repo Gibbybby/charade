@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'game_end.dart';
 
 class GameScreen extends StatefulWidget {
@@ -20,31 +21,52 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   late List<String> remainingWords;
-  late Timer wordTimer;
   late Timer countdownTimer;
+  StreamSubscription? _accelSub;
 
   String? currentWord;
   int remainingSeconds = 0;
+  Color backgroundColor = Colors.white;
+
+  bool isInNeutralPosition = true;
 
   @override
   void initState() {
     super.initState();
 
-    // Nur Querformat rechts
+    // Nur Landscape Right
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
 
-    // Wörterliste kopieren & mischen
     remainingWords = List.of(widget.words)..shuffle(Random());
-
-    // Zeit setzen
     remainingSeconds = widget.gameDurationInSeconds;
 
-    // Start Timer
-    _nextWord(); // Sofort 1. Wort
-    wordTimer = Timer.periodic(const Duration(seconds: 3), (_) => _nextWord());
+    _nextWord();
+
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
+
+    _accelSub = accelerometerEvents.listen((event) {
+      const threshold = 7.5;
+
+      setState(() {
+        if (event.z <= -threshold && isInNeutralPosition) {
+          // Display zeigt nach oben → grün
+          backgroundColor = Colors.green;
+          isInNeutralPosition = false;
+          _nextWord();
+        } else if (event.z >= threshold && isInNeutralPosition) {
+          // Display zeigt nach unten → rot
+          backgroundColor = Colors.red;
+          isInNeutralPosition = false;
+          _nextWord();
+        } else if (event.z > -threshold && event.z < threshold) {
+          // Zurück zur Stirnposition → neutral
+          backgroundColor = Colors.white;
+          isInNeutralPosition = true;
+        }
+      });
+    });
   }
 
   void _tick() {
@@ -69,8 +91,8 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _endGame() {
-    wordTimer.cancel();
     countdownTimer.cancel();
+    _accelSub?.cancel();
 
     Navigator.pushReplacement(
       context,
@@ -80,14 +102,16 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
+    countdownTimer.cancel();
+    _accelSub?.cancel();
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    wordTimer.cancel();
-    countdownTimer.cancel();
+
     super.dispose();
   }
 
@@ -100,10 +124,10 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
-            // Wort zentriert anzeigen
             Center(
               child: Text(
                 currentWord ?? '',
@@ -114,8 +138,6 @@ class _GameScreenState extends State<GameScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-
-            // Countdown oben rechts
             Positioned(
               top: 16,
               right: 16,

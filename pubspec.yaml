@@ -35,9 +35,6 @@ flutter:
   generate: true
 
   assets:
-    - assets/images/startscreen_logo.png
-    - assets/images/startscreen_title.png
-    - assets/images/round_end.png
     - assets/topics/topic_car.png
     - assets/topics/topic_sport.png
     - assets/topics/topic_geography.png
@@ -60,9 +57,6 @@ flutter:
     - assets/words/es.json
     - assets/words/hr.json
     - assets/words/zh.json
-    - assets/icons/partybomb.png
-    - assets/icons/imposter.png
-    - assets/icons/pikapika.png
 
 flutter_launcher_icons:
   android: true
