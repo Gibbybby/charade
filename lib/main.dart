@@ -1,17 +1,8 @@
-import 'package:charadex/start_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'app_state.dart';
+import 'screens/home_screen.dart';
 
-void main() async {
-  // Sicherstellen, dass Widgets und Binding bereit sind
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // AppState lädt beim Erzeugen automatisch SharedPreferences
-  runApp(
-    ChangeNotifierProvider(create: (_) => AppState(), child: const MyApp()),
-  );
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,24 +10,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppState>(
-      builder: (context, appState, _) {
-        return MaterialApp(
-          // Debug-Banner ausschalten
-          debugShowCheckedModeBanner: false,
-
-          // Lokalisierung
-          locale: appState.locale,
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-
-          // Optional: Theme und weitere Einstellungen
-          theme: ThemeData(primarySwatch: Colors.orange),
-
-          // Startscreen
-          home: const CharadePartyHomePage(),
-        );
-      },
+    return MaterialApp(
+      title: 'Flutter App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const HomeScreen(),
     );
   }
 }
