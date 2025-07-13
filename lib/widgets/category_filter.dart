@@ -39,10 +39,9 @@ class CategoryFilter extends StatelessWidget {
               ),
             ),
             child: Text(
-              // Für Lokalisierung: AppLocalizations.of(context)!.category_kids
               cat.nameKey,
               style: TextStyle(
-                color: isSelected ? Colors.blue.shade800 : Colors.black87,
+                color: isSelected ? Colors.blue.shade800 : Colors.white,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: 13,
               ),

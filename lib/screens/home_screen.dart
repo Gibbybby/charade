@@ -67,6 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void startGame() {
+    if (selectedTopicIds.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bitte wähle mindestens ein Thema aus.')),
+      );
+      return;
+    }
+
     final selectedTopics = topics.where((topic) => selectedTopicIds.contains(topic.id)).toList();
     final allWords = selectedTopics.expand((t) => t.words).toList();
 
@@ -82,10 +89,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.deepPurple, // <-- Vollständiger lila Hintergrund
       appBar: AppBar(
         title: const Text('Themenübersicht'),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+        elevation: 2,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
@@ -114,17 +144,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 return GestureDetector(
                   onTap: () => toggleTopicSelection(topic.id),
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: isSelected ? Colors.purple : Colors.transparent,
-                        width: 3,
-                      ),
+                      boxShadow: [
+                        const BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 6,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                      border: isSelected
+                          ? Border.all(
+                        color: Colors.yellow,
+                        width: 4,
+                      )
+                          : null,
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(13),
+                      borderRadius: BorderRadius.circular(12),
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
@@ -173,35 +213,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            const SizedBox(height: 100), // Platz für Bottom-Leiste
+            const SizedBox(height: 100),
           ],
         ),
       ),
-      bottomNavigationBar: BottomControlPanel(
-        seconds: seconds,
-        onStartGame: startGame,
-        onIncrease: increaseTime,
-        onDecrease: decreaseTime,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 12,
+              offset: Offset(0, -3),
+            ),
+          ],
+        ),
+        child: BottomControlPanel(
+          seconds: seconds,
+          onStartGame: startGame,
+          onIncrease: increaseTime,
+          onDecrease: decreaseTime,
+        ),
       ),
     );
-  }
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-  }
-
-  @override
-  void dispose() {
-    // Nach Verlassen wieder alles erlauben
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    super.dispose();
   }
 }

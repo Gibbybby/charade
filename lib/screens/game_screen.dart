@@ -21,6 +21,9 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   late List<String> remainingWords;
+  List<String> correctWords = [];
+  List<String> skippedWords = [];
+
   late Timer countdownTimer;
   StreamSubscription? _accelSub;
 
@@ -34,7 +37,6 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
 
-    // Nur Landscape Right
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
@@ -51,17 +53,14 @@ class _GameScreenState extends State<GameScreen> {
 
       setState(() {
         if (event.z <= -threshold && isInNeutralPosition) {
-          // Display zeigt nach oben → grün
-          backgroundColor = Colors.green;
-          isInNeutralPosition = false;
-          _nextWord();
-        } else if (event.z >= threshold && isInNeutralPosition) {
-          // Display zeigt nach unten → rot
           backgroundColor = Colors.red;
           isInNeutralPosition = false;
-          _nextWord();
+          _markSkipped();
+        } else if (event.z >= threshold && isInNeutralPosition) {
+          backgroundColor = Colors.green;
+          isInNeutralPosition = false;
+          _markCorrect();
         } else if (event.z > -threshold && event.z < threshold) {
-          // Zurück zur Stirnposition → neutral
           backgroundColor = Colors.white;
           isInNeutralPosition = true;
         }
@@ -76,6 +75,20 @@ class _GameScreenState extends State<GameScreen> {
 
     if (remainingSeconds <= 0) {
       _endGame();
+    }
+  }
+
+  void _markCorrect() {
+    if (currentWord != null) {
+      correctWords.add(currentWord!);
+      _nextWord();
+    }
+  }
+
+  void _markSkipped() {
+    if (currentWord != null) {
+      skippedWords.add(currentWord!);
+      _nextWord();
     }
   }
 
@@ -96,7 +109,13 @@ class _GameScreenState extends State<GameScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const GameEndScreen()),
+      MaterialPageRoute(
+        builder: (_) => GameEndScreen(
+          correctWords: correctWords,
+          skippedWords: skippedWords,
+          lastUnmarkedWord: currentWord, // falls vorhanden
+        ),
+      ),
     );
   }
 

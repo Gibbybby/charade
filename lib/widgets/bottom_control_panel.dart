@@ -25,7 +25,7 @@ class BottomControlPanel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Colors.deepPurple.shade100,
         boxShadow: const [
           BoxShadow(
             color: Colors.black26,
@@ -37,7 +37,6 @@ class BottomControlPanel extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Timer mit - / +
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -88,6 +87,7 @@ class BottomControlPanel extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange, // Eigene Farbe für Button
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -95,8 +95,8 @@ class BottomControlPanel extends StatelessWidget {
                 ),
                 onPressed: onStartGame,
                 child: const Text(
-                  'Start Game',
-                  style: TextStyle(fontSize: 18),
+                  'Spiel starten',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ),
