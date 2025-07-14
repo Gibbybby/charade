@@ -1,8 +1,12 @@
+// game_screen.dart
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+import '../controllers/tilt_controller.dart';
+import '../widgets/tilt_start_overlay.dart';
 import 'game_end.dart';
 
 class GameScreen extends StatefulWidget {
@@ -21,17 +25,20 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   late List<String> remainingWords;
-  List<String> correctWords = [];
-  List<String> skippedWords = [];
+  List<Map<String, dynamic>> playedWords = [];
+  List<bool> lastWordResults = [];
 
-  late Timer countdownTimer;
+  Timer? countdownTimer;
   StreamSubscription? _accelSub;
+  late TiltController tiltController;
 
   String? currentWord;
   int remainingSeconds = 0;
   Color backgroundColor = Colors.white;
 
   bool isInNeutralPosition = true;
+  bool showTiltToStart = true;
+  bool gameEndedByTimeout = false;
 
   @override
   void initState() {
@@ -44,22 +51,30 @@ class _GameScreenState extends State<GameScreen> {
     remainingWords = List.of(widget.words)..shuffle(Random());
     remainingSeconds = widget.gameDurationInSeconds;
 
-    _nextWord();
+    tiltController = TiltController(onStart: _startGame);
+  }
 
-    countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
+  void _startGame() {
+    setState(() {
+      showTiltToStart = false;
+      _nextWord();
+      countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
+    });
 
     _accelSub = accelerometerEvents.listen((event) {
       const threshold = 7.5;
 
       setState(() {
-        if (event.z <= -threshold && isInNeutralPosition) {
+        if (event.z >= threshold && isInNeutralPosition) {
           backgroundColor = Colors.red;
           isInNeutralPosition = false;
           _markSkipped();
-        } else if (event.z >= threshold && isInNeutralPosition) {
+          _vibrateWrong();
+        } else if (event.z <= -threshold && isInNeutralPosition) {
           backgroundColor = Colors.green;
           isInNeutralPosition = false;
           _markCorrect();
+          _vibrateCorrect();
         } else if (event.z > -threshold && event.z < threshold) {
           backgroundColor = Colors.white;
           isInNeutralPosition = true;
@@ -74,26 +89,32 @@ class _GameScreenState extends State<GameScreen> {
     });
 
     if (remainingSeconds <= 0) {
+      gameEndedByTimeout = true;
       _endGame();
     }
   }
 
   void _markCorrect() {
     if (currentWord != null) {
-      correctWords.add(currentWord!);
+      playedWords.add({'word': currentWord!, 'isCorrect': true});
+      lastWordResults.insert(0, true);
+      if (lastWordResults.length > 8) lastWordResults.removeLast();
       _nextWord();
     }
   }
 
   void _markSkipped() {
     if (currentWord != null) {
-      skippedWords.add(currentWord!);
+      playedWords.add({'word': currentWord!, 'isCorrect': false});
+      lastWordResults.insert(0, false);
+      if (lastWordResults.length > 8) lastWordResults.removeLast();
       _nextWord();
     }
   }
 
   void _nextWord() {
     if (remainingWords.isEmpty) {
+      gameEndedByTimeout = false;
       _endGame();
       return;
     }
@@ -104,25 +125,36 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _endGame() {
-    countdownTimer.cancel();
+    countdownTimer?.cancel();
     _accelSub?.cancel();
+    tiltController.dispose();
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (_) => GameEndScreen(
-          correctWords: correctWords,
-          skippedWords: skippedWords,
-          lastUnmarkedWord: currentWord, // falls vorhanden
+          playedWords: playedWords,
+          lastUnmarkedWord: gameEndedByTimeout ? currentWord : null,
         ),
       ),
     );
   }
 
+  void _vibrateCorrect() {
+    HapticFeedback.mediumImpact();
+  }
+
+  void _vibrateWrong() {
+    HapticFeedback.heavyImpact();
+  }
+
   @override
   void dispose() {
-    countdownTimer.cancel();
+    if (countdownTimer?.isActive ?? false) {
+      countdownTimer?.cancel();
+    }
     _accelSub?.cancel();
+    tiltController.dispose();
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -140,6 +172,12 @@ class _GameScreenState extends State<GameScreen> {
     return '$minutes:$secs';
   }
 
+  Color _getTimerBoxColor() {
+    if (remainingSeconds <= 10) return Colors.red;
+    if (remainingSeconds <= 30) return Colors.orange;
+    return Colors.black;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,35 +185,82 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            Center(
-              child: Text(
-                currentWord ?? '',
-                style: const TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
             Positioned(
               top: 16,
-              right: 16,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  _formatTime(remainingSeconds),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+              left: 16,
+              child: GestureDetector(
+                onTap: _endGame,
+                child: const Icon(Icons.close, size: 32, color: Colors.black),
+              ),
+            ),
+            if (!showTiltToStart)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: _getTimerBoxColor().withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: SizedBox(
+                    width: 70,
+                    child: Center(
+                      child: Text(
+                        _formatTime(remainingSeconds),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFeatures: [FontFeature.tabularFigures()],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            if (!showTiltToStart)
+              Center(
+                child: Text(
+                  currentWord ?? '',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: backgroundColor == Colors.white ? Colors.black : Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            if (!showTiltToStart)
+              Positioned(
+                bottom: 32,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: List.generate(
+                        lastWordResults.length,
+                            (index) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Icon(
+                            Icons.circle,
+                            size: 12,
+                            color: lastWordResults[index] ? Colors.green : Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            if (showTiltToStart) const TiltStartOverlay(),
           ],
         ),
       ),

@@ -14,7 +14,7 @@ PODS:
     - FlutterMacOS
   - url_launcher_ios (0.0.1):
     - Flutter
-  - vibration (3.0.0):
+  - vibration (1.7.5):
     - Flutter
 
 DEPENDENCIES:
@@ -53,7 +53,7 @@ SPEC CHECKSUMS:
   sensors_plus: 6a11ed0c2e1d0bd0b20b4029d3bad27d96e0c65b
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
-  vibration: 69774ad57825b11c951ee4c46155f455d7a592ce
+  vibration: 8e2f50fc35bb736f9eecb7dd9f7047fbb6a6e888
 
 PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
 

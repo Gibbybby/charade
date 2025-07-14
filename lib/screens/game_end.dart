@@ -1,41 +1,18 @@
+// game_end.dart
 import 'package:flutter/material.dart';
 
 class GameEndScreen extends StatelessWidget {
-  final List<String> correctWords;
-  final List<String> skippedWords;
+  final List<Map<String, dynamic>> playedWords;
   final String? lastUnmarkedWord;
 
   const GameEndScreen({
     super.key,
-    required this.correctWords,
-    required this.skippedWords,
+    required this.playedWords,
     this.lastUnmarkedWord,
   });
 
   @override
   Widget build(BuildContext context) {
-    final allWords = <Map<String, dynamic>>[];
-
-    int correctIndex = 0;
-    int skippedIndex = 0;
-    int totalLength = correctWords.length + skippedWords.length;
-
-    // Rekonstruiere Reihenfolge: zuerst kommen die Wörter in der Reihenfolge, wie sie gespielt wurden
-    while (correctIndex < correctWords.length || skippedIndex < skippedWords.length) {
-      if (correctIndex < correctWords.length) {
-        if (correctWords[correctIndex] != lastUnmarkedWord) {
-          allWords.add({'word': correctWords[correctIndex], 'isCorrect': true});
-        }
-        correctIndex++;
-      }
-      if (skippedIndex < skippedWords.length) {
-        if (skippedWords[skippedIndex] != lastUnmarkedWord) {
-          allWords.add({'word': skippedWords[skippedIndex], 'isCorrect': false});
-        }
-        skippedIndex++;
-      }
-    }
-
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade50,
       appBar: AppBar(
@@ -62,62 +39,46 @@ class GameEndScreen extends StatelessWidget {
             const SizedBox(height: 12),
             Expanded(
               child: ListView.builder(
-                itemCount: allWords.length + (lastUnmarkedWord != null ? 1 : 0),
+                itemCount: playedWords.length + (lastUnmarkedWord != null ? 1 : 0),
                 itemBuilder: (context, index) {
-                  if (index < allWords.length) {
-                    final entry = allWords[index];
-                    final word = entry['word'] as String;
-                    final isCorrect = entry['isCorrect'] as bool;
+                  if (index < playedWords.length) {
+                    final word = playedWords[index]['word'] as String;
+                    final isCorrect = playedWords[index]['isCorrect'] as bool;
+                    final color = isCorrect ? Colors.green : Colors.red;
 
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Container(
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: isCorrect ? Colors.green.shade100 : Colors.red.shade100,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          word,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: isCorrect ? Colors.green.shade800 : Colors.red.shade800,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
+                    return _buildWordTile(word, color);
                   } else {
                     // Letztes unmarkiertes Wort (grau)
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Container(
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          lastUnmarkedWord!,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey.shade800,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
+                    return _buildWordTile(lastUnmarkedWord!, Colors.grey);
                   }
                 },
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWordTile(String word, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Container(
+        width: double.infinity,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          word,
+          style: TextStyle(
+            fontSize: 16,
+            color: color,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
         ),
       ),
     );
