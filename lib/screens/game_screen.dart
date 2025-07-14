@@ -2,11 +2,10 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+import 'package:charadex/controllers/tilt_input_handler.dart';
+import 'package:charadex/widgets/tilt_start_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sensors_plus/sensors_plus.dart';
-import '../controllers/tilt_controller.dart';
-import '../widgets/tilt_start_overlay.dart';
 import 'game_end.dart';
 
 class GameScreen extends StatefulWidget {
@@ -29,16 +28,14 @@ class _GameScreenState extends State<GameScreen> {
   List<bool> lastWordResults = [];
 
   Timer? countdownTimer;
-  StreamSubscription? _accelSub;
-  late TiltController tiltController;
-
   String? currentWord;
   int remainingSeconds = 0;
   Color backgroundColor = Colors.white;
 
-  bool isInNeutralPosition = true;
   bool showTiltToStart = true;
-  bool gameEndedByTimeout = false;
+  bool gameEndedByTimeout = true;
+
+  late TiltInputHandler tiltHandler;
 
   @override
   void initState() {
@@ -51,36 +48,29 @@ class _GameScreenState extends State<GameScreen> {
     remainingWords = List.of(widget.words)..shuffle(Random());
     remainingSeconds = widget.gameDurationInSeconds;
 
-    tiltController = TiltController(onStart: _startGame);
+    tiltHandler = TiltInputHandler(
+      onTiltUp: _handleCorrect,
+      onTiltDown: _handleSkip,
+      onResetNeutral: () {
+        setState(() => backgroundColor = Colors.white);
+      },
+      onStartGame: () {
+        setState(() {
+          showTiltToStart = false;
+          _nextWord();
+          countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
+        });
+      },
+      isInStartPosition: _isInStartTiltPosition,
+      isGameStarted: () => !showTiltToStart,
+    );
+
+    tiltHandler.startListening();
   }
 
-  void _startGame() {
-    setState(() {
-      showTiltToStart = false;
-      _nextWord();
-      countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
-    });
-
-    _accelSub = accelerometerEvents.listen((event) {
-      const threshold = 7.5;
-
-      setState(() {
-        if (event.z >= threshold && isInNeutralPosition) {
-          backgroundColor = Colors.red;
-          isInNeutralPosition = false;
-          _markSkipped();
-          _vibrateWrong();
-        } else if (event.z <= -threshold && isInNeutralPosition) {
-          backgroundColor = Colors.green;
-          isInNeutralPosition = false;
-          _markCorrect();
-          _vibrateCorrect();
-        } else if (event.z > -threshold && event.z < threshold) {
-          backgroundColor = Colors.white;
-          isInNeutralPosition = true;
-        }
-      });
-    });
+  bool _isInStartTiltPosition() {
+    // Annahme: idealerweise z > 7.0 (leicht schräg zur Wand)
+    return true; // Kann hier ggf. präziser gemacht werden
   }
 
   void _tick() {
@@ -92,6 +82,20 @@ class _GameScreenState extends State<GameScreen> {
       gameEndedByTimeout = true;
       _endGame();
     }
+  }
+
+  void _handleCorrect() {
+    setState(() {
+      backgroundColor = Colors.green;
+      _markCorrect();
+    });
+  }
+
+  void _handleSkip() {
+    setState(() {
+      backgroundColor = Colors.red;
+      _markSkipped();
+    });
   }
 
   void _markCorrect() {
@@ -126,8 +130,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void _endGame() {
     countdownTimer?.cancel();
-    _accelSub?.cancel();
-    tiltController.dispose();
+    tiltHandler.stopListening();
 
     Navigator.pushReplacement(
       context,
@@ -140,21 +143,10 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  void _vibrateCorrect() {
-    HapticFeedback.mediumImpact();
-  }
-
-  void _vibrateWrong() {
-    HapticFeedback.heavyImpact();
-  }
-
   @override
   void dispose() {
-    if (countdownTimer?.isActive ?? false) {
-      countdownTimer?.cancel();
-    }
-    _accelSub?.cancel();
-    tiltController.dispose();
+    countdownTimer?.cancel();
+    tiltHandler.stopListening();
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -172,10 +164,14 @@ class _GameScreenState extends State<GameScreen> {
     return '$minutes:$secs';
   }
 
-  Color _getTimerBoxColor() {
-    if (remainingSeconds <= 10) return Colors.red;
-    if (remainingSeconds <= 30) return Colors.orange;
-    return Colors.black;
+  Color _timerBoxColor() {
+    if (remainingSeconds <= 10) {
+      return Colors.red;
+    } else if (remainingSeconds <= 30) {
+      return Colors.orange;
+    } else {
+      return Colors.black.withOpacity(0.7);
+    }
   }
 
   @override
@@ -200,7 +196,7 @@ class _GameScreenState extends State<GameScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: _getTimerBoxColor().withOpacity(0.9),
+                    color: _timerBoxColor(),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: SizedBox(
