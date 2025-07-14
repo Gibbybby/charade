@@ -57,6 +57,8 @@ flutter:
     - assets/words/es.json
     - assets/words/hr.json
     - assets/words/zh.json
+    - assets/tutorial/incorrect.png
+    - assets/tutorial/correct.png
 
 flutter_launcher_icons:
   android: true
