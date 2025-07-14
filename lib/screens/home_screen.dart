@@ -110,11 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple, // <-- Vollständiger lila Hintergrund
+      backgroundColor: Colors.white, // <-- Weißer Hintergrund
       appBar: AppBar(
-        title: const Text('Themenübersicht'),
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
+        title: const Text('Charade'), // <-- Neuer Titel
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         elevation: 2,
       ),
       body: SingleChildScrollView(

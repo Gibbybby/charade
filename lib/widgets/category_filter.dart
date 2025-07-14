@@ -41,7 +41,7 @@ class CategoryFilter extends StatelessWidget {
             child: Text(
               cat.nameKey,
               style: TextStyle(
-                color: isSelected ? Colors.blue.shade800 : Colors.white,
+                color: isSelected ? Colors.blue.shade800 : Colors.black,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: 13,
               ),
