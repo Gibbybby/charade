@@ -1,6 +1,7 @@
 import 'package:charadex/screens/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -30,6 +31,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // 🔹 Einstellungen-Kategorie
+          const Text("Einstellungen",
+              style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 12),
+
           // Sprache
           _settingsTile(
             icon: Icons.language,
@@ -101,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 24),
 
-          // App-Version
+          // 🔹 App-Informationen
           const Text("App-Informationen",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
@@ -110,6 +116,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
             icon: Icons.info_outline,
             title: "App-Version",
             value: "1.1.0",
+          ),
+
+          const SizedBox(height: 12),
+
+          // App bewerten
+          InkWell(
+            onTap: () async {
+              final url = Uri.parse("https://www.vucak.at");
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url);
+              }
+            },
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: cardColor,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.star_rate, color: Colors.amber[600]),
+                  const SizedBox(width: 16),
+                  const Expanded(
+                    child: Text(
+                      "App bewerten",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ],
       ),
