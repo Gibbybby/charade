@@ -11,11 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      title: 'Media Grid UI',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
       home: const HomeScreen(),
     );
   }

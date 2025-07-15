@@ -16,11 +16,6 @@ dependencies:
   intl: ^0.19.0
 
   cupertino_icons: ^1.0.8
-  sensors_plus: ^6.1.1
-  shared_preferences: ^2.2.2
-  audioplayers: ^6.4.0
-  vibration: ^1.7.5
-  provider: ^6.1.0
   url_launcher: ^6.1.7
 
 dev_dependencies:
@@ -35,28 +30,19 @@ flutter:
   generate: true
 
   assets:
-    - assets/topics/topic_car.png
-    - assets/topics/topic_sport.png
-    - assets/topics/topic_geography.png
-    - assets/topics/topic_film.png
-    - assets/topics/topic_animal.png
-    - assets/topics/topic_jobs.png
-    - assets/topics/topic_stars.png
-    - assets/topics/topic_drugs.png
-    - assets/topics/topic_music.png
-    - assets/topics/topic_party.png
-    - assets/topics/topic_serien.png
-    - assets/topics/topic_sex.png
-    - assets/sounds/ding.mp3
-    - assets/sounds/buzz.mp3
-    - assets/sounds/beep.mp3
-    - assets/sounds/highbeep.mp3
-    - assets/sounds/finish.mp3
-    - assets/words/de.json
-    - assets/words/en.json
-    - assets/words/es.json
-    - assets/words/hr.json
-    - assets/words/zh.json
+    - assets/app_icon.png
+    - assets/topics/car.png
+    - assets/topics/sport.png
+    - assets/topics/geo.png
+    - assets/topics/film.png
+    - assets/topics/animal.png
+    - assets/topics/jobs.png
+    - assets/topics/stars.png
+    - assets/topics/drugs.png
+    - assets/topics/music.png
+    - assets/topics/party.png
+    - assets/topics/series.png
+    - assets/topics/sex.png
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
 
