@@ -1,4 +1,6 @@
 import 'package:charadex/data.dart';
+import 'package:charadex/screens/settings.dart';
+import 'package:charadex/screens/tutorial.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,6 +11,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final backgroundColor = const Color(0xFF0F0F1C);
+  final cardColor = const Color(0xFF1E1E2D);
+  final purple = const Color(0xFF9B5EFF);
+
   String selectedMenuId = "all";
 
   @override
@@ -20,14 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
         .toList();
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: backgroundColor,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.help_outline, color: Colors.white),
           onPressed: () {
-            debugPrint("Help button tapped");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const TutorialScreen()),
+            );
           },
         ),
         centerTitle: true,
@@ -42,20 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {
-              debugPrint("Settings button tapped");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              );
             },
           ),
         ],
       ),
-
-      // ✅ Scrollbarer Inhalt
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 16), // nur vertikal
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ✅ Menü-Scrollbereich ohne äußeres Padding
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -75,10 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }).toList(),
                 ),
               ),
-
               const SizedBox(height: 16),
-
-              // ✅ Grid (nicht selbst scrollend)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: GridView.count(
@@ -133,14 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   }).toList(),
                 ),
               ),
-
-              const SizedBox(height: 100), // Platz für Button unten
+              const SizedBox(height: 100),
             ],
           ),
         ),
       ),
-
-      // ✅ Fixierter Button am unteren Bildschirmrand
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(32, 15, 32, 30),
         child: SizedBox(
@@ -175,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.amber[600] : Colors.grey[900],
+          color: isSelected ? Colors.amber[600] : cardColor,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
