@@ -1,28 +1,255 @@
 // lib/data.dart
 
-import 'dart:io';
-
-/// Liste der Menüelemente
+/// Menüeinträge mit ID, Name (für spätere interne Verwendung) und titleKey (für Lokalisierung)
 const List<Map<String, dynamic>> menuItems = [
-  {"title": "All", "isSelected": true},
-  {"title": "Kids", "isSelected": false},
-  {"title": "Sport", "isSelected": false},
-  {"title": "Party", "isSelected": false},
-  {"title": "Films", "isSelected": false},
+  {
+    "id": "all",
+    "name": "All",
+    "titleKey": "menu_all",
+    "isSelected": true,
+  },
+  {
+    "id": "kids",
+    "name": "Kids",
+    "titleKey": "menu_kids",
+    "isSelected": false,
+  },
+  {
+    "id": "sport",
+    "name": "Sport",
+    "titleKey": "menu_sport",
+    "isSelected": false,
+  },
+  {
+    "id": "party",
+    "name": "Party",
+    "titleKey": "menu_party",
+    "isSelected": false,
+  },
+  {
+    "id": "films",
+    "name": "Films",
+    "titleKey": "menu_films",
+    "isSelected": false,
+  },
 ];
 
-/// Liste der Bildpfade
-const List<String> imagePaths = [
-  'assets/topics/animal.png',
-  'assets/topics/car.png',
-  'assets/topics/drugs.png',
-  'assets/topics/film.png',
-  'assets/topics/geo.png',
-  'assets/topics/jobs.png',
-  'assets/topics/music.png',
-  'assets/topics/party.png',
-  'assets/topics/series.png',
-  'assets/topics/sex.png',
-  'assets/topics/sport.png',
-  'assets/topics/stars.png',
+/// Bildthemen mit ID, Titel-Schlüssel für Übersetzung, zugehörigem Menüpunkt, Pfad und Wortliste
+const List<Map<String, dynamic>> imageItems = [
+  {
+    "id": "animal",
+    "titleKey": "topic_animal",
+    "fitMenuItemId": "kids",
+    "imagePath": "assets/topics/animal.png",
+    "words": [
+      "dog",
+      "cat",
+      "lion",
+      "tiger",
+      "bear",
+      "fox",
+      "wolf",
+      "rabbit",
+      "deer",
+      "elephant"
+    ],
+  },
+  {
+    "id": "car",
+    "titleKey": "topic_car",
+    "fitMenuItemId": "sport",
+    "imagePath": "assets/topics/car.png",
+    "words": [
+      "wheel",
+      "engine",
+      "race",
+      "brake",
+      "speed",
+      "track",
+      "driver",
+      "gas",
+      "gear",
+      "horn"
+    ],
+  },
+  {
+    "id": "drugs",
+    "titleKey": "topic_drugs",
+    "fitMenuItemId": "party",
+    "imagePath": "assets/topics/drugs.png",
+    "words": [
+      "pill",
+      "joint",
+      "addict",
+      "high",
+      "dealer",
+      "needle",
+      "trip",
+      "dose",
+      "habit",
+      "overdose"
+    ],
+  },
+  {
+    "id": "film",
+    "titleKey": "topic_film",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/film.png",
+    "words": [
+      "actor",
+      "director",
+      "camera",
+      "screen",
+      "cinema",
+      "ticket",
+      "scene",
+      "script",
+      "trailer",
+      "popcorn"
+    ],
+  },
+  {
+    "id": "geo",
+    "titleKey": "topic_geo",
+    "fitMenuItemId": "kids",
+    "imagePath": "assets/topics/geo.png",
+    "words": [
+      "earth",
+      "continent",
+      "river",
+      "mountain",
+      "desert",
+      "island",
+      "map",
+      "country",
+      "ocean",
+      "border"
+    ],
+  },
+  {
+    "id": "jobs",
+    "titleKey": "topic_jobs",
+    "fitMenuItemId": "all",
+    "imagePath": "assets/topics/jobs.png",
+    "words": [
+      "teacher",
+      "doctor",
+      "engineer",
+      "nurse",
+      "pilot",
+      "firefighter",
+      "police",
+      "chef",
+      "lawyer",
+      "artist"
+    ],
+  },
+  {
+    "id": "music",
+    "titleKey": "topic_music",
+    "fitMenuItemId": "party",
+    "imagePath": "assets/topics/music.png",
+    "words": [
+      "song",
+      "guitar",
+      "drums",
+      "melody",
+      "piano",
+      "concert",
+      "note",
+      "band",
+      "album",
+      "singer"
+    ],
+  },
+  {
+    "id": "party",
+    "titleKey": "topic_party",
+    "fitMenuItemId": "party",
+    "imagePath": "assets/topics/party.png",
+    "words": [
+      "dance",
+      "drink",
+      "music",
+      "friends",
+      "balloon",
+      "cake",
+      "toast",
+      "light",
+      "cheers",
+      "disco"
+    ],
+  },
+  {
+    "id": "series",
+    "titleKey": "topic_series",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/series.png",
+    "words": [
+      "episode",
+      "season",
+      "actor",
+      "binge",
+      "drama",
+      "cliffhanger",
+      "show",
+      "tv",
+      "viewer",
+      "network"
+    ],
+  },
+  {
+    "id": "sex",
+    "titleKey": "topic_sex",
+    "fitMenuItemId": "all",
+    "imagePath": "assets/topics/sex.png",
+    "words": [
+      "love",
+      "kiss",
+      "passion",
+      "romance",
+      "touch",
+      "intimacy",
+      "desire",
+      "hug",
+      "date",
+      "couple"
+    ],
+  },
+  {
+    "id": "sport",
+    "titleKey": "topic_sport",
+    "fitMenuItemId": "sport",
+    "imagePath": "assets/topics/sport.png",
+    "words": [
+      "ball",
+      "team",
+      "goal",
+      "win",
+      "coach",
+      "game",
+      "score",
+      "player",
+      "referee",
+      "training"
+    ],
+  },
+  {
+    "id": "stars",
+    "titleKey": "topic_stars",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/stars.png",
+    "words": [
+      "celebrity",
+      "fame",
+      "red carpet",
+      "award",
+      "gossip",
+      "fan",
+      "interview",
+      "film",
+      "paparazzi",
+      "idol"
+    ],
+  },
 ];
