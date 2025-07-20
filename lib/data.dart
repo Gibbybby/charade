@@ -38,7 +38,7 @@ const List<Map<String, dynamic>> menuItems = [
 const List<Map<String, dynamic>> imageItems = [
   {
     "id": "animals",
-    "titleKey": "animals",
+    "titleKeys": ["animals"],
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/animals.png",
     "words": [
@@ -49,7 +49,7 @@ const List<Map<String, dynamic>> imageItems = [
   },
   {
     "id": "basketball",
-    "titleKey": "basketball",
+    "titleKeys": ["basketball"],
     "fitMenuItemId": "sport",
     "imagePath": "assets/topics/basketball.png",
     "words": [
@@ -60,7 +60,7 @@ const List<Map<String, dynamic>> imageItems = [
   },
   {
     "id": "cars",
-    "titleKey": "cars",
+    "titleKeys": ["cars", "autos"],
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/cars.png",
     "words": [
@@ -70,7 +70,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "films",
-    "titleKey": "films",
+    "titleKeys": ["films"],
     "fitMenuItemId": "films",
     "imagePath": "assets/topics/films.png",
     "words": [
@@ -80,7 +80,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "football",
-    "titleKey": "football",
+    "titleKeys": ["football"],
     "fitMenuItemId": "sport",
     "imagePath": "assets/topics/football.png",
     "words": [
@@ -90,7 +90,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "geography",
-    "titleKey": "geography",
+    "titleKeys": ["geography"],
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/geography.png",
     "words": [
@@ -100,7 +100,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "history",
-    "titleKey": "history",
+    "titleKeys": ["history"],
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/history.png",
     "words": [
@@ -110,7 +110,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "jobs",
-    "titleKey": "jobs",
+    "titleKeys": ["jobs"],
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/jobs.png",
     "words": [
@@ -120,7 +120,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "music",
-    "titleKey": "music",
+    "titleKeys": ["music"],
     "fitMenuItemId": "films",
     "imagePath": "assets/topics/music.png",
     "words": [
@@ -130,7 +130,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "series",
-    "titleKey": "series",
+    "titleKeys": ["series"],
     "fitMenuItemId": "films",
     "imagePath": "assets/topics/series.png",
     "words": [
@@ -140,7 +140,7 @@ const List<Map<String, dynamic>> imageItems = [
     ],
   },{
     "id": "sport",
-    "titleKey": "sport",
+    "titleKeys": ["sport"],
     "fitMenuItemId": "sport",
     "imagePath": "assets/topics/sport.png",
     "words": [
