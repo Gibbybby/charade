@@ -30,19 +30,17 @@ flutter:
   generate: true
 
   assets:
-    - assets/app_icon.png
-    - assets/topics/car.png
-    - assets/topics/sport.png
-    - assets/topics/geo.png
-    - assets/topics/film.png
-    - assets/topics/animal.png
+    - assets/topics/animals.png
+    - assets/topics/basketball.png
+    - assets/topics/cars.png
+    - assets/topics/films.png
+    - assets/topics/football.png
+    - assets/topics/geography.png
+    - assets/topics/history.png
     - assets/topics/jobs.png
-    - assets/topics/stars.png
-    - assets/topics/drugs.png
     - assets/topics/music.png
-    - assets/topics/party.png
     - assets/topics/series.png
-    - assets/topics/sex.png
+    - assets/topics/sport.png
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
 

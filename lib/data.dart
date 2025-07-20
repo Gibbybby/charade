@@ -37,219 +37,116 @@ const List<Map<String, dynamic>> menuItems = [
 /// Bildthemen mit ID, Titel-Schlüssel für Übersetzung, zugehörigem Menüpunkt, Pfad und Wortliste
 const List<Map<String, dynamic>> imageItems = [
   {
-    "id": "animal",
-    "titleKey": "topic_animal",
+    "id": "animals",
+    "titleKey": "animals",
     "fitMenuItemId": "kids",
-    "imagePath": "assets/topics/animal.png",
+    "imagePath": "assets/topics/animals.png",
     "words": [
-      "dog",
-      "cat",
-      "lion",
-      "tiger",
-      "bear",
-      "fox",
-      "wolf",
-      "rabbit",
-      "deer",
-      "elephant"
+      "word1",
+      "word2"
+      "word3"
     ],
   },
   {
-    "id": "car",
-    "titleKey": "topic_car",
+    "id": "basketball",
+    "titleKey": "basketball",
     "fitMenuItemId": "sport",
-    "imagePath": "assets/topics/car.png",
+    "imagePath": "assets/topics/basketball.png",
     "words": [
-      "wheel",
-      "engine",
-      "race",
-      "brake",
-      "speed",
-      "track",
-      "driver",
-      "gas",
-      "gear",
-      "horn"
+      "word1",
+      "word2",
+      "word3"
     ],
   },
   {
-    "id": "drugs",
-    "titleKey": "topic_drugs",
-    "fitMenuItemId": "party",
-    "imagePath": "assets/topics/drugs.png",
-    "words": [
-      "pill",
-      "joint",
-      "addict",
-      "high",
-      "dealer",
-      "needle",
-      "trip",
-      "dose",
-      "habit",
-      "overdose"
-    ],
-  },
-  {
-    "id": "film",
-    "titleKey": "topic_film",
-    "fitMenuItemId": "films",
-    "imagePath": "assets/topics/film.png",
-    "words": [
-      "actor",
-      "director",
-      "camera",
-      "screen",
-      "cinema",
-      "ticket",
-      "scene",
-      "script",
-      "trailer",
-      "popcorn"
-    ],
-  },
-  {
-    "id": "geo",
-    "titleKey": "topic_geo",
+    "id": "cars",
+    "titleKey": "cars",
     "fitMenuItemId": "kids",
-    "imagePath": "assets/topics/geo.png",
+    "imagePath": "assets/topics/cars.png",
     "words": [
-      "earth",
-      "continent",
-      "river",
-      "mountain",
-      "desert",
-      "island",
-      "map",
-      "country",
-      "ocean",
-      "border"
+      "word1",
+      "word2",
+      "word3"
     ],
-  },
-  {
+  },{
+    "id": "films",
+    "titleKey": "films",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films.png",
+    "words": [
+      "word1",
+      "word2",
+      "word3"
+    ],
+  },{
+    "id": "football",
+    "titleKey": "football",
+    "fitMenuItemId": "sport",
+    "imagePath": "assets/topics/football.png",
+    "words": [
+      "word1",
+      "word2",
+      "word3"
+    ],
+  },{
+    "id": "geography",
+    "titleKey": "geography",
+    "fitMenuItemId": "kids",
+    "imagePath": "assets/topics/geography.png",
+    "words": [
+      "word1",
+      "word2",
+      "word3"
+    ],
+  },{
+    "id": "history",
+    "titleKey": "history",
+    "fitMenuItemId": "kids",
+    "imagePath": "assets/topics/history.png",
+    "words": [
+      "word1",
+      "word2",
+      "word3"
+    ],
+  },{
     "id": "jobs",
-    "titleKey": "topic_jobs",
-    "fitMenuItemId": "all",
+    "titleKey": "jobs",
+    "fitMenuItemId": "kids",
     "imagePath": "assets/topics/jobs.png",
     "words": [
-      "teacher",
-      "doctor",
-      "engineer",
-      "nurse",
-      "pilot",
-      "firefighter",
-      "police",
-      "chef",
-      "lawyer",
-      "artist"
+      "word1",
+      "word2",
+      "word3"
     ],
-  },
-  {
+  },{
     "id": "music",
-    "titleKey": "topic_music",
-    "fitMenuItemId": "party",
+    "titleKey": "music",
+    "fitMenuItemId": "films",
     "imagePath": "assets/topics/music.png",
     "words": [
-      "song",
-      "guitar",
-      "drums",
-      "melody",
-      "piano",
-      "concert",
-      "note",
-      "band",
-      "album",
-      "singer"
+      "word1",
+      "word2",
+      "word3"
     ],
-  },
-  {
-    "id": "party",
-    "titleKey": "topic_party",
-    "fitMenuItemId": "party",
-    "imagePath": "assets/topics/party.png",
-    "words": [
-      "dance",
-      "drink",
-      "music",
-      "friends",
-      "balloon",
-      "cake",
-      "toast",
-      "light",
-      "cheers",
-      "disco"
-    ],
-  },
-  {
+  },{
     "id": "series",
-    "titleKey": "topic_series",
+    "titleKey": "series",
     "fitMenuItemId": "films",
     "imagePath": "assets/topics/series.png",
     "words": [
-      "episode",
-      "season",
-      "actor",
-      "binge",
-      "drama",
-      "cliffhanger",
-      "show",
-      "tv",
-      "viewer",
-      "network"
+      "word1",
+      "word2",
+      "word3"
     ],
-  },
-  {
-    "id": "sex",
-    "titleKey": "topic_sex",
-    "fitMenuItemId": "all",
-    "imagePath": "assets/topics/sex.png",
-    "words": [
-      "love",
-      "kiss",
-      "passion",
-      "romance",
-      "touch",
-      "intimacy",
-      "desire",
-      "hug",
-      "date",
-      "couple"
-    ],
-  },
-  {
+  },{
     "id": "sport",
-    "titleKey": "topic_sport",
+    "titleKey": "sport",
     "fitMenuItemId": "sport",
     "imagePath": "assets/topics/sport.png",
     "words": [
-      "ball",
-      "team",
-      "goal",
-      "win",
-      "coach",
-      "game",
-      "score",
-      "player",
-      "referee",
-      "training"
-    ],
-  },
-  {
-    "id": "stars",
-    "titleKey": "topic_stars",
-    "fitMenuItemId": "films",
-    "imagePath": "assets/topics/stars.png",
-    "words": [
-      "celebrity",
-      "fame",
-      "red carpet",
-      "award",
-      "gossip",
-      "fan",
-      "interview",
-      "film",
-      "paparazzi",
-      "idol"
+      "word1",
+      "word2",
+      "word3"
     ],
   },
 ];
