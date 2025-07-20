@@ -1,19 +1,23 @@
-
 import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import '../game_settings.dart';
+import 'results_screen.dart';
 
-
-class WordListScreen extends StatelessWidget {
+class WordListScreen extends StatefulWidget {
   final List<String> words;
   const WordListScreen({super.key, required this.words});
 
   @override
-
   State<WordListScreen> createState() => _WordListScreenState();
+}
+
+class WordResult {
+  final String word;
+  final bool correct;
+  WordResult(this.word, this.correct);
 }
 
 class _WordListScreenState extends State<WordListScreen> {
@@ -22,6 +26,7 @@ class _WordListScreenState extends State<WordListScreen> {
   late Duration _timeLeft;
   Timer? _timer;
   Color _background = const Color(0xFF0F0F1C);
+  final List<WordResult> _results = [];
 
   @override
   void initState() {
@@ -36,9 +41,7 @@ class _WordListScreenState extends State<WordListScreen> {
   void _tick(Timer timer) {
     if (_timeLeft.inSeconds <= 1) {
       timer.cancel();
-      setState(() {
-        _timeLeft = Duration.zero;
-      });
+      _endRound();
     } else {
       setState(() {
         _timeLeft -= const Duration(seconds: 1);
@@ -47,6 +50,11 @@ class _WordListScreenState extends State<WordListScreen> {
   }
 
   void _nextWord(bool correct) {
+    _results.add(WordResult(_currentWord, correct));
+    if (_remaining.isEmpty) {
+      _endRound();
+      return;
+    }
     setState(() {
       _background = correct ? Colors.green : Colors.red;
     });
@@ -54,12 +62,19 @@ class _WordListScreenState extends State<WordListScreen> {
       if (!mounted) return;
       setState(() {
         _background = const Color(0xFF0F0F1C);
-        if (_remaining.isEmpty) {
-          _remaining = List<String>.from(widget.words)..shuffle(Random());
-        }
         _currentWord = _remaining.removeLast();
       });
     });
+  }
+
+  void _endRound() {
+    _timer?.cancel();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultsScreen(results: _results),
+      ),
+    );
   }
 
   @override
@@ -114,25 +129,6 @@ class _WordListScreenState extends State<WordListScreen> {
             ),
           ],
         ),
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0F0F1C),
-      appBar: AppBar(
-        title: const Text('Wörter'),
-        backgroundColor: const Color(0xFF0F0F1C),
-      ),
-      body: ListView.builder(
-        itemCount: words.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              words[index],
-              style: const TextStyle(color: Colors.white),
-            ),
-          );
-        },
-
       ),
     );
   }
