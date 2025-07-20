@@ -27,6 +27,7 @@ class _WordListScreenState extends State<WordListScreen> {
   Timer? _timer;
   Color _background = const Color(0xFF0F0F1C);
   final List<WordResult> _results = [];
+  static const int _maxDots = 8;
 
   @override
   void initState() {
@@ -36,6 +37,20 @@ class _WordListScreenState extends State<WordListScreen> {
     _currentWord = _remaining.removeLast();
     _timeLeft = GameSettings.roundDuration;
     _timer = Timer.periodic(const Duration(seconds: 1), _tick);
+  }
+
+  List<Widget> _buildDots() {
+    final items = _results.reversed.take(_maxDots).toList().reversed;
+    return items
+        .map((r) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Icon(
+                Icons.circle,
+                size: 10,
+                color: r.correct ? Colors.green : Colors.red,
+              ),
+            ))
+        .toList();
   }
 
   void _tick(Timer timer) {
@@ -110,22 +125,34 @@ class _WordListScreenState extends State<WordListScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                onPressed: () => _nextWord(false),
-                child: const Text('Skip'),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _buildDots(),
             ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                onPressed: () => _nextWord(true),
-                child: const Text('Correct'),
-              ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    onPressed: () => _nextWord(false),
+                    child: const Text('Skip'),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green),
+                    onPressed: () => _nextWord(true),
+                    child: const Text('Correct'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

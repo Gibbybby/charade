@@ -14,20 +14,37 @@ class ResultsScreen extends StatelessWidget {
         title: const Text('Ergebnis'),
         backgroundColor: const Color(0xFF0F0F1C),
       ),
-      body: ListView.builder(
-        itemCount: results.length,
-        itemBuilder: (context, index) {
-          final res = results[index];
-          return ListTile(
-            title: Text(
-              res.word,
-              style: TextStyle(
-                color: res.correct ? Colors.green : Colors.red,
-                fontWeight: FontWeight.bold,
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: results.length,
+              itemBuilder: (context, index) {
+                final res = results[index];
+                return ListTile(
+                  title: Text(
+                    res.word,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: res.correct ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Zur\u00fcck zum Men\u00fc'),
               ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
