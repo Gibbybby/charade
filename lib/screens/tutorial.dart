@@ -37,6 +37,26 @@ class TutorialScreen extends StatelessWidget {
             step: 3,
             heading: "Kippen zum Steuern",
             description: "Nach unten = richtig\nNach oben = überspringen",
+            extras: [
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: Image.asset(
+                      'assets/tutorial/correct.png',
+                      height: 100,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Image.asset(
+                      'assets/tutorial/incorrect.png',
+                      height: 100,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           _tutorialBox(
@@ -53,6 +73,7 @@ class TutorialScreen extends StatelessWidget {
     required int step,
     required String heading,
     required String description,
+    List<Widget> extras = const [],
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -94,6 +115,7 @@ class TutorialScreen extends StatelessWidget {
                     fontSize: 14,
                   ),
                 ),
+                ...extras,
               ],
             ),
           )

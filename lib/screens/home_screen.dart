@@ -1,6 +1,7 @@
 import 'package:charadex/data.dart';
 import 'package:charadex/screens/settings.dart';
 import 'package:charadex/screens/tutorial.dart';
+import 'package:charadex/screens/word_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final purple = const Color(0xFF9B5EFF);
 
   String selectedMenuId = "all";
+  final Set<String> selectedImageIds = {};
 
   @override
   Widget build(BuildContext context) {
@@ -95,46 +97,68 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSpacing: 10,
                   childAspectRatio: 3 / 4,
                   children: filteredImages.map((item) {
-                    return Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(
-                              image: AssetImage(item["imagePath"]),
-                              fit: BoxFit.cover,
-                            ),
+                    final isSelected = selectedImageIds.contains(item['id']);
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isSelected) {
+                            selectedImageIds.remove(item['id']);
+                          } else {
+                            selectedImageIds.add(item['id']);
+                          }
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected ? purple : Colors.transparent,
+                            width: 3,
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 6),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.circular(12)),
-                              color: Colors.transparent,
-                            ),
-                            child: Text(
-                              item["id"].toString(),
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                shadows: [
-                                  Shadow(
-                                    blurRadius: 2,
-                                    color: Colors.black,
-                                    offset: Offset(0.5, 0.5),
-                                  )
-                                ],
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                image: DecorationImage(
+                                  image: AssetImage(item["imagePath"]),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 6),
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.circular(12)),
+                                  color: Colors.transparent,
+                                ),
+                                child: Text(
+                                  item["id"].toString(),
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: [
+                                      Shadow(
+                                        blurRadius: 2,
+                                        color: Colors.black,
+                                        offset: Offset(0.5, 0.5),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     );
                   }).toList(),
                 ),
@@ -157,7 +181,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             onPressed: () {
-              debugPrint("Start button pressed");
+              final selectedItems = selectedImageIds.isEmpty
+                  ? imageItems
+                  : imageItems
+                      .where((item) => selectedImageIds.contains(item['id']))
+                      .toList();
+              final words = <String>[];
+              for (final item in selectedItems) {
+                words.addAll(List<String>.from(item['words'] as List));
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WordListScreen(words: words),
+                ),
+              );
             },
             label: const Text(
               "Start",

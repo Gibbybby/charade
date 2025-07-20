@@ -2,6 +2,7 @@ import 'package:charadex/screens/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../game_settings.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -12,11 +13,17 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   String _selectedLanguage = 'Deutsch';
-  Duration _selectedDuration = const Duration(seconds: 60);
+  Duration _selectedDuration = GameSettings.roundDuration;
 
   final backgroundColor = const Color(0xFF0F0F1C);
   final cardColor = const Color(0xFF1E1E2D);
   final purple = const Color(0xFF9B5EFF);
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDuration = GameSettings.roundDuration;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +82,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         final cappedDuration = duration < const Duration(seconds: 15)
                             ? const Duration(seconds: 15)
                             : duration > const Duration(minutes: 5)
-                            ? const Duration(minutes: 5)
-                            : duration;
+                                ? const Duration(minutes: 5)
+                                : duration;
                         setState(() {
                           _selectedDuration = cappedDuration;
+                          GameSettings.roundDuration = cappedDuration;
                         });
                       },
                     ),
