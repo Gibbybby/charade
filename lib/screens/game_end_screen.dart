@@ -109,7 +109,7 @@ class _GameEndScreenState extends State<GameEndScreen> {
                       .t('correctCount', params: {'count': '$_correctCount'}),
                   style: const TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     fontSize: 24,
                   ),
                 ),
@@ -119,7 +119,7 @@ class _GameEndScreenState extends State<GameEndScreen> {
                       .t('skippedCount', params: {'count': '$_skippedCount'}),
                   style: const TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     fontSize: 24,
                   ),
                 ),
