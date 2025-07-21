@@ -11,7 +11,10 @@ class ResultsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF0F0F1C),
       appBar: AppBar(
-        title: const Text('Ergebnis'),
+        title: const Text(
+          'Ergebnis',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: const Color(0xFF0F0F1C),
       ),
       body: Column(
@@ -21,13 +24,21 @@ class ResultsScreen extends StatelessWidget {
               itemCount: results.length,
               itemBuilder: (context, index) {
                 final res = results[index];
-                return ListTile(
-                  title: Text(
-                    res.word,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: res.correct ? Colors.green : Colors.red,
-                      fontWeight: FontWeight.bold,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      res.word,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: res.correct ? Colors.green : Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 );
@@ -38,6 +49,7 @@ class ResultsScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber[600],

@@ -21,39 +21,9 @@ const List<Map<String, dynamic>> menuItems = [
     "isSelected": false,
   },
   {
-    "id": "party",
-    "name": "Party",
-    "titleKey": "menu_party",
-    "isSelected": false,
-  },
-  {
-    "id": "films",
-    "name": "Films",
-    "titleKey": "menu_films",
-    "isSelected": false,
-  },
-  {
-    "id": "films",
-    "name": "Breaking Bad",
-    "titleKey": "menu_films",
-    "isSelected": false,
-  },
-  {
-    "id": "films",
-    "name": "Films",
-    "titleKey": "menu_films",
-    "isSelected": false,
-  },
-  {
-    "id": "films",
-    "name": "Films",
-    "titleKey": "menu_films",
-    "isSelected": false,
-  },
-  {
-    "id": "films",
-    "name": "Films",
-    "titleKey": "menu_films",
+    "id": "adult",
+    "name": "18+",
+    "titleKey": "menu_adult",
     "isSelected": false,
   },
   {
@@ -68,115 +38,156 @@ const List<Map<String, dynamic>> menuItems = [
 const List<Map<String, dynamic>> imageItems = [
   {
     "id": "animals",
-    "titleKeys": ["animals"],
+    "label": "Animals",
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/animals.png",
-    "words": [
-      "word1",
-      "word2"
-      "word3"
-    ],
+    "words": ["cat", "dog", "lion", "elephant", "horse"],
   },
   {
     "id": "basketball",
-    "titleKeys": ["basketball"],
+    "label": "Basketball",
     "fitMenuItemId": "sport",
     "imagePath": "assets/topics/basketball.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
+    "words": ["dribble", "shoot", "dunk", "hoop", "NBA"],
   },
   {
     "id": "cars",
-    "titleKeys": ["cars", "autos"],
+    "label": "Cars",
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/cars.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
-    "id": "films",
-    "titleKeys": ["films"],
-    "fitMenuItemId": "films",
-    "imagePath": "assets/topics/films.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
+    "words": ["engine", "steering wheel", "tire", "brake", "dashboard"],
+  },
+  {
     "id": "football",
-    "titleKeys": ["football"],
+    "label": "Football",
     "fitMenuItemId": "sport",
     "imagePath": "assets/topics/football.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
+    "words": ["goal", "offside", "corner", "foul", "striker"],
+  },
+  {
     "id": "geography",
-    "titleKeys": ["geography"],
+    "label": "Geography",
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/geography.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
+    "words": ["continent", "river", "mountain", "desert", "ocean"],
+  },
+  {
     "id": "history",
-    "titleKeys": ["history"],
+    "label": "History",
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/history.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
+    "words": ["ancient", "medieval", "renaissance", "revolution", "war"],
+  },
+  {
     "id": "jobs",
-    "titleKeys": ["jobs"],
+    "label": "Jobs",
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/jobs.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
+    "words": ["teacher", "doctor", "engineer", "chef", "firefighter"],
+  },
+  {
     "id": "music",
-    "titleKeys": ["music"],
+    "label": "Music",
     "fitMenuItemId": "films",
     "imagePath": "assets/topics/music.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
-    "id": "series",
-    "titleKeys": ["series"],
-    "fitMenuItemId": "films",
-    "imagePath": "assets/topics/series.png",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
-  },{
-    "id": "sport",
-    "titleKeys": ["sport"],
+    "words": ["guitar", "piano", "concert", "melody", "orchestra"],
+  },
+  {
+    "id": "countries",
+    "label": "Countries",
+    "fitMenuItemId": "kids",
+    "imagePath": "assets/topics/countries.jpeg",
+    "words": ["Germany", "France", "China", "Brazil", "Canada"],
+  },
+  {
+    "id": "sex",
+    "label": "Sex",
+    "fitMenuItemId": "adult",
+    "imagePath": "assets/topics/sex.jpeg",
+    "words": ["love", "romance", "passion", "seduction", "intimacy"],
+  },
+  {
+    "id": "sport_general",
+    "label": "Sport",
     "fitMenuItemId": "sport",
     "imagePath": "assets/topics/sport.jpeg",
-    "words": [
-      "word1",
-      "word2",
-      "word3"
-    ],
+    "words": ["athlete", "fitness", "competition", "team", "trophy"],
+  },
+  {
+    "id": "superheros",
+    "label": "Superheros",
+    "fitMenuItemId": "kids",
+    "imagePath": "assets/topics/superheros.jpeg",
+    "words": ["Superman", "Batman", "Spiderman", "Wonder Woman", "Hulk"],
+  },
+  {
+    "id": "tennis",
+    "label": "Tennis",
+    "fitMenuItemId": "sport",
+    "imagePath": "assets/topics/tennis.jpeg",
+    "words": ["serve", "racket", "ace", "court", "match"],
+  },
+  {
+    "id": "films",
+    "label": "Films",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/films.png",
+    "words": ["cinema", "director", "script", "actor", "popcorn"],
+  },
+  {
+    "id": "series",
+    "label": "Series",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/series.png",
+    "words": ["episode", "season", "cliffhanger", "actor", "streaming"],
+  },
+  {
+    "id": "breakingbad",
+    "label": "Breaking Bad",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/breakingbad.jpeg",
+    "words": ["Walter White", "meth", "Heisenberg", "chemistry", "New Mexico"],
+  },
+  {
+    "id": "disney_kids",
+    "label": "Disney",
+    "fitMenuItemId": "kids",
+    "imagePath": "assets/topics/films/disney.jpeg",
+    "words": ["Mickey", "Goofy", "Frozen", "Moana", "Aladdin"],
+  },
+  {
+    "id": "disney_films",
+    "label": "Disney",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/disney.jpeg",
+    "words": ["Mickey", "Goofy", "Frozen", "Moana", "Aladdin"],
+  },
+  {
+    "id": "harrypotter",
+    "label": "Harry Potter",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/harrypotter.jpeg",
+    "words": ["Hogwarts", "wizard", "wand", "quidditch", "Voldemort"],
+  },
+  {
+    "id": "netflix",
+    "label": "Netflix",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/netflix.jpeg",
+    "words": ["stream", "series", "subscription", "binge", "originals"],
+  },
+  {
+    "id": "paramount",
+    "label": "Paramount",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/paramount.jpeg",
+    "words": ["studio", "logo", "mountain", "Hollywood", "movies"],
+  },
+  {
+    "id": "prime",
+    "label": "Prime",
+    "fitMenuItemId": "films",
+    "imagePath": "assets/topics/films/prime.jpeg",
+    "words": ["amazon", "stream", "membership", "series", "movies"],
   },
 ];

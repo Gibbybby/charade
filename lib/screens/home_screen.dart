@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final backgroundColor = const Color(0xFF0F0F1C);
   final cardColor = const Color(0xFF1E1E2D);
-  final Color highlightColor = Colors.amber[600]!;
+  final Color highlightColor = Colors.purple;
 
   String selectedMenuId = "all";
   final Set<String> selectedImageIds = {};
@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.transparent,
                                 ),
                                 child: Text(
-                                  item["id"].toString(),
+                                  (item["label"] ?? item["id"]).toString(),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Colors.white,
