@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 import '../game_settings.dart';
 import 'game_end_screen.dart';
@@ -29,7 +30,11 @@ class _GameScreenState extends State<GameScreen> {
   Timer? _countdownTimer;
   int _countdown = 3;
   String _countdownDisplay = '3';
-  bool _showCountdown = true;
+  bool _showCountdown = false;
+  bool _showInstructions = true;
+  StreamSubscription<AccelerometerEvent>? _accelSub;
+  bool _processingTilt = false;
+  bool _tiltCorrect = false;
   Color _background = const Color(0xFF0F0F1C);
   final List<WordResult> _results = [];
   static const int _maxDots = 8;
@@ -44,11 +49,17 @@ class _GameScreenState extends State<GameScreen> {
     _remaining.shuffle(Random());
     _currentWord = _remaining.removeLast();
     _timeLeft = GameSettings.roundDuration;
-    _startCountdown();
+    if (!GameSettings.movementsEnabled) {
+      _accelSub = accelerometerEvents.listen(_onAccelerometer);
+    }
   }
 
   void _startCountdown() {
+    _countdown = 3;
     _countdownDisplay = '$_countdown';
+    setState(() {
+      _showCountdown = true;
+    });
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_countdown == 0) {
         timer.cancel();
@@ -60,7 +71,7 @@ class _GameScreenState extends State<GameScreen> {
           setState(() {
             _showCountdown = false;
           });
-          _timer = Timer.periodic(const Duration(seconds: 1), _tick);
+          _startTimer();
         });
       } else {
         setState(() {
@@ -69,6 +80,54 @@ class _GameScreenState extends State<GameScreen> {
         });
       }
     });
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), _tick);
+  }
+
+  void _startGame() {
+    if (!_showInstructions) return;
+    setState(() {
+      _showInstructions = false;
+    });
+    _startCountdown();
+  }
+
+  void _onAccelerometer(AccelerometerEvent event) {
+    final y = event.y;
+    if (_showInstructions) {
+      if (y.abs() > 7) {
+        _startGame();
+      }
+      return;
+    }
+    if (_showCountdown) return;
+
+    if (!_processingTilt) {
+      if (y > 7) {
+        _processingTilt = true;
+        _tiltCorrect = true;
+        _timer?.cancel();
+        setState(() {
+          _background = Colors.green;
+        });
+      } else if (y < -7) {
+        _processingTilt = true;
+        _tiltCorrect = false;
+        _timer?.cancel();
+        setState(() {
+          _background = Colors.red;
+        });
+      }
+    } else {
+      if (y.abs() < 3) {
+        _processingTilt = false;
+        final res = _tiltCorrect;
+        _startTimer();
+        _nextWord(res);
+      }
+    }
   }
 
   List<Widget> _buildDots() {
@@ -138,6 +197,7 @@ class _GameScreenState extends State<GameScreen> {
   void dispose() {
     _timer?.cancel();
     _countdownTimer?.cancel();
+    _accelSub?.cancel();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
@@ -201,10 +261,37 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ),
               ),
+            if (_showInstructions)
+              Container(
+                color: Colors.black87,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(20),
+                child: GameSettings.movementsEnabled
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            'Give the phone to another person who marks the words for you.',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: _startGame,
+                            child: const Text('Start'),
+                          )
+                        ],
+                      )
+                    : const Text(
+                        'Hold the phone to your forehead. Tilt up to skip and tilt down to mark correct. Tilt up or down to start!',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+              ),
           ],
         ),
       ),
-      bottomNavigationBar: _showCountdown || !GameSettings.movementsEnabled
+      bottomNavigationBar: _showCountdown || _showInstructions || !GameSettings.movementsEnabled
           ? null
           : Padding(
               padding: const EdgeInsets.all(20),
