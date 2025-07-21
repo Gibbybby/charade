@@ -18,7 +18,7 @@ class GameScreen extends StatefulWidget {
 
 class WordResult {
   final String word;
-  final bool correct;
+  final bool? correct;
   WordResult(this.word, this.correct);
 }
 
@@ -156,7 +156,9 @@ class _GameScreenState extends State<GameScreen> {
               child: Icon(
                 Icons.circle,
                 size: 10,
-                color: r.correct ? Colors.red : Colors.green,
+                color: r.correct == null
+                    ? Colors.grey
+                    : (r.correct! ? Colors.red : Colors.green),
               ),
             ),
           ),
@@ -167,7 +169,7 @@ class _GameScreenState extends State<GameScreen> {
   void _tick(Timer timer) {
     if (_timeLeft.inSeconds <= 1) {
       timer.cancel();
-      _endRound();
+      _endRound(addUnanswered: true);
     } else {
       setState(() {
         _timeLeft -= const Duration(seconds: 1);
@@ -178,7 +180,7 @@ class _GameScreenState extends State<GameScreen> {
   void _nextWord(bool correct) {
     _results.add(WordResult(_currentWord, correct));
     if (_remaining.isEmpty) {
-      _endRound();
+      _endRound(addUnanswered: false);
       return;
     }
     setState(() {
@@ -193,8 +195,11 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void _endRound() {
+  void _endRound({bool addUnanswered = true}) {
     _timer?.cancel();
+    if (addUnanswered) {
+      _results.add(WordResult(_currentWord, null));
+    }
     HapticFeedback.vibrate();
     Navigator.pushReplacement(
       context,
@@ -223,11 +228,32 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
       backgroundColor: _background,
       body: SafeArea(
         child: Stack(
           children: [
+            Positioned(
+              top: 8,
+              left: 8,
+              child: GestureDetector(
+                onTap: () => _endRound(addUnanswered: true),
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
             if (!_showCountdown && !_showInstructions) ...[
               Align(
                 alignment: Alignment.topCenter,
@@ -299,8 +325,7 @@ class _GameScreenState extends State<GameScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
                               ),
                               onPressed: _startGame,
                               child: const Text(
@@ -379,6 +404,7 @@ class _GameScreenState extends State<GameScreen> {
           ],
         ),
       ),
+    ),
     );
   }
 }
