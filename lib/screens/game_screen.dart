@@ -35,6 +35,7 @@ class _GameScreenState extends State<GameScreen> {
   StreamSubscription<AccelerometerEvent>? _accelSub;
   bool _processingTilt = false;
   bool _tiltCorrect = false;
+  bool _readyForTilt = false;
   Color _background = const Color(0xFF0F0F1C);
   final List<WordResult> _results = [];
   static const int _maxDots = 8;
@@ -96,6 +97,7 @@ class _GameScreenState extends State<GameScreen> {
     if (!_showInstructions) return;
     setState(() {
       _showInstructions = false;
+      _readyForTilt = false;
     });
     _startCountdown();
   }
@@ -103,7 +105,10 @@ class _GameScreenState extends State<GameScreen> {
   void _onAccelerometer(AccelerometerEvent event) {
     final z = event.z;
     if (_showInstructions) {
-      if (z.abs() > 7) {
+      if (!_readyForTilt && z.abs() < 2) {
+        _readyForTilt = true;
+      }
+      if (_readyForTilt && z.abs() > 7) {
         _startGame();
       }
       return;
@@ -312,7 +317,7 @@ class _GameScreenState extends State<GameScreen> {
                         ],
                       )
                     : const Text(
-                        'Hold the phone to your forehead and tilt down or up to start.',
+                        'Hold the phone to your forehead so the display faces the wall.\nThen tilt down or up to start.',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
