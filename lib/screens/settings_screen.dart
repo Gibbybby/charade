@@ -49,6 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // 🔹 Settings category
           const Text("Settings",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 12),
 
           // Language
           _settingsTile(
@@ -58,13 +59,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: () {
               setState(() {
                 _selectedLanguage =
-                _selectedLanguage == 'English' ? 'German' : 'English';
+                    _selectedLanguage == 'English' ? 'German' : 'English';
               });
             },
           ),
 
           const SizedBox(height: 12),
 
+          // Tutorial-Link
+          _settingsTile(
+            icon: Icons.menu_book,
+            title: "How to Play",
+            value: "Learn the rules",
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TutorialScreen(),
+                ),
+              );
+            },
+          ),
+
+          const SizedBox(height: 24),
+
+          // 🔹 Game Settings category
+          const Text("Game Settings",
+              style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 12),
 
           // Round time (Cupertino Timer Picker)
           _settingsTile(
@@ -179,24 +201,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
 
-          const SizedBox(height: 12),
-
-          // Tutorial-Link
-          _settingsTile(
-            icon: Icons.menu_book,
-            title: "How to Play",
-            value: "Learn the rules",
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TutorialScreen(),
-                ),
-              );
-            },
-          ),
-
-          const SizedBox(height: 24),
 
           // 🔹 App-Informationen
           const Text("App Information",
