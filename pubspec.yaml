@@ -31,7 +31,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   # aktiviert Code-Gen für die ARB-Dateien
-  generate: true
+  generate: false
 
   assets:
     - assets/topics/animals.png
