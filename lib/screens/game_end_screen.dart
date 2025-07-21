@@ -50,7 +50,7 @@ class GameEndScreen extends StatelessWidget {
                       res.word,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: res.correct ? Colors.green : Colors.red,
+                        color: res.correct ? Colors.red : Colors.green,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
