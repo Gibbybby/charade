@@ -1,8 +1,10 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' show Platform;
+import 'dart:math';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'notification_messages.dart';
 
 class NotificationService {
   static final _plugin = FlutterLocalNotificationsPlugin();
@@ -35,11 +37,13 @@ class NotificationService {
 
     var nextDate = firstFriday;
     bool isFriday = true;
+    final random = Random();
     for (int i = 0; i < 20; i++) {
+      final message = notificationMessages[random.nextInt(notificationMessages.length)];
       await _plugin.zonedSchedule(
         100 + i,
         'Time to play',
-        'Play Charade!',
+        message,
         nextDate,
         const NotificationDetails(
           android: AndroidNotificationDetails(
