@@ -74,9 +74,9 @@ class _GameScreenState extends State<GameScreen> {
           _startTimer();
         });
       } else {
+        _countdown -= 1;
         setState(() {
           _countdownDisplay = '$_countdown';
-          _countdown -= 1;
         });
       }
     });
@@ -95,9 +95,9 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _onAccelerometer(AccelerometerEvent event) {
-    final y = event.y;
+    final z = event.z;
     if (_showInstructions) {
-      if (y.abs() > 7) {
+      if (z.abs() > 7) {
         _startGame();
       }
       return;
@@ -105,14 +105,14 @@ class _GameScreenState extends State<GameScreen> {
     if (_showCountdown) return;
 
     if (!_processingTilt) {
-      if (y > 7) {
+      if (z > 7) {
         _processingTilt = true;
         _tiltCorrect = true;
         _timer?.cancel();
         setState(() {
           _background = Colors.green;
         });
-      } else if (y < -7) {
+      } else if (z < -7) {
         _processingTilt = true;
         _tiltCorrect = false;
         _timer?.cancel();
@@ -121,7 +121,7 @@ class _GameScreenState extends State<GameScreen> {
         });
       }
     } else {
-      if (y.abs() < 3) {
+      if (z.abs() < 3) {
         _processingTilt = false;
         final res = _tiltCorrect;
         _startTimer();
@@ -217,7 +217,7 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            if (!_showCountdown) ...[
+            if (!_showCountdown && !_showInstructions) ...[
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
@@ -263,7 +263,6 @@ class _GameScreenState extends State<GameScreen> {
               ),
             if (_showInstructions)
               Container(
-                color: Colors.black87,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(20),
                 child: GameSettings.movementsEnabled
