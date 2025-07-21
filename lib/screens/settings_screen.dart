@@ -61,6 +61,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
 
+          const SizedBox(height: 12),
+
 
           // Round time (Cupertino Timer Picker)
           _settingsTile(
