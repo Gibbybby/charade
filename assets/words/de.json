@@ -1,0 +1,149 @@
+{
+  "animals": [
+    "cat",
+    "dog",
+    "lion",
+    "elephant",
+    "horse"
+  ],
+  "basketball": [
+    "dribble",
+    "shoot",
+    "dunk",
+    "hoop",
+    "NBA"
+  ],
+  "cars": [
+    "engine",
+    "steering wheel",
+    "tire",
+    "brake",
+    "dashboard"
+  ],
+  "football": [
+    "goal",
+    "offside",
+    "corner",
+    "foul",
+    "striker"
+  ],
+  "geography": [
+    "continent",
+    "river",
+    "mountain",
+    "desert",
+    "ocean"
+  ],
+  "history": [
+    "ancient",
+    "medieval",
+    "renaissance",
+    "revolution",
+    "war"
+  ],
+  "jobs": [
+    "teacher",
+    "doctor",
+    "engineer",
+    "chef",
+    "firefighter"
+  ],
+  "music": [
+    "guitar",
+    "piano",
+    "concert",
+    "melody",
+    "orchestra"
+  ],
+  "countries": [
+    "Germany",
+    "France",
+    "China",
+    "Brazil",
+    "Canada"
+  ],
+  "sex": [
+    "love",
+    "romance",
+    "passion",
+    "seduction",
+    "intimacy"
+  ],
+  "sport_general": [
+    "athlete",
+    "fitness",
+    "competition",
+    "team",
+    "trophy"
+  ],
+  "superheros": [
+    "Superman",
+    "Batman",
+    "Spiderman",
+    "Wonder Woman",
+    "Hulk"
+  ],
+  "tennis": [
+    "serve",
+    "racket",
+    "ace",
+    "court",
+    "match"
+  ],
+  "films": [
+    "cinema",
+    "director",
+    "script",
+    "actor",
+    "popcorn"
+  ],
+  "series": [
+    "episode",
+    "season",
+    "cliffhanger",
+    "actor",
+    "streaming"
+  ],
+  "breakingbad": [
+    "Walter White",
+    "meth",
+    "Heisenberg",
+    "chemistry",
+    "New Mexico"
+  ],
+  "disney": [
+    "Mickey",
+    "Goofy",
+    "Frozen",
+    "Moana",
+    "Aladdin"
+  ],
+  "harrypotter": [
+    "Hogwarts",
+    "wizard",
+    "wand",
+    "quidditch",
+    "Voldemort"
+  ],
+  "netflix": [
+    "stream",
+    "series",
+    "subscription",
+    "binge",
+    "originals"
+  ],
+  "paramount": [
+    "studio",
+    "logo",
+    "mountain",
+    "Hollywood",
+    "movies"
+  ],
+  "prime": [
+    "amazon",
+    "stream",
+    "membership",
+    "series",
+    "movies"
+  ]
+}

@@ -1,8 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'words.dart';
 
 class AppLocalizations {
   final Locale locale;
-  AppLocalizations(this.locale);
+  final Map<String, String> _values;
+  AppLocalizations(this.locale, this._values);
 
   static const supportedLocales = [
     Locale('en'),
@@ -12,238 +16,20 @@ class AppLocalizations {
     Locale('hr'),
   ];
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
-  static const Map<String, Map<String, String>> _localizedValues = {
-    'en': {
-      'title': 'Charade',
-      'settings': 'Settings',
-      'languageLabel': 'Language',
-      'languageEnglish': 'English',
-      'languageGerman': 'German',
-      'languageSpanish': 'Spanish',
-      'languageFrench': 'French',
-      'languageCroatian': 'Croatian',
-      'darkMode': 'Dark Mode',
-      'on': 'On',
-      'off': 'Off',
-      'howToPlay': 'How to Play',
-      'learnRules': 'Learn the rules',
-      'gameSettings': 'Game Settings',
-      'roundTime': 'Round Time',
-      'movements': 'Movements',
-      'movementsDesc': 'Use buttons without gestures',
-      'startTutorial': 'Start tutorial',
-      'startTutorialDesc': 'Show instructions before the game',
-      'appInfo': 'App Information',
-      'appVersion': 'App Version',
-      'rateApp': 'Rate the App',
-      'start': 'Start',
-      'chooseCategory': 'Choose a category',
-      'chooseCategoryDesc': 'Pick one or more categories and set the round time.',
-      'phoneForehead': 'Phone on the forehead',
-      'phoneForeheadDesc': 'Hold the phone to your forehead so your team can read the word.',
-      'tiltControl': 'Tilt to control',
-      'tiltControlDesc': 'Down = correct\nUp = skip',
-      'letsGo': "Let's go!",
-      'haveFun': 'Have fun guessing!',
-      'givePhone': 'Give the phone to another person who marks the words for you.',
-      'holdPhone': 'Hold the phone to your forehead so the display faces the wall.\nThen tilt down or up to start.',
-      'skip': 'Skip',
-      'correct': 'Correct',
-      'congratulations': 'Congratulations',
-      'backToMenu': 'Back to Menu',
-      'enjoyApp': 'Enjoying the app?',
-      'ratePrompt': 'Would you like to rate the app?',
-      'later': 'Later',
-      'rate': 'Rate',
-      'correctCount': '{count} correct',
-      'skippedCount': '{count} skipped'
-    },
-    'de': {
-      'title': 'Charade',
-      'settings': 'Einstellungen',
-      'languageLabel': 'Sprache',
-      'languageEnglish': 'Englisch',
-      'languageGerman': 'Deutsch',
-      'languageSpanish': 'Spanisch',
-      'languageFrench': 'Französisch',
-      'languageCroatian': 'Kroatisch',
-      'darkMode': 'Dunkler Modus',
-      'on': 'An',
-      'off': 'Aus',
-      'howToPlay': 'Spielanleitung',
-      'learnRules': 'Regeln lernen',
-      'gameSettings': 'Spieleinstellungen',
-      'roundTime': 'Rundenzeit',
-      'movements': 'Bewegungen',
-      'movementsDesc': 'Mit Buttons ohne Gestensteuerung',
-      'startTutorial': 'Tutorial starten',
-      'startTutorialDesc': 'Vor dem Spiel die Erkl\u00e4rung',
-      'appInfo': 'App-Informationen',
-      'appVersion': 'App-Version',
-      'rateApp': 'App bewerten',
-      'start': 'Start',
-      'chooseCategory': 'Kategorie w\u00e4hlen',
-      'chooseCategoryDesc': 'W\u00e4hle eine oder mehrere Kategorien und stelle die Rundenzeit ein.',
-      'phoneForehead': 'Handy an die Stirn',
-      'phoneForeheadDesc': 'Halte das Handy an deine Stirn, damit dein Team das Wort lesen kann.',
-      'tiltControl': 'Kippen zur Steuerung',
-      'tiltControlDesc': 'Unten = richtig\nOben = \u00fcberspringen',
-      'letsGo': 'Los geht\u2019s!',
-      'haveFun': 'Viel Spa\u00df beim Raten!',
-      'givePhone': 'Gib das Handy einer anderen Person, die die W\u00f6rter f\u00fcr dich markiert.',
-      'holdPhone': 'Halte das Handy an deine Stirn, sodass das Display zur Wand zeigt.\nKippe dann nach unten oder oben, um zu starten.',
-      'skip': 'Weiter',
-      'correct': 'Richtig',
-      'congratulations': 'Gl\u00fcckwunsch',
-      'backToMenu': 'Zur\u00fcck zum Men\u00fc',
-      'enjoyApp': 'Gef\u00e4llt dir die App?',
-      'ratePrompt': 'M\u00f6chtest du die App bewerten?',
-      'later': 'Sp\u00e4ter',
-      'rate': 'Bewerten',
-      'correctCount': '{count} richtig',
-      'skippedCount': '{count} \u00fcbersprungen'
-    },
-    'es': {
-      'title': 'Charade',
-      'settings': 'Settings',
-      'languageLabel': 'Idioma',
-      'languageEnglish': 'Ingl\u00e9s',
-      'languageGerman': 'Alem\u00e1n',
-      'languageSpanish': 'Espa\u00f1ol',
-      'languageFrench': 'Franc\u00e9s',
-      'languageCroatian': 'Croata',
-      'darkMode': 'Modo oscuro',
-      'on': 'Encendido',
-      'off': 'Apagado',
-      'howToPlay': 'C\u00f3mo jugar',
-      'learnRules': 'Aprender las reglas',
-      'gameSettings': 'Configuraci\u00f3n',
-      'roundTime': 'Tiempo de ronda',
-      'movements': 'Movimientos',
-      'movementsDesc': 'Usar botones sin gestos',
-      'startTutorial': 'Iniciar tutorial',
-      'startTutorialDesc': 'Mostrar instrucciones antes del juego',
-      'appInfo': 'Informaci\u00f3n de la app',
-      'appVersion': 'Versi\u00f3n',
-      'rateApp': 'Calificar app',
-      'start': 'Comenzar',
-      'chooseCategory': 'Elegir categor\u00eda',
-      'chooseCategoryDesc': 'Elige una o m\u00e1s categor\u00edas y ajusta el tiempo.',
-      'phoneForehead': 'Tel\u00e9fono en la frente',
-      'phoneForeheadDesc': 'Sost\u00e9n el tel\u00e9fono en tu frente para que tu equipo lea la palabra.',
-      'tiltControl': 'Inclinar para controlar',
-      'tiltControlDesc': 'Abajo = correcto\nArriba = saltar',
-      'letsGo': '\u00a1Vamos!',
-      'haveFun': '\u00a1Divi\u00e9rtete!',
-      'givePhone': 'Entrega el tel\u00e9fono a otra persona que marque las palabras.',
-      'holdPhone': 'Sost\u00e9n el tel\u00e9fono en tu frente con la pantalla hacia afuera.\nLuego incl\u00ednalo para empezar.',
-      'skip': 'Saltar',
-      'correct': 'Correcto',
-      'congratulations': 'Felicidades',
-      'backToMenu': 'Volver al men\u00fa',
-      'enjoyApp': '\u00bfTe gusta la app?',
-      'ratePrompt': '\u00bfTe gustar\u00eda calificarla?',
-      'later': 'M\u00e1s tarde',
-      'rate': 'Calificar',
-      'correctCount': '{count} correctas',
-      'skippedCount': '{count} omitidas'
-    },
-    'fr': {
-      'title': 'Charade',
-      'settings': 'Param\u00e8tres',
-      'languageLabel': 'Langue',
-      'languageEnglish': 'Anglais',
-      'languageGerman': 'Allemand',
-      'languageSpanish': 'Espagnol',
-      'languageFrench': 'Fran\u00e7ais',
-      'languageCroatian': 'Croate',
-      'darkMode': 'Mode sombre',
-      'on': 'Activ\u00e9',
-      'off': 'D\u00e9sactiv\u00e9',
-      'howToPlay': 'Comment jouer',
-      'learnRules': 'Apprendre les r\u00e8gles',
-      'gameSettings': 'Param\u00e8tres du jeu',
-      'roundTime': 'Temps de manche',
-      'movements': 'Mouvements',
-      'movementsDesc': 'Utiliser des boutons sans gestes',
-      'startTutorial': 'D\u00e9marrer le tutoriel',
-      'startTutorialDesc': 'Afficher les instructions avant le jeu',
-      'appInfo': "Infos sur l'application", 
-      'appVersion': "Version de l'application", 
-      'rateApp': "Noter l'application", 
-      'start': 'D\u00e9marrer',
-      'chooseCategory': 'Choisir une cat\u00e9gorie',
-      'chooseCategoryDesc': 'Choisissez une ou plusieurs cat\u00e9gories et r\u00e9glez le temps.',
-      'phoneForehead': 'T\u00e9l\u00e9phone sur le front',
-      'phoneForeheadDesc': 'Tenez le t\u00e9l\u00e9phone sur votre front pour que votre \u00e9quipe lise le mot.',
-      'tiltControl': 'Incliner pour contr\u00f4ler',
-      'tiltControlDesc': 'Bas = correct\nHaut = passer',
-      'letsGo': 'Allons-y !',
-      'haveFun': 'Amusez-vous bien !',
-      'givePhone': 'Donnez le t\u00e9l\u00e9phone \u00e0 quelqu\u2019un d\u2019autre pour marquer les mots.',
-      'holdPhone': 'Tenez le t\u00e9l\u00e9phone sur votre front avec l\u2019\u00e9cran vers l\u2019ext\u00e9rieur.\nPuis inclinez-le pour commencer.',
-      'skip': 'Passer',
-      'correct': 'Correct',
-      'congratulations': 'F\u00e9licitations',
-      'backToMenu': 'Retour au menu',
-      'enjoyApp': "Vous appr\u00e9ciez l'application ?", 
-      'ratePrompt': 'Voulez-vous la noter ?',
-      'later': 'Plus tard',
-      'rate': 'Noter',
-      'correctCount': '{count} correct',
-      'skippedCount': '{count} pass\u00e9'
-    },
-    'hr': {
-      'title': 'Charade',
-      'settings': 'Postavke',
-      'languageLabel': 'Jezik',
-      'languageEnglish': 'Engleski',
-      'languageGerman': 'Njema\u010dki',
-      'languageSpanish': '\u0160panjolski',
-      'languageFrench': 'Francuski',
-      'languageCroatian': 'Hrvatski',
-      'darkMode': 'Tamni na\u010din',
-      'on': 'Uklju\u010deno',
-      'off': 'Isklju\u010deno',
-      'howToPlay': 'Kako igrati',
-      'learnRules': 'Nau\u010dite pravila',
-      'gameSettings': 'Postavke igre',
-      'roundTime': 'Vrijeme runde',
-      'movements': 'Pokreti',
-      'movementsDesc': 'Koristi gumbe bez gesti',
-      'startTutorial': 'Pokreni tutorijal',
-      'startTutorialDesc': 'Prika\u017ei upute prije igre',
-      'appInfo': 'Informacije o aplikaciji',
-      'appVersion': 'Verzija aplikacije',
-      'rateApp': 'Ocijeni aplikaciju',
-      'start': 'Po\u010detak',
-      'chooseCategory': 'Odaberi kategoriju',
-      'chooseCategoryDesc': 'Odaberite jednu ili vi\u0161e kategorija i postavite vrijeme.',
-      'phoneForehead': 'Telefon na \u010delo',
-      'phoneForeheadDesc': 'Dr\u017ei telefon na \u010delo kako bi tim mogao pro\u010ditati rije\u010d.',
-      'tiltControl': 'Naginji za kontrolu',
-      'tiltControlDesc': 'Dolje = to\u010dno\nGore = presko\u010di',
-      'letsGo': 'Krenimo!',
-      'haveFun': 'Zabavi se!',
-      'givePhone': 'Daj telefon drugoj osobi koja ozna\u010dava rije\u010di.',
-      'holdPhone': 'Dr\u017ei telefon na \u010delo tako da zaslon gleda prema van.\nZatim ga nagni za start.',
-      'skip': 'Presko\u010di',
-      'correct': 'To\u010dno',
-      'congratulations': '\u010destitamo',
-      'backToMenu': 'Natrag u izbornik',
-      'enjoyApp': 'Svi\u0111a li ti se aplikacija?',
-      'ratePrompt': '\u017delite li je ocijeniti?',
-      'later': 'Kasnije',
-      'rate': 'Ocijeni',
-      'correctCount': '{count} to\u010dno',
-      'skippedCount': '{count} presko\u010deno'
-    }
-  };
+  static Future<AppLocalizations> load(Locale locale) async {
+    final data = await rootBundle
+        .loadString('lib/l10n/app_${locale.languageCode}.arb');
+    final map = Map<String, dynamic>.from(json.decode(data));
+    await Words.load(locale);
+    return AppLocalizations(
+        locale, map.map((k, v) => MapEntry(k, v.toString())));
+  }
 
   String t(String key, {Map<String, String>? params}) {
-    var str = _localizedValues[locale.languageCode]?[key] ?? key;
+    var str = _values[key] ?? key;
     params?.forEach((k, v) {
       str = str.replaceAll('{$k}', v);
     });
@@ -255,15 +41,17 @@ class AppLocalizations {
   }
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
   @override
   bool isSupported(Locale locale) =>
       ['en', 'de', 'es', 'fr', 'hr'].contains(locale.languageCode);
   @override
   Future<AppLocalizations> load(Locale locale) async {
-    return AppLocalizations(locale);
+    return AppLocalizations.load(locale);
   }
+
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
