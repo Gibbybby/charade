@@ -1,19 +1,23 @@
-
 import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import '../game_settings.dart';
+import 'results_screen.dart';
 
-
-class WordListScreen extends StatelessWidget {
+class WordListScreen extends StatefulWidget {
   final List<String> words;
   const WordListScreen({super.key, required this.words});
 
   @override
-
   State<WordListScreen> createState() => _WordListScreenState();
+}
+
+class WordResult {
+  final String word;
+  final bool correct;
+  WordResult(this.word, this.correct);
 }
 
 class _WordListScreenState extends State<WordListScreen> {
@@ -22,6 +26,8 @@ class _WordListScreenState extends State<WordListScreen> {
   late Duration _timeLeft;
   Timer? _timer;
   Color _background = const Color(0xFF0F0F1C);
+  final List<WordResult> _results = [];
+  static const int _maxDots = 8;
 
   @override
   void initState() {
@@ -33,12 +39,34 @@ class _WordListScreenState extends State<WordListScreen> {
     _timer = Timer.periodic(const Duration(seconds: 1), _tick);
   }
 
+  List<Widget> _buildDots() {
+    final items = _results.reversed.take(_maxDots).toList().reversed;
+    return items
+        .map(
+          (r) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: const BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.circle,
+                size: 10,
+                color: r.correct ? Colors.green : Colors.red,
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
+
   void _tick(Timer timer) {
     if (_timeLeft.inSeconds <= 1) {
       timer.cancel();
-      setState(() {
-        _timeLeft = Duration.zero;
-      });
+      _endRound();
     } else {
       setState(() {
         _timeLeft -= const Duration(seconds: 1);
@@ -47,6 +75,11 @@ class _WordListScreenState extends State<WordListScreen> {
   }
 
   void _nextWord(bool correct) {
+    _results.add(WordResult(_currentWord, correct));
+    if (_remaining.isEmpty) {
+      _endRound();
+      return;
+    }
     setState(() {
       _background = correct ? Colors.green : Colors.red;
     });
@@ -54,12 +87,19 @@ class _WordListScreenState extends State<WordListScreen> {
       if (!mounted) return;
       setState(() {
         _background = const Color(0xFF0F0F1C);
-        if (_remaining.isEmpty) {
-          _remaining = List<String>.from(widget.words)..shuffle(Random());
-        }
         _currentWord = _remaining.removeLast();
       });
     });
+  }
+
+  void _endRound() {
+    _timer?.cancel();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultsScreen(results: _results),
+      ),
+    );
   }
 
   @override
@@ -79,8 +119,11 @@ class _WordListScreenState extends State<WordListScreen> {
     return Scaffold(
       backgroundColor: _background,
       appBar: AppBar(
-        backgroundColor: _background,
-        title: Text(_formatTime(_timeLeft)),
+        backgroundColor: Colors.black,
+        title: Text(
+          _formatTime(_timeLeft),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Center(
@@ -95,44 +138,49 @@ class _WordListScreenState extends State<WordListScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                onPressed: () => _nextWord(false),
-                child: const Text('Skip'),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: _buildDots(),
               ),
             ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                onPressed: () => _nextWord(true),
-                child: const Text('Correct'),
-              ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    onPressed: () => _nextWord(false),
+                    child: const Text('Skip'),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    onPressed: () => _nextWord(true),
+                    child: const Text('Correct'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0F0F1C),
-      appBar: AppBar(
-        title: const Text('Wörter'),
-        backgroundColor: const Color(0xFF0F0F1C),
-      ),
-      body: ListView.builder(
-        itemCount: words.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              words[index],
-              style: const TextStyle(color: Colors.white),
-            ),
-          );
-        },
-
       ),
     );
   }
