@@ -1,7 +1,7 @@
 import 'package:charadex/screens/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:flutter/services.dart';
 import '../game_settings.dart';
 
@@ -140,12 +140,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Icon(Icons.directions_run, color: Colors.amber[600]),
                 const SizedBox(width: 16),
                 const Expanded(
-                  child: Text(
-                    'Movements',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Movements',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Mit Buttons ohne Gestensteuerung',
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                      ),
+                    ],
                   ),
                 ),
                 Switch(
@@ -177,12 +187,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Icon(Icons.play_circle_outline, color: Colors.amber[600]),
                 const SizedBox(width: 16),
                 const Expanded(
-                  child: Text(
-                    'Start tutorial',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Start tutorial',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Vor dem Spiel die Erkl\u00e4rung',
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                      ),
+                    ],
                   ),
                 ),
                 Switch(
@@ -220,9 +240,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Rate App
           InkWell(
             onTap: () async {
-              final url = Uri.parse("https://www.vucak.at");
-              if (await canLaunchUrl(url)) {
-                await launchUrl(url);
+              final review = InAppReview.instance;
+              if (await review.isAvailable()) {
+                review.requestReview();
               }
             },
             borderRadius: BorderRadius.circular(16),

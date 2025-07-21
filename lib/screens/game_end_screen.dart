@@ -126,20 +126,24 @@ class _GameEndScreenState extends State<GameEndScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   '$_correctCount correct',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 24,
                   ),
                 ),
+                const SizedBox(width: 24),
                 Text(
                   '$_skippedCount skipped',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 24,
                   ),
                 ),
               ],
