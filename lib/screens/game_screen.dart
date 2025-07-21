@@ -31,7 +31,7 @@ class _GameScreenState extends State<GameScreen> {
   int _countdown = 3;
   String _countdownDisplay = '3';
   bool _showCountdown = false;
-  bool _showInstructions = true;
+  bool _showInstructions = GameSettings.startTutorial;
   StreamSubscription<AccelerometerEvent>? _accelSub;
   bool _processingTilt = false;
   bool _tiltCorrect = false;
@@ -51,6 +51,9 @@ class _GameScreenState extends State<GameScreen> {
     _timeLeft = GameSettings.roundDuration;
     if (!GameSettings.movementsEnabled) {
       _accelSub = accelerometerEvents.listen(_onAccelerometer);
+    }
+    if (!_showInstructions) {
+      _startCountdown();
     }
   }
 
@@ -110,14 +113,14 @@ class _GameScreenState extends State<GameScreen> {
         _tiltCorrect = true;
         _timer?.cancel();
         setState(() {
-          _background = Colors.green;
+          _background = Colors.red;
         });
       } else if (z < -7) {
         _processingTilt = true;
         _tiltCorrect = false;
         _timer?.cancel();
         setState(() {
-          _background = Colors.red;
+          _background = Colors.green;
         });
       }
     } else {
@@ -146,7 +149,7 @@ class _GameScreenState extends State<GameScreen> {
               child: Icon(
                 Icons.circle,
                 size: 10,
-                color: r.correct ? Colors.green : Colors.red,
+                color: r.correct ? Colors.red : Colors.green,
               ),
             ),
           ),
@@ -172,7 +175,7 @@ class _GameScreenState extends State<GameScreen> {
       return;
     }
     setState(() {
-      _background = correct ? Colors.green : Colors.red;
+      _background = correct ? Colors.red : Colors.green;
     });
     Future.delayed(const Duration(milliseconds: 300), () {
       if (!mounted) return;
@@ -265,20 +268,44 @@ class _GameScreenState extends State<GameScreen> {
               Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(20),
+                width: double.infinity,
+                height: double.infinity,
                 child: GameSettings.movementsEnabled
                     ? Column(
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Give the phone to another person who marks the words for you.',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                            textAlign: TextAlign.center,
+                          Expanded(
+                            child: Center(
+                              child: const Text(
+                                'Give the phone to another person who marks the words for you.',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 24),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: _startGame,
-                            child: const Text('Start'),
-                          )
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.amber[600],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              onPressed: _startGame,
+                              child: const Text(
+                                'Start',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     : const Text(
@@ -316,7 +343,7 @@ class _GameScreenState extends State<GameScreen> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.green,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () => _nextWord(false),
@@ -327,7 +354,7 @@ class _GameScreenState extends State<GameScreen> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.red,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () => _nextWord(true),

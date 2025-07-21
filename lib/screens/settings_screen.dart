@@ -16,6 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _selectedLanguage = 'English';
   Duration _selectedDuration = GameSettings.roundDuration;
   bool _movements = GameSettings.movementsEnabled;
+  bool _startTutorial = GameSettings.startTutorial;
 
   final backgroundColor = const Color(0xFF0F0F1C);
   final cardColor = const Color(0xFF1E1E2D);
@@ -26,6 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     _selectedDuration = GameSettings.roundDuration;
     _movements = GameSettings.movementsEnabled;
+    _startTutorial = GameSettings.startTutorial;
   }
 
   @override
@@ -132,6 +134,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() {
                       _movements = val;
                       GameSettings.movementsEnabled = val;
+                    });
+                    GameSettings.save();
+                  },
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Start tutorial toggle
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            decoration: BoxDecoration(
+              color: cardColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.play_circle_outline, color: Colors.amber[600]),
+                const SizedBox(width: 16),
+                const Expanded(
+                  child: Text(
+                    'Start tutorial',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Switch(
+                  value: _startTutorial,
+                  activeColor: Colors.amber,
+                  onChanged: (val) {
+                    setState(() {
+                      _startTutorial = val;
+                      GameSettings.startTutorial = val;
                     });
                     GameSettings.save();
                   },
