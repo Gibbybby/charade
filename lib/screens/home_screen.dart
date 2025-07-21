@@ -5,6 +5,7 @@ import 'package:charadex/screens/game_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../game_settings.dart';
+import '../localization.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,9 +15,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final backgroundColor = const Color(0xFF0F0F1C);
-  final cardColor = const Color(0xFF1E1E2D);
-  final Color highlightColor = Colors.purple;
+  Color get backgroundColor => Theme.of(context).scaffoldBackgroundColor;
+  Color get cardColor => Theme.of(context).cardColor;
+  Color get highlightColor => Theme.of(context).colorScheme.primary;
 
   String selectedMenuId = "all";
   final Set<String> selectedImageIds = {};
@@ -48,9 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         centerTitle: true,
-        title: const Text(
-          'Charade',
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context).t('title'),
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -215,9 +216,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                  label: const Text(
-                    "Start",
-                    style: TextStyle(
+                  label: Text(
+                    AppLocalizations.of(context).t('start'),
+                    style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),

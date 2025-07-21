@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:in_app_review/in_app_review.dart';
+import '../localization.dart';
 
 import 'game_screen.dart';
 
@@ -45,16 +46,16 @@ class _GameEndScreenState extends State<GameEndScreen> {
         final result = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Enjoying the app?'),
-            content: const Text('Would you like to rate the app?'),
+            title: Text(AppLocalizations.of(context).t('enjoyApp')),
+            content: Text(AppLocalizations.of(context).t('ratePrompt')),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('Later'),
+                child: Text(AppLocalizations.of(context).t('later')),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text('Rate'),
+                child: Text(AppLocalizations.of(context).t('rate')),
               ),
             ],
           ),
@@ -85,13 +86,13 @@ class _GameEndScreenState extends State<GameEndScreen> {
       DeviceOrientation.portraitUp,
     ]);
     return Scaffold(
-      backgroundColor: const Color(0xFF0F0F1C),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Congratulations',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).t('congratulations'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color(0xFF0F0F1C),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Column(
         children: [
@@ -130,7 +131,8 @@ class _GameEndScreenState extends State<GameEndScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$_correctCount correct',
+                  AppLocalizations.of(context)
+                      .t('correctCount', params: {'count': '$_correctCount'}),
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -139,7 +141,8 @@ class _GameEndScreenState extends State<GameEndScreen> {
                 ),
                 const SizedBox(width: 24),
                 Text(
-                  '$_skippedCount skipped',
+                  AppLocalizations.of(context)
+                      .t('skippedCount', params: {'count': '$_skippedCount'}),
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -162,9 +165,9 @@ class _GameEndScreenState extends State<GameEndScreen> {
                   ),
                 ),
                 onPressed: () => Navigator.pop(context),
-                child: const Text(
-                  'Back to Menu',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context).t('backToMenu'),
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),

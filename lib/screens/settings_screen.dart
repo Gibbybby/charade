@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:flutter/services.dart';
 import '../game_settings.dart';
+import '../localization.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,14 +14,15 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String _selectedLanguage = 'English';
+  String _selectedLanguage = GameSettings.languageCode;
   Duration _selectedDuration = GameSettings.roundDuration;
   bool _movements = GameSettings.movementsEnabled;
   bool _startTutorial = GameSettings.startTutorial;
+  bool _darkMode = GameSettings.darkMode;
 
-  final backgroundColor = const Color(0xFF0F0F1C);
-  final cardColor = const Color(0xFF1E1E2D);
-  final purple = const Color(0xFF9B5EFF);
+  Color get backgroundColor => Theme.of(context).scaffoldBackgroundColor;
+  Color get cardColor => Theme.of(context).cardColor;
+  Color get purple => Theme.of(context).colorScheme.primary;
 
   @override
   void initState() {
@@ -39,9 +41,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: const Text(
-          "Settings",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).t('settings'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         foregroundColor: Colors.white,
         elevation: 0,
@@ -53,14 +55,54 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Language
           _settingsTile(
             icon: Icons.language,
-            title: "Language",
-            value: _selectedLanguage,
+            title: AppLocalizations.of(context).t('languageLabel'),
+            value: _selectedLanguage == 'en'
+                ? AppLocalizations.of(context).t('languageEnglish')
+                : AppLocalizations.of(context).t('languageGerman'),
             onTap: () {
               setState(() {
-                _selectedLanguage =
-                    _selectedLanguage == 'English' ? 'German' : 'English';
+                _selectedLanguage = _selectedLanguage == 'en' ? 'de' : 'en';
+                GameSettings.languageCode = _selectedLanguage;
               });
+              GameSettings.save();
             },
+          ),
+
+          const SizedBox(height: 12),
+
+          // Dark mode toggle
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            decoration: BoxDecoration(
+              color: cardColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.brightness_6, color: Colors.amber[600]),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    AppLocalizations.of(context).t('darkMode'),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Switch(
+                  value: _darkMode,
+                  activeColor: Colors.amber,
+                  onChanged: (val) {
+                    setState(() {
+                      _darkMode = val;
+                      GameSettings.darkMode = val;
+                    });
+                    GameSettings.save();
+                  },
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 12),
@@ -68,8 +110,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Tutorial-Link
           _settingsTile(
             icon: Icons.menu_book,
-            title: "How to Play",
-            value: "Learn the rules",
+            title: AppLocalizations.of(context).t('howToPlay'),
+            value: AppLocalizations.of(context).t('learnRules'),
             onTap: () {
               Navigator.push(
                 context,
@@ -82,15 +124,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 24),
 
-          // 🔹 Game Settings category
-          const Text("Game Settings",
-              style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
+          Text(AppLocalizations.of(context).t('gameSettings'),
+              style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
 
           // Round time (Cupertino Timer Picker)
           _settingsTile(
             icon: Icons.timer,
-            title: "Round Time",
+            title: AppLocalizations.of(context).t('roundTime'),
             value: _formatDuration(_selectedDuration),
             onTap: () {
               showModalBottomSheet(
@@ -139,12 +180,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Icon(Icons.directions_run, color: Colors.amber[600]),
                 const SizedBox(width: 16),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Movements',
+                        AppLocalizations.of(context).t('movements'),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -152,7 +193,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Mit Buttons ohne Gestensteuerung',
+                        AppLocalizations.of(context).t('movementsDesc'),
                         style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                     ],
@@ -186,12 +227,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Icon(Icons.play_circle_outline, color: Colors.amber[600]),
                 const SizedBox(width: 16),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Start tutorial',
+                        AppLocalizations.of(context).t('startTutorial'),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -199,7 +240,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Vor dem Spiel die Erkl\u00e4rung',
+                        AppLocalizations.of(context).t('startTutorialDesc'),
                         style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                     ],
@@ -223,15 +264,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // 🔹 App-Informationen
-          const Text(
-            "App Information",
-            style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
+          Text(
+            AppLocalizations.of(context).t('appInfo'),
+            style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
 
           _infoTile(
             icon: Icons.info_outline,
-            title: "App Version",
+            title: AppLocalizations.of(context).t('appVersion'),
             value: "1.1.0",
           ),
 
@@ -256,10 +297,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   Icon(Icons.star_rate, color: Colors.amber[600]),
                   const SizedBox(width: 16),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      "Rate the App",
-                      style: TextStyle(
+                      AppLocalizations.of(context).t('rateApp'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),

@@ -4,23 +4,22 @@ import 'package:flutter/services.dart';
 class TutorialScreen extends StatelessWidget {
   const TutorialScreen({super.key});
 
-  final backgroundColor = const Color(0xFF0F0F1C);
-  final cardColor = const Color(0xFF1E1E2D);
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    final bg = Theme.of(context).scaffoldBackgroundColor;
+    final cardColor = Theme.of(context).cardColor;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: bg,
       appBar: AppBar(
-        backgroundColor: backgroundColor,
+        backgroundColor: bg,
         foregroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
-          "How to Play",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).t('howToPlay'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: ListView(
@@ -28,22 +27,25 @@ class TutorialScreen extends StatelessWidget {
         children: [
           _tutorialBox(
             step: 1,
-            heading: "Choose a category",
+            cardColor: cardColor,
+            heading: AppLocalizations.of(context).t('chooseCategory'),
             description:
-                "Pick one or more categories and set the round time.",
+                AppLocalizations.of(context).t('chooseCategoryDesc'),
           ),
           const SizedBox(height: 16),
           _tutorialBox(
             step: 2,
-            heading: "Phone on the forehead",
+            cardColor: cardColor,
+            heading: AppLocalizations.of(context).t('phoneForehead'),
             description:
-                "Hold the phone to your forehead so your team can read the word.",
+                AppLocalizations.of(context).t('phoneForeheadDesc'),
           ),
           const SizedBox(height: 16),
           _tutorialBox(
             step: 3,
-            heading: "Tilt to control",
-            description: "Down = correct\nUp = skip",
+            cardColor: cardColor,
+            heading: AppLocalizations.of(context).t('tiltControl'),
+            description: AppLocalizations.of(context).t('tiltControlDesc'),
             extras: [
               const SizedBox(height: 12),
               Row(
@@ -68,8 +70,9 @@ class TutorialScreen extends StatelessWidget {
           const SizedBox(height: 16),
           _tutorialBox(
             step: 4,
-            heading: "Let's go!",
-            description: "Have fun guessing!",
+            cardColor: cardColor,
+            heading: AppLocalizations.of(context).t('letsGo'),
+            description: AppLocalizations.of(context).t('haveFun'),
           ),
         ],
       ),
@@ -80,6 +83,7 @@ class TutorialScreen extends StatelessWidget {
     required int step,
     required String heading,
     required String description,
+    required Color cardColor,
     List<Widget> extras = const [],
   }) {
     return Container(
