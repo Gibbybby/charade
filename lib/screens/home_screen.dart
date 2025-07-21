@@ -38,18 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: backgroundColor,
         elevation: 0,
-        leading: GameSettings.movementsEnabled
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.help_outline, color: Colors.white),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TutorialScreen()),
-                  );
-                },
-              ),
+        leading: IconButton(
+          icon: const Icon(Icons.help_outline, color: Colors.white),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const TutorialScreen()),
+            );
+          },
+        ),
         centerTitle: true,
         title: const Text(
           'Charade',
@@ -58,20 +55,17 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: GameSettings.movementsEnabled
-            ? null
-            : [
-                IconButton(
-                  icon: const Icon(Icons.settings, color: Colors.white),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SettingsScreen()),
-                    );
-                  },
-                ),
-              ],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -184,9 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: GameSettings.movementsEnabled
-          ? null
-          : Padding(
+      bottomNavigationBar: Padding(
               padding: const EdgeInsets.fromLTRB(32, 15, 32, 30),
               child: SizedBox(
                 height: 50,
