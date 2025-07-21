@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final backgroundColor = const Color(0xFF0F0F1C);
   final cardColor = const Color(0xFF1E1E2D);
-  final Color highlightColor = const Color(0xFF9B5EFF);
+  final Color highlightColor = Colors.amber[600]!;
 
   String selectedMenuId = "all";
   final Set<String> selectedImageIds = {};
@@ -115,6 +115,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           border: Border.all(
                             color: isSelected ? highlightColor : Colors.transparent,
                             width: 3,
+                          ),
+                          image: DecorationImage(
+                            image: AssetImage(item["imagePath"]),
+                            fit: BoxFit.cover,
                           ),
                         ),
                         child: Container(
