@@ -34,14 +34,24 @@ flutter:
     - assets/topics/animals.png
     - assets/topics/basketball.png
     - assets/topics/cars.png
-    - assets/topics/films.png
     - assets/topics/football.png
     - assets/topics/geography.png
     - assets/topics/history.png
     - assets/topics/jobs.png
     - assets/topics/music.png
-    - assets/topics/series.png
-    - assets/topics/sport.png
+    - assets/topics/countries.jpeg
+    - assets/topics/sex.jpeg
+    - assets/topics/sport.jpeg
+    - assets/topics/superheros.jpeg
+    - assets/topics/tennis.jpeg
+    - assets/topics/films/films.png
+    - assets/topics/films/series.png
+    - assets/topics/films/breakingbad.jpeg
+    - assets/topics/films/disney.jpeg
+    - assets/topics/films/harrypotter.jpeg
+    - assets/topics/films/netflix.jpeg
+    - assets/topics/films/paramount.jpeg
+    - assets/topics/films/prime.jpeg
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
 

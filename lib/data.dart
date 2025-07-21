@@ -32,6 +32,36 @@ const List<Map<String, dynamic>> menuItems = [
     "titleKey": "menu_films",
     "isSelected": false,
   },
+  {
+    "id": "films",
+    "name": "Breaking Bad",
+    "titleKey": "menu_films",
+    "isSelected": false,
+  },
+  {
+    "id": "films",
+    "name": "Films",
+    "titleKey": "menu_films",
+    "isSelected": false,
+  },
+  {
+    "id": "films",
+    "name": "Films",
+    "titleKey": "menu_films",
+    "isSelected": false,
+  },
+  {
+    "id": "films",
+    "name": "Films",
+    "titleKey": "menu_films",
+    "isSelected": false,
+  },
+  {
+    "id": "films",
+    "name": "Films",
+    "titleKey": "menu_films",
+    "isSelected": false,
+  },
 ];
 
 /// Bildthemen mit ID, Titel-Schlüssel für Übersetzung, zugehörigem Menüpunkt, Pfad und Wortliste
@@ -142,7 +172,7 @@ const List<Map<String, dynamic>> imageItems = [
     "id": "sport",
     "titleKeys": ["sport"],
     "fitMenuItemId": "sport",
-    "imagePath": "assets/topics/sport.png",
+    "imagePath": "assets/topics/sport.jpeg",
     "words": [
       "word1",
       "word2",
