@@ -1,7 +1,8 @@
 import 'package:charadex/data.dart';
 import 'package:charadex/screens/settings.dart';
 import 'package:charadex/screens/tutorial.dart';
-import 'package:charadex/screens/word_list_screen.dart';
+import 'package:charadex/screens/game_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,11 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     final filteredImages = selectedMenuId == "all"
         ? imageItems
         : imageItems
-        .where((item) => item["fitMenuItemId"] == selectedMenuId)
-        .toList();
+            .where((item) => item["fitMenuItemId"] == selectedMenuId)
+            .toList();
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -190,14 +194,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   : imageItems
                       .where((item) => selectedImageIds.contains(item['id']))
                       .toList();
+              final uniqueItems = {
+                for (var item in selectedItems) item['id']: item
+              }.values.toList();
               final words = <String>[];
-              for (final item in selectedItems) {
+              for (final item in uniqueItems) {
                 words.addAll(List<String>.from(item['words'] as List));
               }
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => WordListScreen(words: words),
+                  builder: (context) => GameScreen(words: words),
                 ),
               );
             },

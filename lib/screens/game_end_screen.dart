@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
 
-import 'word_list_screen.dart';
+import 'game_screen.dart';
+import 'package:flutter/services.dart';
 
-class ResultsScreen extends StatelessWidget {
+class GameEndScreen extends StatelessWidget {
   final List<WordResult> results;
-  const ResultsScreen({super.key, required this.results});
+  const GameEndScreen({super.key, required this.results});
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return Scaffold(
       backgroundColor: const Color(0xFF0F0F1C),
       appBar: AppBar(
         title: const Text(
-          'Ergebnis',
+          'Results',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF0F0F1C),
       ),
       body: Column(
         children: [
+          const SizedBox(height: 16),
+          const Text(
+            'Congratulations',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
           Expanded(
             child: ListView.builder(
               itemCount: results.length,
@@ -59,7 +73,7 @@ class ResultsScreen extends StatelessWidget {
                 ),
                 onPressed: () => Navigator.pop(context),
                 child: const Text(
-                  'Zur\u00fcck zum Men\u00fc',
+                  'Back to Menu',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
