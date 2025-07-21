@@ -86,7 +86,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // 🔹 Game Settings category
           const Text("Game Settings",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           // Round time (Cupertino Timer Picker)
           _settingsTile(
@@ -205,7 +205,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // 🔹 App-Informationen
           const Text("App Information",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           _infoTile(
             icon: Icons.info_outline,

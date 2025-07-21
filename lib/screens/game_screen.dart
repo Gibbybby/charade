@@ -190,6 +190,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void _endRound() {
     _timer?.cancel();
+    HapticFeedback.vibrate();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
