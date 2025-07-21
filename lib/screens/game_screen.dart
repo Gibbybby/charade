@@ -111,23 +111,22 @@ class _GameScreenState extends State<GameScreen> {
       if (z > 7) {
         _processingTilt = true;
         _tiltCorrect = true;
-        _timer?.cancel();
         setState(() {
           _background = Colors.red;
         });
+        HapticFeedback.mediumImpact();
       } else if (z < -7) {
         _processingTilt = true;
         _tiltCorrect = false;
-        _timer?.cancel();
         setState(() {
           _background = Colors.green;
         });
+        HapticFeedback.mediumImpact();
       }
     } else {
       if (z.abs() < 3) {
         _processingTilt = false;
         final res = _tiltCorrect;
-        _startTimer();
         _nextWord(res);
       }
     }
@@ -309,7 +308,7 @@ class _GameScreenState extends State<GameScreen> {
                         ],
                       )
                     : const Text(
-                        'Hold the phone to your forehead. Tilt up to skip and tilt down to mark correct. Tilt up or down to start!',
+                        'Hold the phone to your forehead and tilt down or up to start.',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
