@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../localization.dart';
+
 class TutorialScreen extends StatelessWidget {
   const TutorialScreen({super.key});
 
