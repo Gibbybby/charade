@@ -1,12 +1,19 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 
 class GameSettings {
   static const _durationKey = 'roundDuration';
   static const _movementsKey = 'movementsEnabled';
   static const _tutorialKey = 'startTutorial';
+  static const _darkModeKey = 'darkMode';
+  static const _languageKey = 'languageCode';
   static Duration roundDuration = const Duration(seconds: 60);
   static bool movementsEnabled = false;
   static bool startTutorial = true;
+  static bool darkMode = true;
+  static String languageCode = 'en';
+
+  static final notifier = ValueNotifier<int>(0);
 
   static Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
@@ -16,6 +23,8 @@ class GameSettings {
     }
     movementsEnabled = prefs.getBool(_movementsKey) ?? false;
     startTutorial = prefs.getBool(_tutorialKey) ?? true;
+    darkMode = prefs.getBool(_darkModeKey) ?? true;
+    languageCode = prefs.getString(_languageKey) ?? 'en';
   }
 
   static Future<void> save() async {
@@ -23,5 +32,8 @@ class GameSettings {
     await prefs.setInt(_durationKey, roundDuration.inSeconds);
     await prefs.setBool(_movementsKey, movementsEnabled);
     await prefs.setBool(_tutorialKey, startTutorial);
+    await prefs.setBool(_darkModeKey, darkMode);
+    await prefs.setString(_languageKey, languageCode);
+    notifier.value++;
   }
 }

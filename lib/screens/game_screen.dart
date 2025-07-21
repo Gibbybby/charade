@@ -6,6 +6,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 
 import '../game_settings.dart';
 import 'game_end_screen.dart';
+import '../localization.dart';
 import 'package:flutter/services.dart';
 
 class GameScreen extends StatefulWidget {
@@ -37,12 +38,15 @@ class _GameScreenState extends State<GameScreen> {
   bool _tiltCorrect = false;
   bool _readyForTilt = false;
   Color _background = const Color(0xFF0F0F1C);
+
+  Color get _baseBackground => Theme.of(context).scaffoldBackgroundColor;
   final List<WordResult> _results = [];
   static const int _maxDots = 8;
 
   @override
   void initState() {
     super.initState();
+    _background = _baseBackground;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
@@ -76,7 +80,7 @@ class _GameScreenState extends State<GameScreen> {
           HapticFeedback.heavyImpact();
         });
         setState(() {
-          _countdownDisplay = 'Start';
+          _countdownDisplay = AppLocalizations.of(context).t('start');
         });
         Future.delayed(const Duration(seconds: 1), () {
           if (!mounted) return;
@@ -195,7 +199,7 @@ class _GameScreenState extends State<GameScreen> {
     Future.delayed(const Duration(milliseconds: 300), () {
       if (!mounted) return;
       setState(() {
-        _background = const Color(0xFF0F0F1C);
+        _background = _baseBackground;
         _currentWord = _remaining.removeLast();
       });
     });
@@ -317,9 +321,9 @@ class _GameScreenState extends State<GameScreen> {
                         children: [
                           Expanded(
                             child: Center(
-                              child: const Text(
-                                'Give the phone to another person who marks the words for you.',
-                                style: TextStyle(
+                              child: Text(
+                                AppLocalizations.of(context).t('givePhone'),
+                                style: const TextStyle(
                                     color: Colors.white, fontSize: 24),
                                 textAlign: TextAlign.center,
                               ),
@@ -335,9 +339,9 @@ class _GameScreenState extends State<GameScreen> {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
                               ),
                               onPressed: _startGame,
-                              child: const Text(
-                                'Start',
-                                style: TextStyle(
+                              child: Text(
+                                AppLocalizations.of(context).t('start'),
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
@@ -347,9 +351,9 @@ class _GameScreenState extends State<GameScreen> {
                           ),
                         ],
                       )
-                    : const Text(
-                        'Hold the phone to your forehead so the display faces the wall.\nThen tilt down or up to start.',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                    : Text(
+                        AppLocalizations.of(context).t('holdPhone'),
+                        style: const TextStyle(color: Colors.white, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
               ),
@@ -389,7 +393,7 @@ class _GameScreenState extends State<GameScreen> {
                       HapticFeedback.mediumImpact();
                       _nextWord(false);
                     },
-                    child: const Text('Skip'),
+                    child: Text(AppLocalizations.of(context).t('skip')),
                   ),
                 ),
                 const SizedBox(width: 20),
@@ -403,7 +407,7 @@ class _GameScreenState extends State<GameScreen> {
                       HapticFeedback.mediumImpact();
                       _nextWord(true);
                     },
-                    child: const Text('Correct'),
+                    child: Text(AppLocalizations.of(context).t('correct')),
                   ),
                 ),
               ],
