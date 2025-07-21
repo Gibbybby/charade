@@ -43,9 +43,12 @@ class TutorialScreen extends StatelessWidget {
                 AppLocalizations.of(context).t('phoneForeheadDesc'),
             extras: [
               const SizedBox(height: 12),
-              Image.asset(
-                'assets/tutorial/tutorial.png',
-                height: 120,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  'assets/tutorial/tutorial.png',
+                  height: 120,
+                ),
               ),
             ],
           ),

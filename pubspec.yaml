@@ -58,6 +58,16 @@ flutter:
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
     - assets/tutorial/tutorial.png
+    - assets/words/en.json
+    - assets/words/de.json
+    - assets/words/es.json
+    - assets/words/fr.json
+    - assets/words/hr.json
+    - lib/l10n/app_en.arb
+    - lib/l10n/app_de.arb
+    - lib/l10n/app_es.arb
+    - lib/l10n/app_fr.arb
+    - lib/l10n/app_hr.arb
 
 flutter_launcher_icons:
   android: true

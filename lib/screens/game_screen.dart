@@ -338,16 +338,18 @@ class _GameScreenState extends State<GameScreen> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amber[600],
+                                foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 40),
                               ),
                               onPressed: _startGame,
                               child: Text(
                                 AppLocalizations.of(context).t('start'),
                                 style: const TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
@@ -392,6 +394,7 @@ class _GameScreenState extends State<GameScreen> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () {
@@ -406,6 +409,7 @@ class _GameScreenState extends State<GameScreen> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () {

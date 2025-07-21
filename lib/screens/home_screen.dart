@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../game_settings.dart';
 import '../localization.dart';
+import '../words.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -204,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }.values.toList();
                     final words = <String>[];
                     for (final item in uniqueItems) {
-                      words.addAll(List<String>.from(item['words'] as List));
+                      words.addAll(Words.forCategory(item['id']));
                     }
                     SystemChrome.setPreferredOrientations([
                       DeviceOrientation.landscapeRight,
