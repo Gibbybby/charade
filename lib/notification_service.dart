@@ -1,4 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io' show Platform;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -6,14 +8,27 @@ class NotificationService {
   static final _plugin = FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
+    if (kIsWeb) return; // Local notifications unsupported on web
+    if (!(Platform.isAndroid || Platform.isIOS ||
+        Platform.isMacOS || Platform.isWindows)) {
+      return; // Skip initialization on unsupported platforms
+    }
+
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
     const ios = DarwinInitializationSettings();
     const settings = InitializationSettings(android: android, iOS: ios);
+
     await _plugin.initialize(settings);
     tz.initializeTimeZones();
   }
 
   static Future<void> scheduleWeeklyAlternating() async {
+    if (kIsWeb) return;
+    if (!(Platform.isAndroid || Platform.isIOS ||
+        Platform.isMacOS || Platform.isWindows)) {
+      return;
+    }
+
     var now = tz.TZDateTime.now(tz.local);
     var firstFriday = _nextInstanceOfWeekdayTime(DateTime.friday, 18, 0, now);
     var firstSaturday = _nextInstanceOfWeekdayTime(DateTime.saturday, 20, 0, now);
