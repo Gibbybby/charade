@@ -153,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Colors.white,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     shadows: [
                                       Shadow(
