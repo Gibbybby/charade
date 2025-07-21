@@ -18,7 +18,10 @@ class TutorialScreen extends StatelessWidget {
         backgroundColor: backgroundColor,
         foregroundColor: Colors.white,
         elevation: 0,
-        title: const Text("How to Play"),
+        title: const Text(
+          "How to Play",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),

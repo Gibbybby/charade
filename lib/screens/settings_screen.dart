@@ -39,17 +39,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: const Text("Settings"),
+        title: const Text(
+          "Settings",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         foregroundColor: Colors.white,
         elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // 🔹 Settings category
-          const Text("Settings",
-              style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
 
           // Language
           _settingsTile(
@@ -86,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // 🔹 Game Settings category
           const Text("Game Settings",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
 
           // Round time (Cupertino Timer Picker)
           _settingsTile(
@@ -201,11 +200,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
 
+          const SizedBox(height: 24),
 
           // 🔹 App-Informationen
-          const Text("App Information",
-              style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
+          const Text(
+            "App Information",
+            style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
 
           _infoTile(
             icon: Icons.info_outline,
@@ -299,7 +301,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required String value,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
