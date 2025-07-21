@@ -16,7 +16,7 @@ class GameEndScreen extends StatelessWidget {
       backgroundColor: const Color(0xFF0F0F1C),
       appBar: AppBar(
         title: const Text(
-          'Results',
+          'Congratulations',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF0F0F1C),
@@ -28,7 +28,7 @@ class GameEndScreen extends StatelessWidget {
             'Congratulations',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -39,9 +39,9 @@ class GameEndScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final res = results[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   child: Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(12),
@@ -52,6 +52,7 @@ class GameEndScreen extends StatelessWidget {
                       style: TextStyle(
                         color: res.correct ? Colors.red : Colors.green,
                         fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -60,7 +61,7 @@ class GameEndScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
             child: SizedBox(
               width: double.infinity,
               height: 50,
