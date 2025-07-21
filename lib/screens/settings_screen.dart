@@ -18,11 +18,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Duration _selectedDuration = GameSettings.roundDuration;
   bool _movements = GameSettings.movementsEnabled;
   bool _startTutorial = GameSettings.startTutorial;
-  bool _darkMode = GameSettings.darkMode;
 
-  Color get backgroundColor => Theme.of(context).scaffoldBackgroundColor;
-  Color get cardColor => Theme.of(context).cardColor;
-  Color get purple => Theme.of(context).colorScheme.primary;
+  final backgroundColor = const Color(0xFF0F0F1C);
+  final cardColor = const Color(0xFF1E1E2D);
 
   @override
   void initState() {
@@ -66,43 +64,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               });
               GameSettings.save();
             },
-          ),
-
-          const SizedBox(height: 12),
-
-          // Dark mode toggle
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            decoration: BoxDecoration(
-              color: cardColor,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.brightness_6, color: Colors.amber[600]),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    AppLocalizations.of(context).t('darkMode'),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Switch(
-                  value: _darkMode,
-                  activeColor: Colors.amber,
-                  onChanged: (val) {
-                    setState(() {
-                      _darkMode = val;
-                      GameSettings.darkMode = val;
-                    });
-                    GameSettings.save();
-                  },
-                ),
-              ],
-            ),
           ),
 
           const SizedBox(height: 12),

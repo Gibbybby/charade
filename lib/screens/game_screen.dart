@@ -46,7 +46,6 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void initState() {
     super.initState();
-    _background = _baseBackground;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
@@ -63,6 +62,12 @@ class _GameScreenState extends State<GameScreen> {
     if (!_showInstructions) {
       _startCountdown();
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _background = _baseBackground;
   }
 
   void _startCountdown() {
