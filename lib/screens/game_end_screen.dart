@@ -24,15 +24,6 @@ class GameEndScreen extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: 16),
-          const Text(
-            'Congratulations',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
           Expanded(
             child: ListView.builder(
               itemCount: results.length,
@@ -51,7 +42,6 @@ class GameEndScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: res.correct ? Colors.red : Colors.green,
-                        fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
                     ),

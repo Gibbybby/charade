@@ -50,7 +50,10 @@ class _GameScreenState extends State<GameScreen> {
     _currentWord = _remaining.removeLast();
     _timeLeft = GameSettings.roundDuration;
     if (!GameSettings.movementsEnabled) {
-      _accelSub = accelerometerEvents.listen(_onAccelerometer);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (!mounted) return;
+        _accelSub = accelerometerEvents.listen(_onAccelerometer);
+      });
     }
     if (!_showInstructions) {
       _startCountdown();
