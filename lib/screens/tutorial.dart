@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TutorialScreen extends StatelessWidget {
   const TutorialScreen({super.key});
@@ -8,35 +9,38 @@ class TutorialScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
         foregroundColor: Colors.white,
         elevation: 0,
-        title: const Text("So wird gespielt"),
+        title: const Text("How to Play"),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
           _tutorialBox(
             step: 1,
-            heading: "Kategorie wählen",
+            heading: "Choose a category",
             description:
-            "Such dir eine oder mehrere Kategorien aus und stelle die Rundenzeit ein.",
+                "Pick one or more categories and set the round time.",
           ),
           const SizedBox(height: 16),
           _tutorialBox(
             step: 2,
-            heading: "Handy auf die Stirn",
+            heading: "Phone on the forehead",
             description:
-            "Halte das Handy auf die Stirn. Deine Mitspieler sollten das Wort sehen können.",
+                "Hold the phone to your forehead so your team can read the word.",
           ),
           const SizedBox(height: 16),
           _tutorialBox(
             step: 3,
-            heading: "Kippen zum Steuern",
-            description: "Nach unten = richtig\nNach oben = überspringen",
+            heading: "Tilt to control",
+            description: "Down = correct\nUp = skip",
             extras: [
               const SizedBox(height: 12),
               Row(
@@ -61,8 +65,8 @@ class TutorialScreen extends StatelessWidget {
           const SizedBox(height: 16),
           _tutorialBox(
             step: 4,
-            heading: "Los geht's!",
-            description: "Viel Spaß beim Raten!",
+            heading: "Let's go!",
+            description: "Have fun guessing!",
           ),
         ],
       ),

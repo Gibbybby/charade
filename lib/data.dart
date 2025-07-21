@@ -149,14 +149,14 @@ const List<Map<String, dynamic>> imageItems = [
     "words": ["Walter White", "meth", "Heisenberg", "chemistry", "New Mexico"],
   },
   {
-    "id": "disney_kids",
+    "id": "disney",
     "label": "Disney",
     "fitMenuItemId": "kids",
     "imagePath": "assets/topics/films/disney.jpeg",
     "words": ["Mickey", "Goofy", "Frozen", "Moana", "Aladdin"],
   },
   {
-    "id": "disney_films",
+    "id": "disney",
     "label": "Disney",
     "fitMenuItemId": "films",
     "imagePath": "assets/topics/films/disney.jpeg",

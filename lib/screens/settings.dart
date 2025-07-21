@@ -2,6 +2,7 @@ import 'package:charadex/screens/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 import '../game_settings.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String _selectedLanguage = 'Deutsch';
+  String _selectedLanguage = 'English';
   Duration _selectedDuration = GameSettings.roundDuration;
 
   final backgroundColor = const Color(0xFF0F0F1C);
@@ -27,41 +28,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: const Text("Einstellungen"),
+        title: const Text("Settings"),
         foregroundColor: Colors.white,
         elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // 🔹 Einstellungen-Kategorie
-          const Text("Einstellungen",
+          // 🔹 Settings category
+          const Text("Settings",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
 
-          // Sprache
+          // Language
           _settingsTile(
             icon: Icons.language,
-            title: "Sprache",
+            title: "Language",
             value: _selectedLanguage,
             onTap: () {
               setState(() {
                 _selectedLanguage =
-                _selectedLanguage == 'Deutsch' ? 'Englisch' : 'Deutsch';
+                _selectedLanguage == 'English' ? 'German' : 'English';
               });
             },
           ),
 
           const SizedBox(height: 12),
 
-          // Spielzeit (Cupertino Timer Picker)
+          // Round time (Cupertino Timer Picker)
           _settingsTile(
             icon: Icons.timer,
-            title: "Spielzeit",
+            title: "Round Time",
             value: _formatDuration(_selectedDuration),
             onTap: () {
               showModalBottomSheet(
@@ -102,8 +106,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Tutorial-Link
           _settingsTile(
             icon: Icons.menu_book,
-            title: "So wird gespielt",
-            value: "Regeln lernen",
+            title: "How to Play",
+            value: "Learn the rules",
             onTap: () {
               Navigator.push(
                 context,
@@ -117,19 +121,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // 🔹 App-Informationen
-          const Text("App-Informationen",
+          const Text("App Information",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
 
           _infoTile(
             icon: Icons.info_outline,
-            title: "App-Version",
+            title: "App Version",
             value: "1.1.0",
           ),
 
           const SizedBox(height: 12),
 
-          // App bewerten
+          // Rate App
           InkWell(
             onTap: () async {
               final url = Uri.parse("https://www.vucak.at");
@@ -150,7 +154,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(width: 16),
                   const Expanded(
                     child: Text(
-                      "App bewerten",
+                      "Rate the App",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
