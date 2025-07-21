@@ -42,14 +42,24 @@ class _WordListScreenState extends State<WordListScreen> {
   List<Widget> _buildDots() {
     final items = _results.reversed.take(_maxDots).toList().reversed;
     return items
-        .map((r) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
+        .map(
+          (r) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: const BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
               child: Icon(
                 Icons.circle,
                 size: 10,
                 color: r.correct ? Colors.green : Colors.red,
               ),
-            ))
+            ),
+          ),
+        )
         .toList();
   }
 
@@ -109,8 +119,11 @@ class _WordListScreenState extends State<WordListScreen> {
     return Scaffold(
       backgroundColor: _background,
       appBar: AppBar(
-        backgroundColor: _background,
-        title: Text(_formatTime(_timeLeft)),
+        backgroundColor: Colors.black,
+        title: Text(
+          _formatTime(_timeLeft),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Center(
@@ -128,17 +141,27 @@ class _WordListScreenState extends State<WordListScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildDots(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: _buildDots(),
+              ),
             ),
             const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
                     onPressed: () => _nextWord(false),
                     child: const Text('Skip'),
                   ),
@@ -147,7 +170,9 @@ class _WordListScreenState extends State<WordListScreen> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green),
+                      backgroundColor: Colors.green,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
                     onPressed: () => _nextWord(true),
                     child: const Text('Correct'),
                   ),

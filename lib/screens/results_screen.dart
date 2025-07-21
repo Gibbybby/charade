@@ -39,8 +39,20 @@ class ResultsScreen extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amber[600],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Zur\u00fcck zum Men\u00fc'),
+                child: const Text(
+                  'Zur\u00fcck zum Men\u00fc',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),

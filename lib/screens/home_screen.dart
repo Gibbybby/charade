@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: isSelected ? highlightColor! : Colors.transparent,
+                            color: isSelected ? highlightColor : Colors.transparent,
                             width: 3,
                           ),
                           image: DecorationImage(
@@ -121,8 +121,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        child: Stack(
-                          children: [
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: AssetImage(item["imagePath"]),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
@@ -152,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ],
+                          ),
                         ),
                       ),
                     );

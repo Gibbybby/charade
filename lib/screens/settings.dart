@@ -88,6 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           _selectedDuration = cappedDuration;
                           GameSettings.roundDuration = cappedDuration;
                         });
+                        GameSettings.save();
                       },
                     ),
                   );
