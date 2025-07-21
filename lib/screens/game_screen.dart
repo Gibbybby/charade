@@ -26,6 +26,9 @@ class _GameScreenState extends State<GameScreen> {
   late String _currentWord;
   late Duration _timeLeft;
   Timer? _timer;
+  Timer? _countdownTimer;
+  int _countdown = 3;
+  bool _showCountdown = true;
   Color _background = const Color(0xFF0F0F1C);
   final List<WordResult> _results = [];
   static const int _maxDots = 8;
@@ -34,13 +37,29 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
     ]);
     _remaining = List<String>.from(widget.words);
     _remaining.shuffle(Random());
     _currentWord = _remaining.removeLast();
     _timeLeft = GameSettings.roundDuration;
-    _timer = Timer.periodic(const Duration(seconds: 1), _tick);
+    _startCountdown();
+  }
+
+  void _startCountdown() {
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_countdown == 1) {
+        timer.cancel();
+        setState(() {
+          _showCountdown = false;
+        });
+        _timer = Timer.periodic(const Duration(seconds: 1), _tick);
+      } else {
+        setState(() {
+          _countdown -= 1;
+        });
+      }
+    });
   }
 
   List<Widget> _buildDots() {
@@ -109,6 +128,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _countdownTimer?.cancel();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
@@ -125,43 +145,61 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _background,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          _formatTime(_timeLeft),
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+      body: SafeArea(
+        child: Stack(
           children: [
-            const Text(
-              'Congratulations',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            if (!_showCountdown)
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _formatTime(_timeLeft),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _currentWord,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _currentWord,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+            if (_showCountdown)
+              Center(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  transitionBuilder: (child, animation) =>
+                      ScaleTransition(scale: animation, child: child),
+                  child: Text(
+                    '$_countdown',
+                    key: ValueKey(_countdown),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 72,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            ),
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+      bottomNavigationBar: _showCountdown
+          ? null
+          : Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
             if (_results.isNotEmpty)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

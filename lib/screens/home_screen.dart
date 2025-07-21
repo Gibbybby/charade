@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 words.addAll(List<String>.from(item['words'] as List));
               }
               SystemChrome.setPreferredOrientations([
-                DeviceOrientation.landscapeLeft,
+                DeviceOrientation.landscapeRight,
               ]);
               Navigator.push(
                 context,
