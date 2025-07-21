@@ -192,33 +192,19 @@ class _GameScreenState extends State<GameScreen> {
             ],
             if (_showCountdown)
               Center(
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 800),
-                  transitionBuilder: (child, animation) {
-                    final fade = CurvedAnimation(
-                        parent: animation, curve: Curves.easeOut);
-                    final scale = Tween<double>(begin: 1, end: 2)
-                        .animate(animation);
-                    return FadeTransition(
-                      opacity: fade,
-                      child: ScaleTransition(scale: scale, child: child),
-                    );
-                  },
-                  child: Text(
-                    _countdownDisplay,
-                    key: ValueKey(_countdownDisplay),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 72,
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: Text(
+                  _countdownDisplay,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 72,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
           ],
         ),
       ),
-      bottomNavigationBar: _showCountdown
+      bottomNavigationBar: _showCountdown || !GameSettings.movementsEnabled
           ? null
           : Padding(
               padding: const EdgeInsets.all(20),

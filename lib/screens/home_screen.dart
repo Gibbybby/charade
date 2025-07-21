@@ -1,5 +1,5 @@
 import 'package:charadex/data.dart';
-import 'package:charadex/screens/settings.dart';
+import 'package:charadex/screens/settings_screen.dart';
 import 'package:charadex/screens/tutorial.dart';
 import 'package:charadex/screens/game_screen.dart';
 import 'package:flutter/services.dart';
