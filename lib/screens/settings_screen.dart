@@ -54,16 +54,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _settingsTile(
             icon: Icons.language,
             title: AppLocalizations.of(context).t('languageLabel'),
-            value: _selectedLanguage == 'en'
-                ? AppLocalizations.of(context).t('languageEnglish')
-                : AppLocalizations.of(context).t('languageGerman'),
-            onTap: () {
-              setState(() {
-                _selectedLanguage = _selectedLanguage == 'en' ? 'de' : 'en';
-                GameSettings.languageCode = _selectedLanguage;
-              });
-              GameSettings.save();
-            },
+            value: _languageName(_selectedLanguage),
+            onTap: _showLanguageSheet,
           ),
 
           const SizedBox(height: 12),
@@ -356,5 +348,52 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
     final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
     return "$minutes:$seconds min";
+  }
+
+  String _languageName(String code) {
+    switch (code) {
+      case 'de':
+        return AppLocalizations.of(context).t('languageGerman');
+      case 'es':
+        return AppLocalizations.of(context).t('languageSpanish');
+      case 'fr':
+        return AppLocalizations.of(context).t('languageFrench');
+      case 'hr':
+        return AppLocalizations.of(context).t('languageCroatian');
+      default:
+        return AppLocalizations.of(context).t('languageEnglish');
+    }
+  }
+
+  void _showLanguageSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: cardColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: AppLocalizations.supportedLocales.map((locale) {
+            final code = locale.languageCode;
+            return ListTile(
+              title: Text(
+                _languageName(code),
+                style: const TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                setState(() {
+                  _selectedLanguage = code;
+                  GameSettings.languageCode = code;
+                });
+                GameSettings.save();
+                Navigator.pop(context);
+              },
+            );
+          }).toList(),
+        );
+      },
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:ui' as ui;
 
 class GameSettings {
   static const _durationKey = 'roundDuration';
@@ -7,11 +8,11 @@ class GameSettings {
   static const _tutorialKey = 'startTutorial';
   static const _darkModeKey = 'darkMode';
   static const _languageKey = 'languageCode';
-  static Duration roundDuration = const Duration(seconds: 60);
+  static Duration roundDuration = const Duration(seconds: 90);
   static bool movementsEnabled = false;
   static bool startTutorial = true;
   static bool darkMode = true;
-  static String languageCode = 'en';
+  static String languageCode = ui.window.locale.languageCode;
 
   static final notifier = ValueNotifier<int>(0);
 
@@ -24,7 +25,10 @@ class GameSettings {
     movementsEnabled = prefs.getBool(_movementsKey) ?? false;
     startTutorial = prefs.getBool(_tutorialKey) ?? true;
     darkMode = prefs.getBool(_darkModeKey) ?? true;
-    languageCode = prefs.getString(_languageKey) ?? 'en';
+    languageCode = prefs.getString(_languageKey) ?? ui.window.locale.languageCode;
+    if (!['en', 'de', 'es', 'fr', 'hr'].contains(languageCode)) {
+      languageCode = 'en';
+    }
   }
 
   static Future<void> save() async {
