@@ -68,7 +68,7 @@ class _GameScreenState extends State<GameScreen> {
       _showCountdown = true;
     });
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_countdown == 0) {
+      if (_countdown == 1) {
         timer.cancel();
         setState(() {
           _countdownDisplay = 'Start';
@@ -292,8 +292,7 @@ class _GameScreenState extends State<GameScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: double.infinity,
+                          Align(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amber[600],
@@ -351,10 +350,13 @@ class _GameScreenState extends State<GameScreen> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.red,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    onPressed: () => _nextWord(false),
+                    onPressed: () {
+                      HapticFeedback.mediumImpact();
+                      _nextWord(false);
+                    },
                     child: const Text('Skip'),
                   ),
                 ),
@@ -362,10 +364,13 @@ class _GameScreenState extends State<GameScreen> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.green,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    onPressed: () => _nextWord(true),
+                    onPressed: () {
+                      HapticFeedback.mediumImpact();
+                      _nextWord(true);
+                    },
                     child: const Text('Correct'),
                   ),
                 ),
