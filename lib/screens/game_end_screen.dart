@@ -1,11 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 import 'game_screen.dart';
-import 'package:flutter/services.dart';
 
-class GameEndScreen extends StatelessWidget {
+class GameEndScreen extends StatefulWidget {
   final List<WordResult> results;
   const GameEndScreen({super.key, required this.results});
+
+  @override
+  State<GameEndScreen> createState() => _GameEndScreenState();
+}
+
+class _GameEndScreenState extends State<GameEndScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _vibrate();
+    _checkReviewPrompt();
+  }
+
+  Future<void> _vibrate() async {
+    for (int i = 0; i < 3; i++) {
+      HapticFeedback.vibrate();
+      await Future.delayed(const Duration(milliseconds: 300));
+    }
+  }
+
+  Future<void> _checkReviewPrompt() async {
+    final prefs = await SharedPreferences.getInstance();
+    int count = prefs.getInt('game_end_count') ?? 0;
+    count += 1;
+    await prefs.setInt('game_end_count', count);
+
+    final reviewLater = prefs.getBool('review_later') ?? false;
+    final reviewDone = prefs.getBool('review_done') ?? false;
+
+    if (reviewDone) return;
+
+    if ((!reviewLater && count == 4) || (reviewLater && count == 24)) {
+      final inAppReview = InAppReview.instance;
+      if (await inAppReview.isAvailable()) {
+        final result = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Enjoying the app?'),
+            content: const Text('Would you like to rate the app?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Later'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Rate'),
+              ),
+            ],
+          ),
+        );
+        if (result == true) {
+          inAppReview.requestReview();
+          await prefs.setBool('review_done', true);
+        } else {
+          if (!reviewLater) {
+            await prefs.setBool('review_later', true);
+          } else {
+            await prefs.setBool('review_done', true);
+          }
+        }
+      }
+    }
+  }
+
+  int get _correctCount =>
+      widget.results.where((r) => r.correct == true).length;
+
+  int get _skippedCount =>
+      widget.results.where((r) => r.correct != true).length;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +98,9 @@ class GameEndScreen extends StatelessWidget {
           const SizedBox(height: 16),
           Expanded(
             child: ListView.builder(
-              itemCount: results.length,
+              itemCount: widget.results.length,
               itemBuilder: (context, index) {
-                final res = results[index];
+                final res = widget.results[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   child: Container(
@@ -50,6 +122,27 @@ class GameEndScreen extends StatelessWidget {
                   ),
                 );
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Text(
+                  '$_correctCount correct',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '$_skippedCount skipped',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(

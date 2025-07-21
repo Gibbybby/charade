@@ -240,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
           title,
           style: TextStyle(
             color: isSelected ? Colors.black : Colors.white,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

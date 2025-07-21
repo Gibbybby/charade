@@ -67,9 +67,14 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _showCountdown = true;
     });
+    HapticFeedback.lightImpact();
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_countdown == 1) {
         timer.cancel();
+        HapticFeedback.heavyImpact();
+        Future.delayed(const Duration(milliseconds: 100), () {
+          HapticFeedback.heavyImpact();
+        });
         setState(() {
           _countdownDisplay = 'Start';
         });
@@ -85,6 +90,7 @@ class _GameScreenState extends State<GameScreen> {
         setState(() {
           _countdownDisplay = '$_countdown';
         });
+        HapticFeedback.lightImpact();
       }
     });
   }
@@ -241,8 +247,8 @@ class _GameScreenState extends State<GameScreen> {
               child: GestureDetector(
                 onTap: () => _endRound(addUnanswered: true),
                 child: Container(
-                  width: 32,
-                  height: 32,
+                  width: 48,
+                  height: 48,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                     shape: BoxShape.circle,
@@ -250,6 +256,7 @@ class _GameScreenState extends State<GameScreen> {
                   child: const Icon(
                     Icons.close,
                     color: Colors.white,
+                    size: 32,
                   ),
                 ),
               ),
