@@ -28,6 +28,7 @@ class _GameScreenState extends State<GameScreen> {
   Timer? _timer;
   Timer? _countdownTimer;
   int _countdown = 3;
+  String _countdownDisplay = '3';
   bool _showCountdown = true;
   Color _background = const Color(0xFF0F0F1C);
   final List<WordResult> _results = [];
@@ -47,15 +48,23 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _startCountdown() {
+    _countdownDisplay = '$_countdown';
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_countdown == 1) {
+      if (_countdown == 0) {
         timer.cancel();
         setState(() {
-          _showCountdown = false;
+          _countdownDisplay = 'Start';
         });
-        _timer = Timer.periodic(const Duration(seconds: 1), _tick);
+        Future.delayed(const Duration(seconds: 1), () {
+          if (!mounted) return;
+          setState(() {
+            _showCountdown = false;
+          });
+          _timer = Timer.periodic(const Duration(seconds: 1), _tick);
+        });
       } else {
         setState(() {
+          _countdownDisplay = '$_countdown';
           _countdown -= 1;
         });
       }
@@ -148,40 +157,56 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            if (!_showCountdown)
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _formatTime(_timeLeft),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+            if (!_showCountdown) ...[
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    _formatTime(_timeLeft),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _currentWord,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
+              Center(
+                child: Text(
+                  _currentWord,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
             if (_showCountdown)
               Center(
                 child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  transitionBuilder: (child, animation) =>
-                      ScaleTransition(scale: animation, child: child),
+                  duration: const Duration(milliseconds: 800),
+                  transitionBuilder: (child, animation) {
+                    final fade = CurvedAnimation(
+                        parent: animation, curve: Curves.easeOut);
+                    final scale = Tween<double>(begin: 1, end: 2)
+                        .animate(animation);
+                    return FadeTransition(
+                      opacity: fade,
+                      child: ScaleTransition(scale: scale, child: child),
+                    );
+                  },
                   child: Text(
-                    '$_countdown',
-                    key: ValueKey(_countdown),
+                    _countdownDisplay,
+                    key: ValueKey(_countdownDisplay),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 72,
