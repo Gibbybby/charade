@@ -57,6 +57,7 @@ flutter:
     - assets/topics/films/prime.jpeg
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
+    - assets/tutorial/tutorial.png
 
 flutter_launcher_icons:
   android: true
