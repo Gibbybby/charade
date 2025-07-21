@@ -15,6 +15,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String _selectedLanguage = 'English';
   Duration _selectedDuration = GameSettings.roundDuration;
+  bool _movements = GameSettings.movementsEnabled;
 
   final backgroundColor = const Color(0xFF0F0F1C);
   final cardColor = const Color(0xFF1E1E2D);
@@ -24,6 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _selectedDuration = GameSettings.roundDuration;
+    _movements = GameSettings.movementsEnabled;
   }
 
   @override
@@ -45,7 +47,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // 🔹 Settings category
           const Text("Settings",
               style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
 
           // Language
           _settingsTile(
@@ -60,7 +61,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
 
-          const SizedBox(height: 12),
 
           // Round time (Cupertino Timer Picker)
           _settingsTile(
@@ -99,6 +99,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               );
             },
+          ),
+
+          const SizedBox(height: 12),
+
+          // Movements toggle
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            decoration: BoxDecoration(
+              color: cardColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.directions_run, color: Colors.amber[600]),
+                const SizedBox(width: 16),
+                const Expanded(
+                  child: Text(
+                    'Movements',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Switch(
+                  value: _movements,
+                  activeColor: Colors.amber,
+                  onChanged: (val) {
+                    setState(() {
+                      _movements = val;
+                      GameSettings.movementsEnabled = val;
+                    });
+                    GameSettings.save();
+                  },
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 12),

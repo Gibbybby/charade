@@ -4,6 +4,7 @@ import 'package:charadex/screens/tutorial.dart';
 import 'package:charadex/screens/game_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import '../game_settings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,15 +38,18 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: backgroundColor,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.help_outline, color: Colors.white),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const TutorialScreen()),
-            );
-          },
-        ),
+        leading: GameSettings.movementsEnabled
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.help_outline, color: Colors.white),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TutorialScreen()),
+                  );
+                },
+              ),
         centerTitle: true,
         title: const Text(
           'Charade',
@@ -54,17 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
-            },
-          ),
-        ],
+        actions: GameSettings.movementsEnabled
+            ? null
+            : [
+                IconButton(
+                  icon: const Icon(Icons.settings, color: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsScreen()),
+                    );
+                  },
+                ),
+              ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -177,51 +184,54 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(32, 15, 32, 30),
-        child: SizedBox(
-          height: 50,
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber[600],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            onPressed: () {
-              final selectedItems = selectedImageIds.isEmpty
-                  ? imageItems
-                  : imageItems
-                      .where((item) => selectedImageIds.contains(item['id']))
-                      .toList();
-              final uniqueItems = {
-                for (var item in selectedItems) item['id']: item
-              }.values.toList();
-              final words = <String>[];
-              for (final item in uniqueItems) {
-                words.addAll(List<String>.from(item['words'] as List));
-              }
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.landscapeRight,
-              ]);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GameScreen(words: words),
+      bottomNavigationBar: GameSettings.movementsEnabled
+          ? null
+          : Padding(
+              padding: const EdgeInsets.fromLTRB(32, 15, 32, 30),
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[600],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () {
+                    final selectedItems = selectedImageIds.isEmpty
+                        ? imageItems
+                        : imageItems
+                            .where(
+                                (item) => selectedImageIds.contains(item['id']))
+                            .toList();
+                    final uniqueItems = {
+                      for (var item in selectedItems) item['id']: item
+                    }.values.toList();
+                    final words = <String>[];
+                    for (final item in uniqueItems) {
+                      words.addAll(List<String>.from(item['words'] as List));
+                    }
+                    SystemChrome.setPreferredOrientations([
+                      DeviceOrientation.landscapeRight,
+                    ]);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GameScreen(words: words),
+                      ),
+                    );
+                  },
+                  label: const Text(
+                    "Start",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              );
-            },
-            label: const Text(
-              "Start",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
