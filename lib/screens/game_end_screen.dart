@@ -35,41 +35,15 @@ class _GameEndScreenState extends State<GameEndScreen> {
     count += 1;
     await prefs.setInt('game_end_count', count);
 
-    final reviewLater = prefs.getBool('review_later') ?? false;
     final reviewDone = prefs.getBool('review_done') ?? false;
 
     if (reviewDone) return;
 
-    if ((!reviewLater && count == 4) || (reviewLater && count == 24)) {
+    if (count == 4) {
       final inAppReview = InAppReview.instance;
       if (await inAppReview.isAvailable()) {
-        final result = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(AppLocalizations.of(context).t('enjoyApp')),
-            content: Text(AppLocalizations.of(context).t('ratePrompt')),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text(AppLocalizations.of(context).t('later')),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text(AppLocalizations.of(context).t('rate')),
-              ),
-            ],
-          ),
-        );
-        if (result == true) {
-          inAppReview.requestReview();
-          await prefs.setBool('review_done', true);
-        } else {
-          if (!reviewLater) {
-            await prefs.setBool('review_later', true);
-          } else {
-            await prefs.setBool('review_done', true);
-          }
-        }
+        await inAppReview.requestReview();
+        await prefs.setBool('review_done', true);
       }
     }
   }
