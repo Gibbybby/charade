@@ -4,14 +4,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../game_settings.dart';
-import 'results_screen.dart';
+import 'game_end_screen.dart';
+import 'package:flutter/services.dart';
 
-class WordListScreen extends StatefulWidget {
+class GameScreen extends StatefulWidget {
   final List<String> words;
-  const WordListScreen({super.key, required this.words});
+  const GameScreen({super.key, required this.words});
 
   @override
-  State<WordListScreen> createState() => _WordListScreenState();
+  State<GameScreen> createState() => _GameScreenState();
 }
 
 class WordResult {
@@ -20,7 +21,7 @@ class WordResult {
   WordResult(this.word, this.correct);
 }
 
-class _WordListScreenState extends State<WordListScreen> {
+class _GameScreenState extends State<GameScreen> {
   late List<String> _remaining;
   late String _currentWord;
   late Duration _timeLeft;
@@ -97,7 +98,7 @@ class _WordListScreenState extends State<WordListScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultsScreen(results: _results),
+        builder: (context) => GameEndScreen(results: _results),
       ),
     );
   }
@@ -116,6 +117,10 @@ class _WordListScreenState extends State<WordListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     return Scaffold(
       backgroundColor: _background,
       appBar: AppBar(
@@ -127,13 +132,27 @@ class _WordListScreenState extends State<WordListScreen> {
         centerTitle: true,
       ),
       body: Center(
-        child: Text(
-          _currentWord,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Congratulations',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _currentWord,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Padding(
