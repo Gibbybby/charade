@@ -28,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final filteredImages = selectedMenuId == "all"
         ? imageItems
         : imageItems
-            .where((item) => item["fitMenuItemId"] == selectedMenuId)
+            .where((item) =>
+                (item["fitMenuItemIds"] as List).contains(selectedMenuId))
             .toList();
 
     return Scaffold(
@@ -201,6 +202,9 @@ class _HomeScreenState extends State<HomeScreen> {
               for (final item in uniqueItems) {
                 words.addAll(List<String>.from(item['words'] as List));
               }
+              SystemChrome.setPreferredOrientations([
+                DeviceOrientation.landscapeLeft,
+              ]);
               Navigator.push(
                 context,
                 MaterialPageRoute(
