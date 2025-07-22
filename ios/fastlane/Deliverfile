@@ -7,7 +7,7 @@
 #  "es-ES", "es-MX", "fi", "fr-CA", "fr-FR", "he", "hi", "hr", "hu", "id", "it",
 #  "ja", "ko", "ms", "nl-NL", "no", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk",
 #  "sv", "th", "tr", "uk", "vi", "zh-Hans", "zh-Hant"]
-languages(['de-DE', 'en-US', 'es-ES', 'hr', 'zh-Hans'])
+languages(['de-DE', 'en-US', 'es-ES', 'hr'])
 
 name({
   'default' => "Charades - Who Am I?!?",
@@ -15,8 +15,7 @@ name({
   'de-DE' => "Scharade - Wer bin ich?!?",
   'hr' => "Pantomima - Tko sam ja?!?",
   'es-ES' => "Charadas - ¿Quién soy yo?!?",
-  'fr-FR' => "Charades - Qui suis-je ?!?",
-  'zh-Hans' => "你演我猜 - 我是谁？！"
+  'fr-FR' => "Charades - Qui suis-je ?!?"
 })
 
 # optional, can't be longer than 30 characters
@@ -26,18 +25,16 @@ subtitle({
   'de-DE'     => "Wer bin ich? Das Partyspiel",
   'hr'        => "Tko sam ja? Igra za ekipu",
   'es-ES'     => "¿Quién soy? Juego de fiesta",
-  'fr-FR'     => "Qui suis-je ? Jeu de soirée",
-  'zh-Hans'   => "我是谁？派对游戏"
+  'fr-FR'     => "Qui suis-je ? Jeu de soirée"
 })
 
 description({
-  'default'   => "Charades - Who Am I?!?\nThe ultimate party game for friends, family and lots of laughs! 🎉\n\nGuess words without speaking - just gestures, faces and fun!\n\n🕹️ How to play:\nHold your iPhone to your forehead - your friends act out the word.\nGuess as many as you can before time runs out! ⏱️\n\n🎈 Highlights:\n• 10+ fun categories\n• Play with 2 or more people\n• Great for parties, game nights & team events\n• For kids & adults\n• No login required\n\nAre you a rockstar, an animal or a movie character?\nFind out - with lots of laughs! 😄",
-  'en-US'     => "Charades - Who Am I?!?\nThe ultimate party game for friends, family and lots of laughs! 🎉\n\nGuess words without speaking - just gestures, faces and fun!\n\n🕹️ How to play:\nHold your iPhone to your forehead - your friends act out the word.\nGuess as many as you can before time runs out! ⏱️\n\n🎈 Highlights:\n• 10+ fun categories\n• Play with 2 or more people\n• Great for parties, game nights & team events\n• For kids & adults\n• No login required\n\nAre you a rockstar, an animal or a movie character?\nFind out - with lots of laughs! 😄",
-  'de-DE'     => "Scharade - Wer bin ich?!?\nDas ultimative Partyspiel für Freunde, Familie und jede Menge Spaß! 🎉\n\nErrate Begriffe ganz ohne Worte - nur mit Gesten, Mimik und viel Gelächter.\n\n🕹️ So funktioniert's:\nHalte dein iPhone an die Stirn - deine Mitspieler erklären dir den Begriff mit Pantomime.\nRate so viele wie möglich, bevor die Zeit abläuft! ⏱️\n\n🎈 Highlights:\n• Über 10 lustige Kategorien\n• Spielbar mit 2 oder mehr Personen\n• Perfekt für Partys, Spieleabende & Teamevents\n• Für Kinder & Erwachsene\n• Keine Anmeldung nötig\n\nBist du ein Rockstar, ein Tier oder ein Filmcharakter?\nFinde es heraus - mit jeder Menge Lacher! 😄",
-  'hr'        => "Pantomima - Tko sam ja?!?\nNajbolja igra za zabavu s prijateljima, obitelji i puno smijeha! 🎉\n\nPogađaj riječi bez govora - samo gestama i izrazima lica.\n\n🕹️ Kako igrati:\nDrži iPhone na čelu - prijatelji ti pantomimom pokazuju pojam.\nPogodi što više prije nego istekne vrijeme! ⏱️\n\n🎈 Istaknuto:\n• Više od 10 zabavnih kategorija\n• Za 2 ili više igrača\n• Super za zabave i druženja\n• Za djecu i odrasle\n• Bez registracije\n\nJesi li rock zvijezda, životinja ili filmski lik?\nSaznaj uz puno smijeha! 😄",
-  'es-ES'     => "¡Charadas - ¿Quién soy?!?\n¡El juego definitivo para amigos, familia y muchas risas! 🎉\n\nAdivina palabras sin hablar - solo gestos, caras y diversión.\n\n🕹️ ¿Cómo se juega?\nColoca tu iPhone en la frente - tus amigos te hacen mímica.\n¡Adivina tantas como puedas antes de que se acabe el tiempo! ⏱️\n\n🎈 Lo mejor:\n• Más de 10 categorías divertidas\n• Para 2 o más jugadores\n• Ideal para fiestas y reuniones\n• Para niños y adultos\n• No requiere registro\n\n¿Eres una estrella de rock, un animal o un personaje de película?\n¡Descúbrelo y ríe sin parar! 😄",
-  'fr-FR' => "Charades - Qui suis-je ?!?\nLe jeu de soirée ultime pour les amis, la famille et des fous rires garantis ! 🎉\n\nDevine des mots sans parler - uniquement avec des gestes, des mimiques et du fun !\n\n🕹️ Comment jouer :\nTiens ton iPhone sur le front - tes amis miment le mot.\nDevine-en un maximum avant la fin du temps ! ⏱️\n\n🎈 Points forts :\n• Plus de 10 catégories amusantes\n• À jouer à 2 ou plus\n• Parfait pour les fêtes, soirées jeux et événements en groupe\n• Pour enfants et adultes\n• Aucun compte requis\n\nEs-tu une rockstar, un animal ou un personnage de film ?\nDécouvre-le - et éclate-toi de rire ! 😄",
-  'zh-Hans'   => "你演我猜 - 我是谁？！\n适合朋友和家人一起玩的终极派对游戏，充满笑声！🎉\n\n用肢体动作猜词，不许说话，只靠表情和比划！\n\n🕹️ 游戏玩法：\n把 iPhone 放在额头上，朋友通过比划来提示词语。\n在时间结束前尽可能多地猜对吧！⏱️\n\n🎈 游戏亮点：\n• 超过 10 个有趣分类\n• 2 人以上即可开始游戏\n• 派对、聚会和团建的理想选择\n• 老少皆宜\n• 无需登录\n\n你是摇滚明星、动物还是电影角色？\n快来猜猜看，大笑连连！😄"
+  'default'   => "Charades - Who Am I?!?\nThe ultimate party game for friends, family and lots of laughs!\n\nGuess words without speaking - just gestures, faces and fun!\n\nHow to play:\nHold your iPhone to your forehead - your friends act out the word.\nGuess as many as you can before time runs out!\n\nHighlights:\n• 10+ fun categories\n• Play with 2 or more people\n• Great for parties, game nights & team events\n• For kids & adults\n• No login required\n\nAre you a rockstar, an animal or a movie character?\nFind out - with lots of laughs!",
+  'en-US'     => "Charades - Who Am I?!?\nThe ultimate party game for friends, family and lots of laughs!\n\nGuess words without speaking - just gestures, faces and fun!\n\nHow to play:\nHold your iPhone to your forehead - your friends act out the word.\nGuess as many as you can before time runs out!\n\nHighlights:\n• 10+ fun categories\n• Play with 2 or more people\n• Great for parties, game nights & team events\n• For kids & adults\n• No login required\n\nAre you a rockstar, an animal or a movie character?\nFind out - with lots of laughs!",
+  'de-DE'     => "Scharade - Wer bin ich?!?\nDas ultimative Partyspiel für Freunde, Familie und jede Menge Spaß!\n\nErrate Begriffe ganz ohne Worte - nur mit Gesten, Mimik und viel Gelächter.\n\nSo funktioniert's:\nHalte dein iPhone an die Stirn - deine Mitspieler erklären dir den Begriff mit Pantomime.\nRate so viele wie möglich, bevor die Zeit abläuft!\n\nHighlights:\n• Über 10 lustige Kategorien\n• Spielbar mit 2 oder mehr Personen\n• Perfekt für Partys, Spieleabende & Teamevents\n• Für Kinder & Erwachsene\n• Keine Anmeldung nötig\n\nBist du ein Rockstar, ein Tier oder ein Filmcharakter?\nFinde es heraus - mit jeder Menge Lacher!",
+  'hr'        => "Pantomima - Tko sam ja?!?\nNajbolja igra za zabavu s prijateljima, obitelji i puno smijeha!\n\nPogađaj riječi bez govora - samo gestama i izrazima lica.\n\nKako igrati:\nDrži iPhone na čelu - prijatelji ti pantomimom pokazuju pojam.\nPogodi što više prije nego istekne vrijeme!\n\nIstaknuto:\n• Više od 10 zabavnih kategorija\n• Za 2 ili više igrača\n• Super za zabave i druženja\n• Za djecu i odrasle\n• Bez registracije\n\nJesi li rock zvijezda, životinja ili filmski lik?\nSaznaj uz puno smijeha!",
+  'es-ES'     => "Charadas - ¿Quién soy?!?\nEl juego definitivo para amigos, familia y muchas risas!\n\nAdivina palabras sin hablar - solo gestos, caras y diversión.\n\n¿Cómo se juega?\nColoca tu iPhone en la frente - tus amigos te hacen mímica.\nAdivina tantas como puedas antes de que se acabe el tiempo!\n\nLo mejor:\n• Más de 10 categorías divertidas\n• Para 2 o más jugadores\n• Ideal para fiestas y reuniones\n• Para niños y adultos\n• No requiere registro\n\n¿Eres una estrella de rock, un animal o un personaje de película?\nDescúbrelo y ríe sin parar!",
+  'fr-FR' => "Charades - Qui suis-je ?!?\nLe jeu de soirée ultime pour les amis, la famille et des fous rires garantis !\n\nDevine des mots sans parler - uniquement avec des gestes, des mimiques et du fun !\n\nComment jouer :\nTiens ton iPhone sur le front - tes amis miment le mot.\nDevine-en un maximum avant la fin du temps !\n\nPoints forts :\n• Plus de 10 catégories amusantes\n• À jouer à 2 ou plus\n• Parfait pour les fêtes, soirées jeux et événements en groupe\n• Pour enfants et adultes\n• Aucun compte requis\n\nEs-tu une rockstar, un animal ou un personnage de film ?\nDécouvre-le et éclate-toi de rire !"
 })
 
 # max 100 chars
@@ -46,19 +43,17 @@ keywords({
   'en-US' => "charades,whodunit,whoami,party,guessinggame,friends,funnygame,family,acting,headgame",
   'de-DE' => "scharade,partyspiel,werbinich,ratespiel,pantomime,spielabend,freunde,familie,karten,raten",
   'es-ES' => "charadas,fiesta,quiénsoy,juegofamiliar,divertido,adivinar,grupo,amigos,gestos,palabras",
-  'fr-FR' => "charades,quiz,soirée,devinettes,amis,famille,jeu,gestes,mime,rigolade",
-  'zh-Hans' => "你来比划我来猜,聚会游戏,派对,猜词游戏,家庭游戏,朋友游戏,搞笑游戏,表演,互动,娱乐"
+  'fr-FR' => "charades,quiz,soirée,devinettes,amis,famille,jeu,gestes,mime,rigolade"
 })
 
 # TODO
 release_notes({
-  'default' => "We’ve made various improvements and fixed minor bugs to make the app better and more stable.",
-  'en-US' => "We’ve made various improvements and fixed minor bugs to make the app better and more stable.",
-  'de-DE' => "Wir haben verschiedene Verbesserungen vorgenommen und kleinere Fehler behoben, um die App besser und stabiler zu machen.",
-  'hr' => "Unaprijedili smo aplikaciju i ispravili manje greške kako bi bila bolja i stabilnija.",
-  'es-ES' => "Hemos realizado varias mejoras y corregido errores menores para que la aplicación sea mejor y más estable.",
-  'fr-FR' => "Nous avons apporté diverses améliorations et corrigé des bugs mineurs pour rendre l'app plus stable et performante.",
-  'zh-Hans' => "我们进行了多项优化并修复了一些小问题，让应用更加出色和稳定。"
+  'default' => "We’ve redesigned the game, added new categories, and improved overall app stability.",
+  'en-US' => "We’ve redesigned the game, added new categories, and improved overall app stability.",
+  'de-DE' => "In diesem Update haben wir das Spieldesign überarbeitet, neue Kategorien hinzugefügt und die Stabilität der App weiter verbessert.",
+  'hr' => "U ovom ažuriranju redizajnirali smo igru, dodali nove kategorije i dodatno poboljšali stabilnost aplikacije.",
+  'es-ES' => "En esta actualización hemos rediseñado el juego, añadido nuevas categorías y mejorado la estabilidad de la aplicación.",
+  'fr-FR' => "Dans cette mise à jour, nous avons repensé le design du jeu, ajouté de nouvelles catégories et amélioré la stabilité de l'application."
 })
 
 privacy_url({
@@ -71,13 +66,12 @@ support_url({
 
 # optional TODO
 promotional_text({
-  'default' => "Improved, more stable, and fun as ever - GuessRush brings laughter to every party!",
-  'en-US' => "Improved, more stable, and fun as ever - GuessRush brings laughter to every party!",
-  'de-DE' => "Verbessert, stabiler und spaßiger denn je - GuessRush sorgt für Lacher auf jeder Party!",
-  'hr' => "Poboljšan, stabilniji i zabavniji nego ikad - GuessRush donosi smijeh na svaku zabavu!",
-  'es-ES' => "¡Mejorado, más estable y tan divertido como siempre - GuessRush anima cualquier fiesta!",
-  'fr-FR' => "Amélioré, plus stable et toujours aussi fun - GuessRush met l'ambiance à toutes vos soirées !",
-  'zh-Hans' => "更稳定、更好玩，GuessRush 让每场派对充满欢笑！"
+  'default' => "Better than ever – Charades is more stable, more fun, and guaranteed to bring laughter to every party!",
+  'en-US' => "Better than ever – Charades is more stable, more fun, and guaranteed to bring laughter to every party!",
+  'de-DE' => "Besser denn je – Charades ist stabiler, spaßiger und bringt garantiert Lacher auf jede Party!",
+  'hr' => "Bolje nego ikad – Charades je stabilniji, zabavniji i donosi smijeh na svaku zabavu!",
+  'es-ES' => "¡Mejor que nunca! Charades es más estable, más divertido y garantiza risas en cada fiesta.",
+  'fr-FR' => "Mieux que jamais – Charades est plus stable, plus fun, et garantit des fous rires à chaque soirée !"
 })
 
 

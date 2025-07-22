@@ -1,4 +1,4 @@
-# ENV["APP_STORE_CONNECT_API_KEY_PATH"] = "./fastlane/AuthKey_Fastlane_9U36FG7Z7G.json"
+ENV["APP_STORE_CONNECT_API_KEY_PATH"] = "./fastlane/AuthKey_Fastlane_9U36FG7Z7G.json"
 
 default_platform(:ios)
 

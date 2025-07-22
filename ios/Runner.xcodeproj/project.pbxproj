@@ -64,8 +64,6 @@
 		779D09BB2DDF8E9B00925991 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		779D09BC2DDF8EA300925991 /* es-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-US"; path = "es-US.lproj/Main.strings"; sourceTree = "<group>"; };
 		779D09BD2DDF8EA300925991 /* es-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-US"; path = "es-US.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		779D09BE2DDF8EB400925991 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
-		779D09BF2DDF8EB400925991 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
@@ -252,7 +250,6 @@
 				es,
 				"es-419",
 				"es-US",
-				"zh-Hans",
 				de,
 				en,
 			);
@@ -420,7 +417,6 @@
 				779D09B82DDF8E9500925991 /* es */,
 				779D09BA2DDF8E9B00925991 /* es-419 */,
 				779D09BC2DDF8EA300925991 /* es-US */,
-				779D09BE2DDF8EB400925991 /* zh-Hans */,
 				775B6B332DEE3B3E001B369C /* de */,
 				775B6B352DEE3B4B001B369C /* en */,
 			);
@@ -435,7 +431,6 @@
 				779D09B92DDF8E9500925991 /* es */,
 				779D09BB2DDF8E9B00925991 /* es-419 */,
 				779D09BD2DDF8EA300925991 /* es-US */,
-				779D09BF2DDF8EB400925991 /* zh-Hans */,
 				775B6B342DEE3B3E001B369C /* de */,
 				775B6B362DEE3B4B001B369C /* en */,
 			);
