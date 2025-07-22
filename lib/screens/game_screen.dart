@@ -133,14 +133,14 @@ class _GameScreenState extends State<GameScreen> {
     if (!_processingTilt) {
       if (z > 7) {
         _processingTilt = true;
-        _tiltCorrect = true;
+        _tiltCorrect = false;
         setState(() {
           _background = Colors.red;
         });
         HapticFeedback.mediumImpact();
       } else if (z < -7) {
         _processingTilt = true;
-        _tiltCorrect = false;
+        _tiltCorrect = true;
         setState(() {
           _background = Colors.green;
         });
@@ -255,7 +255,13 @@ class _GameScreenState extends State<GameScreen> {
               top: 8,
               left: 8,
               child: GestureDetector(
-                onTap: () => _endRound(addUnanswered: true),
+                onTap: () {
+                  if (_showInstructions || _showCountdown) {
+                    Navigator.pop(context);
+                  } else {
+                    _endRound(addUnanswered: true);
+                  }
+                },
                 child: Container(
                   width: 48,
                   height: 48,
