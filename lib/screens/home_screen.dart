@@ -18,7 +18,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Color get backgroundColor => Theme.of(context).scaffoldBackgroundColor;
   Color get cardColor => Theme.of(context).cardColor;
-  Color get highlightColor => Theme.of(context).colorScheme.primary;
+  // Highlight color for selected images
+  // Use a purple border as requested
+  Color get highlightColor => Colors.purple;
 
   String selectedMenuId = "all";
   final Set<String> selectedImageIds = {};
