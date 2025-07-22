@@ -145,5 +145,54 @@
     "membership",
     "series",
     "movies"
+  ],
+  "brands": [
+    "Nike",
+    "Adidas",
+    "Apple",
+    "Samsung",
+    "Coca Cola"
+  ],
+  "capitals": [
+    "Berlin",
+    "London",
+    "Paris",
+    "Rome",
+    "Tokyo"
+  ],
+  "christmas": [
+    "Santa",
+    "Reindeer",
+    "Snow",
+    "Tree",
+    "Gifts"
+  ],
+  "stars": [
+    "Sun",
+    "Polaris",
+    "Sirius",
+    "Betelgeuse",
+    "Rigel"
+  ],
+  "intoxicants": [
+    "alcohol",
+    "weed",
+    "cigarettes",
+    "cocaine",
+    "morphine"
+  ],
+  "games": [
+    "chess",
+    "poker",
+    "soccer",
+    "monopoly",
+    "fortnite"
+  ],
+  "food": [
+    "pizza",
+    "burger",
+    "pasta",
+    "salad",
+    "sushi"
   ]
 }

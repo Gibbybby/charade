@@ -90,7 +90,7 @@ class _GameEndScreenState extends State<GameEndScreen> {
                       style: TextStyle(
                         color: res.correct == null
                             ? Colors.grey
-                            : (res.correct! ? Colors.red : Colors.green),
+                            : (res.correct! ? Colors.green : Colors.red),
                         fontSize: 20,
                       ),
                     ),

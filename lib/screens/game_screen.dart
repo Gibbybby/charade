@@ -173,7 +173,7 @@ class _GameScreenState extends State<GameScreen> {
                 size: 10,
                 color: r.correct == null
                     ? Colors.grey
-                    : (r.correct! ? Colors.red : Colors.green),
+                    : (r.correct! ? Colors.green : Colors.red),
               ),
             ),
           ),
