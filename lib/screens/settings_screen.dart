@@ -373,9 +373,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: AppLocalizations.supportedLocales.map((locale) {
+        // Add padding so the first and last items have some space
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: AppLocalizations.supportedLocales.map((locale) {
             final code = locale.languageCode;
             return ListTile(
               title: Text(
@@ -392,6 +395,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             );
           }).toList(),
+          ),
         );
       },
     );

@@ -199,7 +199,8 @@ class _GameScreenState extends State<GameScreen> {
       return;
     }
     setState(() {
-      _background = correct ? Colors.red : Colors.green;
+      // Show green when the answer is correct and red when skipped
+      _background = correct ? Colors.green : Colors.red;
     });
     Future.delayed(const Duration(milliseconds: 300), () {
       if (!mounted) return;
