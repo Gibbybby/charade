@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         });
                       },
                       child: _menuItem(
-                        title: item["name"],
+                        title: AppLocalizations.of(context).t(item["titleKey"]),
                         isSelected: selectedMenuId == item["id"],
                       ),
                     );
@@ -153,7 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.transparent,
                                 ),
                                 child: Text(
-                                  (item["label"] ?? item["id"]).toString(),
+                                  AppLocalizations.of(context)
+                                      .t('category_${item["id"]}')
+                                      .toString(),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Colors.white,
