@@ -55,16 +55,16 @@ flutter:
     - assets/topics/films/netflix.jpeg
     - assets/topics/films/paramount.jpeg
     - assets/topics/films/prime.jpeg
+    - assets/topics/brands.jpeg
+    - assets/topics/capitals.jpeg
+    - assets/topics/christmas.jpeg
+    - assets/topics/stars.jpeg
+    - assets/topics/intoxicants.jpeg
+    - assets/topics/games.jpeg
+    - assets/topics/food.jpeg
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
     - assets/tutorial/tutorial.png
-    - assets/tutorial/brands.jpeg
-    - assets/tutorial/capitals.jpeg
-    - assets/tutorial/christmas.jpeg
-    - assets/tutorial/stars.jpeg
-    - assets/tutorial/intoxicants.jpeg
-    - assets/tutorial/games.jpeg
-    - assets/tutorial/food.jpeg
     - assets/words/en.json
     - assets/words/de.json
     - assets/words/es.json

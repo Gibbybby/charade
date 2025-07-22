@@ -163,4 +163,46 @@ const List<Map<String, dynamic>> imageItems = [
     "fitMenuItemIds": ["films"],
     "imagePath": "assets/topics/films/prime.jpeg",
   },
+  {
+    "id": "brands",
+    "label": "Brands",
+    "fitMenuItemIds": ["kids"],
+    "imagePath": "assets/topics/brands.jpeg",
+  },
+  {
+    "id": "capitals",
+    "label": "Capitals",
+    "fitMenuItemIds": ["kids"],
+    "imagePath": "assets/topics/capitals.jpeg",
+  },
+  {
+    "id": "christmas",
+    "label": "Christmas",
+    "fitMenuItemIds": ["kids"],
+    "imagePath": "assets/topics/christmas.jpeg",
+  },
+  {
+    "id": "stars",
+    "label": "Stars",
+    "fitMenuItemIds": ["films"],
+    "imagePath": "assets/topics/stars.jpeg",
+  },
+  {
+    "id": "intoxicants",
+    "label": "Intoxicants",
+    "fitMenuItemIds": ["adult"],
+    "imagePath": "assets/topics/intoxicants.jpeg",
+  },
+  {
+    "id": "games",
+    "label": "Games",
+    "fitMenuItemIds": ["kids"],
+    "imagePath": "assets/topics/games.jpeg",
+  },
+  {
+    "id": "food",
+    "label": "Food",
+    "fitMenuItemIds": ["kids"],
+    "imagePath": "assets/topics/food.jpeg",
+  },
 ];
