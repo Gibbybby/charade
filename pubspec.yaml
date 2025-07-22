@@ -58,6 +58,13 @@ flutter:
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
     - assets/tutorial/tutorial.png
+    - assets/tutorial/brands.jpeg
+    - assets/tutorial/capitals.jpeg
+    - assets/tutorial/christmas.jpeg
+    - assets/tutorial/stars.jpeg
+    - assets/tutorial/intoxicants.jpeg
+    - assets/tutorial/games.jpeg
+    - assets/tutorial/food.jpeg
     - assets/words/en.json
     - assets/words/de.json
     - assets/words/es.json
