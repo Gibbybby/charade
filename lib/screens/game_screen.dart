@@ -303,7 +303,7 @@ class _GameScreenState extends State<GameScreen> {
                   _currentWord,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 48,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -336,7 +336,7 @@ class _GameScreenState extends State<GameScreen> {
                               child: Text(
                                 AppLocalizations.of(context).t('givePhone'),
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 24),
+                                    color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500 ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -367,7 +367,7 @@ class _GameScreenState extends State<GameScreen> {
                       )
                     : Text(
                         AppLocalizations.of(context).t('holdPhone'),
-                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                        style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w500),
                         textAlign: TextAlign.center,
                       ),
               ),

@@ -499,7 +499,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = B258RSBTRY;
@@ -514,7 +514,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a058af3b-4f79-4191-be1c-1f0a15bacee2";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore at.vucak.charadex";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore at.vucak.charadex";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development at.vucak.charadex";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -730,7 +730,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = B258RSBTRY;
@@ -745,7 +745,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a058af3b-4f79-4191-be1c-1f0a15bacee2";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore at.vucak.charadex";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore at.vucak.charadex";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development at.vucak.charadex";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
