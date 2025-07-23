@@ -41,7 +41,7 @@ description({
 keywords({
   'default' => "charades,whodunit,whoami,party,guessinggame,friends,funnygame,family,acting,headgame",
   'en-US' => "charades,whodunit,whoami,party,guessinggame,friends,funnygame,family,acting,headgame",
-  'de-DE' => "scharade,partyspiel,werbinich,ratespiel,pantomime,spielabend,freunde,familie,karten,raten",
+  'de-DE' => "scharade,partyspiel,werbinich,ratespiel,pantomime,spielabend,freunde,familie,stirnraten,raten",
   'es-ES' => "charadas,fiesta,quiénsoy,juegofamiliar,divertido,adivinar,grupo,amigos,gestos,palabras",
   'fr-FR' => "charades,quiz,soirée,devinettes,amis,famille,jeu,gestes,mime,rigolade"
 })
@@ -66,12 +66,12 @@ support_url({
 
 # optional TODO
 promotional_text({
-  'default' => "Better than ever – Charades is more stable, more fun, and guaranteed to bring laughter to every party!",
-  'en-US' => "Better than ever – Charades is more stable, more fun, and guaranteed to bring laughter to every party!",
-  'de-DE' => "Besser denn je – Charades ist stabiler, spaßiger und bringt garantiert Lacher auf jede Party!",
-  'hr' => "Bolje nego ikad – Charades je stabilniji, zabavniji i donosi smijeh na svaku zabavu!",
+  'default' => "Better than ever - Charades is more stable, more fun, and guaranteed to bring laughter to every party!",
+  'en-US' => "Better than ever - Charades is more stable, more fun, and guaranteed to bring laughter to every party!",
+  'de-DE' => "Besser denn je - Charades ist stabiler, spaßiger und bringt garantiert Lacher auf jede Party!",
+  'hr' => "Bolje nego ikad - Charades je stabilniji, zabavniji i donosi smijeh na svaku zabavu!",
   'es-ES' => "¡Mejor que nunca! Charades es más estable, más divertido y garantiza risas en cada fiesta.",
-  'fr-FR' => "Mieux que jamais – Charades est plus stable, plus fun, et garantit des fous rires à chaque soirée !"
+  'fr-FR' => "Mieux que jamais - Charades est plus stable, plus fun, et garantit des fous rires à chaque soirée !"
 })
 
 
