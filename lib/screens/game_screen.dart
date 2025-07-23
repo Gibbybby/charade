@@ -381,19 +381,30 @@ class _GameScreenState extends State<GameScreen> {
                             ),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Image.asset(
-                                'assets/tutorial/incorrect.png',
-                                height: 80,
+                              Expanded(
+                                child: Image.asset(
+                                  'assets/tutorial/incorrect.png',
+                                  height: 80,
+                                ),
                               ),
-                              Image.asset(
-                                'assets/tutorial/tutorial.png',
-                                height: 80,
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.asset(
+                                    'assets/tutorial/tutorial.png',
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                              Image.asset(
-                                'assets/tutorial/correct.png',
-                                height: 80,
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Image.asset(
+                                  'assets/tutorial/correct.png',
+                                  height: 80,
+                                ),
                               ),
                             ],
                           ),
