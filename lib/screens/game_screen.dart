@@ -365,79 +365,108 @@ class _GameScreenState extends State<GameScreen> {
                           ),
                         ],
                       )
-                    : Text(
-                        AppLocalizations.of(context).t('holdPhone'),
-                        style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                AppLocalizations.of(context).t('holdPhone'),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                'assets/tutorial/incorrect.png',
+                                height: 80,
+                              ),
+                              Image.asset(
+                                'assets/tutorial/tutorial.png',
+                                height: 80,
+                              ),
+                              Image.asset(
+                                'assets/tutorial/correct.png',
+                                height: 80,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
+              ),
+            if (!_showCountdown && !_showInstructions)
+              Positioned(
+                bottom: 20,
+                left: 20,
+                right: 20,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (_results.isNotEmpty)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: _buildDots(),
+                        ),
+                      ),
+                    if (_results.isNotEmpty && GameSettings.movementsEnabled)
+                      const SizedBox(height: 10),
+                    if (GameSettings.movementsEnabled)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              onPressed: () {
+                                HapticFeedback.mediumImpact();
+                                _nextWord(false);
+                              },
+                              child: Text(AppLocalizations.of(context).t('skip')),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              onPressed: () {
+                                HapticFeedback.mediumImpact();
+                                _nextWord(true);
+                              },
+                              child:
+                                  Text(AppLocalizations.of(context).t('correct')),
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
           ],
         ),
       ),
-      bottomNavigationBar: _showCountdown || _showInstructions
-          ? null
-          : Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (_results.isNotEmpty)
-                    Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: _buildDots(),
-                      ),
-                    ),
-                  if (_results.isNotEmpty && GameSettings.movementsEnabled)
-                    const SizedBox(height: 10),
-                  if (GameSettings.movementsEnabled)
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              foregroundColor: Colors.white,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                            onPressed: () {
-                              HapticFeedback.mediumImpact();
-                              _nextWord(false);
-                            },
-                            child:
-                                Text(AppLocalizations.of(context).t('skip')),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              foregroundColor: Colors.white,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                            onPressed: () {
-                              HapticFeedback.mediumImpact();
-                              _nextWord(true);
-                            },
-                            child:
-                                Text(AppLocalizations.of(context).t('correct')),
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ),
     ),
     );
   }
