@@ -374,63 +374,70 @@ class _GameScreenState extends State<GameScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _showCountdown || _showInstructions || !GameSettings.movementsEnabled
+      bottomNavigationBar: _showCountdown || _showInstructions
           ? null
           : Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-            if (_results.isNotEmpty)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: _buildDots(),
-                ),
+                  if (_results.isNotEmpty)
+                    Container(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: _buildDots(),
+                      ),
+                    ),
+                  if (_results.isNotEmpty && GameSettings.movementsEnabled)
+                    const SizedBox(height: 10),
+                  if (GameSettings.movementsEnabled)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            onPressed: () {
+                              HapticFeedback.mediumImpact();
+                              _nextWord(false);
+                            },
+                            child:
+                                Text(AppLocalizations.of(context).t('skip')),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              foregroundColor: Colors.white,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            onPressed: () {
+                              HapticFeedback.mediumImpact();
+                              _nextWord(true);
+                            },
+                            child:
+                                Text(AppLocalizations.of(context).t('correct')),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
               ),
-            if (_results.isNotEmpty) const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    onPressed: () {
-                      HapticFeedback.mediumImpact();
-                      _nextWord(false);
-                    },
-                    child: Text(AppLocalizations.of(context).t('skip')),
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    onPressed: () {
-                      HapticFeedback.mediumImpact();
-                      _nextWord(true);
-                    },
-                    child: Text(AppLocalizations.of(context).t('correct')),
-                  ),
-                ),
-              ],
             ),
-          ],
-        ),
-      ),
     ),
     );
   }

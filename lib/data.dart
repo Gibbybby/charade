@@ -32,6 +32,12 @@ const List<Map<String, dynamic>> menuItems = [
     "titleKey": "menu_films",
     "isSelected": false,
   },
+  {
+    "id": "education",
+    "name": "Education",
+    "titleKey": "menu_education",
+    "isSelected": false,
+  },
 ];
 
 /// Bildthemen mit ID, Titel-Schlüssel für Übersetzung,
@@ -46,25 +52,25 @@ const List<Map<String, dynamic>> imageItems = [
   {
     "id": "history",
     "label": "History",
-    "fitMenuItemIds": ["kids"],
+    "fitMenuItemIds": ["kids", "education"],
     "imagePath": "assets/topics/history.png",
   },
   {
     "id": "geography",
     "label": "Geography",
-    "fitMenuItemIds": ["kids"],
+    "fitMenuItemIds": ["kids", "education"],
     "imagePath": "assets/topics/geography.png",
   },
   {
     "id": "countries",
     "label": "Countries",
-    "fitMenuItemIds": ["kids"],
+    "fitMenuItemIds": ["kids", "education"],
     "imagePath": "assets/topics/countries.jpeg",
   },
   {
     "id": "capitals",
     "label": "Capitals",
-    "fitMenuItemIds": ["kids"],
+    "fitMenuItemIds": ["kids", "education"],
     "imagePath": "assets/topics/capitals.jpeg",
   },
   {
@@ -94,13 +100,13 @@ const List<Map<String, dynamic>> imageItems = [
   {
     "id": "animals",
     "label": "Animals",
-    "fitMenuItemIds": ["kids"],
+    "fitMenuItemIds": ["kids", "education"],
     "imagePath": "assets/topics/animals.png",
   },
   {
     "id": "jobs",
     "label": "Jobs",
-    "fitMenuItemIds": ["kids"],
+    "fitMenuItemIds": ["kids", "education"],
     "imagePath": "assets/topics/jobs.png",
   },
   {
