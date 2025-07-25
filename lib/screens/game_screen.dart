@@ -389,16 +389,6 @@ class _GameScreenState extends State<GameScreen> {
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.asset(
-                                    'assets/tutorial/tutorial.png',
-                                    height: 80,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Image.asset(
