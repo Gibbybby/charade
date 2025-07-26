@@ -75,6 +75,7 @@ flutter:
     - lib/l10n/app_es.arb
     - lib/l10n/app_fr.arb
     - lib/l10n/app_hr.arb
+    - lib/l10n/app_pt.arb
 
 flutter_launcher_icons:
   android: true

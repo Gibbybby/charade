@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'notification_messages.dart';
+import 'game_settings.dart';
 
 class NotificationService {
   static final _plugin = FlutterLocalNotificationsPlugin();
@@ -38,8 +39,10 @@ class NotificationService {
     var nextDate = firstFriday;
     bool isFriday = true;
     final random = Random();
+    final lang = GameSettings.languageCode;
+    final msgs = notificationMessages[lang] ?? notificationMessages['en']!;
     for (int i = 0; i < 20; i++) {
-      final message = notificationMessages[random.nextInt(notificationMessages.length)];
+      final message = msgs[random.nextInt(msgs.length)];
       await _plugin.zonedSchedule(
         100 + i,
         'Time to play',
