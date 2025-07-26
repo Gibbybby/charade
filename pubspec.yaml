@@ -65,6 +65,7 @@ flutter:
     - assets/tutorial/incorrect.png
     - assets/tutorial/correct.png
     - assets/tutorial/tutorial.png
+    - assets/imposter.png
     - assets/words/en.json
     - assets/words/de.json
     - assets/words/es.json
