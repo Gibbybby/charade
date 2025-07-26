@@ -50,7 +50,7 @@ class _GameScreenState extends State<GameScreen> {
     _remaining.shuffle(Random());
     _currentWord = _remaining.removeLast();
     _timeLeft = GameSettings.roundDuration;
-    if (!GameSettings.movementsEnabled) {
+    if (GameSettings.movementsEnabled) {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (!mounted) return;
         _motion = PhoneMotion(
@@ -271,15 +271,21 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ),
               ),
-              Center(
-                child: Text(
-                  _currentWord,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: GameSettings.movementsEnabled ? 0 : 120,
+                child: Center(
+                  child: Text(
+                    _currentWord,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ],
@@ -302,6 +308,41 @@ class _GameScreenState extends State<GameScreen> {
                 height: double.infinity,
                 child: GameSettings.movementsEnabled
                     ? Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                AppLocalizations.of(context).t('holdPhone'),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Image.asset(
+                                  'assets/tutorial/incorrect.png',
+                                  height: 80,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Image.asset(
+                                  'assets/tutorial/correct.png',
+                                  height: 80,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
@@ -337,41 +378,6 @@ class _GameScreenState extends State<GameScreen> {
                             ),
                           ),
                         ],
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                AppLocalizations.of(context).t('holdPhone'),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Image.asset(
-                                  'assets/tutorial/incorrect.png',
-                                  height: 80,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Image.asset(
-                                  'assets/tutorial/correct.png',
-                                  height: 80,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
                       ),
               ),
             if (!_showCountdown && !_showInstructions)
@@ -396,9 +402,9 @@ class _GameScreenState extends State<GameScreen> {
                           children: _buildDots(),
                         ),
                       ),
-                    if (_results.isNotEmpty && GameSettings.movementsEnabled)
+                    if (_results.isNotEmpty && !GameSettings.movementsEnabled)
                       const SizedBox(height: 10),
-                    if (GameSettings.movementsEnabled)
+                    if (!GameSettings.movementsEnabled)
                       Row(
                         children: [
                           Expanded(

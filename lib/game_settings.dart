@@ -9,7 +9,7 @@ class GameSettings {
   static const _darkModeKey = 'darkMode';
   static const _languageKey = 'languageCode';
   static Duration roundDuration = const Duration(seconds: 90);
-  static bool movementsEnabled = false;
+  static bool movementsEnabled = true;
   static bool startTutorial = true;
   static bool darkMode = true;
   static String languageCode = ui.window.locale.languageCode;
@@ -22,7 +22,7 @@ class GameSettings {
     if (sec != null) {
       roundDuration = Duration(seconds: sec);
     }
-    movementsEnabled = prefs.getBool(_movementsKey) ?? false;
+    movementsEnabled = prefs.getBool(_movementsKey) ?? true;
     startTutorial = prefs.getBool(_tutorialKey) ?? true;
     darkMode = prefs.getBool(_darkModeKey) ?? true;
     languageCode = prefs.getString(_languageKey) ?? ui.window.locale.languageCode;
