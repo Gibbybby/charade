@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:sensors_plus/sensors_plus.dart';
+import '../phone_motion.dart';
 
 import '../game_settings.dart';
 import 'game_end_screen.dart';
@@ -33,10 +33,7 @@ class _GameScreenState extends State<GameScreen> {
   String _countdownDisplay = '3';
   bool _showCountdown = false;
   bool _showInstructions = GameSettings.startTutorial;
-  StreamSubscription<AccelerometerEvent>? _accelSub;
-  bool _processingTilt = false;
-  bool _tiltCorrect = false;
-  bool _readyForTilt = false;
+  PhoneMotion? _motion;
   Color _background = const Color(0xFF0F0F1C);
 
   Color get _baseBackground => Theme.of(context).scaffoldBackgroundColor;
@@ -56,7 +53,18 @@ class _GameScreenState extends State<GameScreen> {
     if (!GameSettings.movementsEnabled) {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (!mounted) return;
-        _accelSub = accelerometerEvents.listen(_onAccelerometer);
+        _motion = PhoneMotion(
+          onStartGame: _startGame,
+          onResult: _nextWord,
+          onBackground: (c) {
+            if (!mounted) return;
+            setState(() {
+              _background = c;
+            });
+          },
+          showInstructions: _showInstructions,
+          showCountdown: _showCountdown,
+        )..init();
       });
     }
     if (!_showInstructions) {
@@ -76,6 +84,7 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _showCountdown = true;
     });
+    _motion?.showCountdown = true;
     HapticFeedback.lightImpact();
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_countdown == 1) {
@@ -92,6 +101,7 @@ class _GameScreenState extends State<GameScreen> {
           setState(() {
             _showCountdown = false;
           });
+          _motion?.showCountdown = false;
           _startTimer();
         });
       } else {
@@ -112,47 +122,10 @@ class _GameScreenState extends State<GameScreen> {
     if (!_showInstructions) return;
     setState(() {
       _showInstructions = false;
-      _readyForTilt = false;
     });
+    _motion?.showInstructions = false;
+    _motion?.resetTiltReady();
     _startCountdown();
-  }
-
-  void _onAccelerometer(AccelerometerEvent event) {
-    final z = event.z;
-    if (_showInstructions) {
-      if (!_readyForTilt && z.abs() < 2) {
-        _readyForTilt = true;
-      }
-      if (_readyForTilt && z.abs() > 7) {
-        _startGame();
-      }
-      return;
-    }
-    if (_showCountdown) return;
-
-    if (!_processingTilt) {
-      if (z > 7) {
-        _processingTilt = true;
-        _tiltCorrect = false;
-        setState(() {
-          _background = Colors.red;
-        });
-        HapticFeedback.mediumImpact();
-      } else if (z < -7) {
-        _processingTilt = true;
-        _tiltCorrect = true;
-        setState(() {
-          _background = Colors.green;
-        });
-        HapticFeedback.mediumImpact();
-      }
-    } else {
-      if (z.abs() < 3) {
-        _processingTilt = false;
-        final res = _tiltCorrect;
-        _nextWord(res);
-      }
-    }
   }
 
   List<Widget> _buildDots() {
@@ -229,7 +202,7 @@ class _GameScreenState extends State<GameScreen> {
   void dispose() {
     _timer?.cancel();
     _countdownTimer?.cancel();
-    _accelSub?.cancel();
+    _motion?.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);

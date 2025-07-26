@@ -360,6 +360,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return AppLocalizations.of(context).t('languageFrench');
       case 'hr':
         return AppLocalizations.of(context).t('languageCroatian');
+      case 'pt':
+        return AppLocalizations.of(context).t('languagePortuguese');
       default:
         return AppLocalizations.of(context).t('languageEnglish');
     }

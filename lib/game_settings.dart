@@ -26,7 +26,7 @@ class GameSettings {
     startTutorial = prefs.getBool(_tutorialKey) ?? true;
     darkMode = prefs.getBool(_darkModeKey) ?? true;
     languageCode = prefs.getString(_languageKey) ?? ui.window.locale.languageCode;
-    if (!['en', 'de', 'es', 'fr', 'hr'].contains(languageCode)) {
+    if (!['en', 'de', 'es', 'fr', 'hr', 'pt'].contains(languageCode)) {
       languageCode = 'en';
     }
   }
