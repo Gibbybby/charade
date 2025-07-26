@@ -415,6 +415,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
                       SizedBox(height: 2),
@@ -432,7 +433,15 @@ class _HomeScreenState extends State<HomeScreen> {
               top: 0,
               child: GestureDetector(
                 onTap: _closeImposterBanner,
-                child: const Icon(Icons.close, size: 16, color: Colors.white),
+                child: Container(
+                  height: 24,
+                  width: 24,
+                  decoration: BoxDecoration(
+                    color: backgroundColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.close, size: 20, color: Colors.white),
+                ),
               ),
             ),
           ],
