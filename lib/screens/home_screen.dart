@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               if (filteredImages.length > 12) ...[
-                const SizedBox(height: 16),
+                SizedBox(height: _showImposterBanner ? 16 : 10),
                 if (_showImposterBanner)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -409,19 +409,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        'Imposter - the party game',
-                        style: TextStyle(
+                        AppLocalizations.of(context).t('imposterTitle'),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Text(
-                        'Try out our Imposter app!',
-                        style: TextStyle(color: Colors.white),
+                        AppLocalizations.of(context).t('imposterSubtitle'),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
