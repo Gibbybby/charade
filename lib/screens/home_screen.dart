@@ -415,13 +415,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 16,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         AppLocalizations.of(context).t('imposterSubtitle'),
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white, fontSize: 14,),
                       ),
                     ],
                   ),
