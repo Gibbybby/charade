@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import '../game_settings.dart';
 import '../localization.dart';
 import '../words.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +26,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String selectedMenuId = "all";
   final Set<String> selectedImageIds = {};
+  bool _showImposterBanner = false;
+  int _startCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initBannerState();
+  }
+
+  Future<void> _initBannerState() async {
+    final prefs = await SharedPreferences.getInstance();
+    _startCount = (prefs.getInt('start_count') ?? 0) + 1;
+    await prefs.setInt('start_count', _startCount);
+    final nextShow = prefs.getInt('imposter_next_show') ?? 1;
+    if (_startCount >= nextShow) {
+      setState(() {
+        _showImposterBanner = true;
+      });
+    }
+  }
+
+  Future<void> _closeImposterBanner() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('imposter_next_show', _startCount + 3);
+    setState(() {
+      _showImposterBanner = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,45 +212,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               if (filteredImages.length > 12) ...[
                 const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 60,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset('assets/imposter.png', height: 40),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Imposter - the party game',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                'Try out our Imposter app!',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                if (_showImposterBanner)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: _imposterBanner(),
                   ),
-                ),
-                const SizedBox(height: 16),
+                if (_showImposterBanner) const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: GridView.count(
@@ -374,6 +371,71 @@ class _HomeScreenState extends State<HomeScreen> {
             color: isSelected ? Colors.black : Colors.white,
             fontWeight: FontWeight.bold,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _imposterBanner() {
+    return GestureDetector(
+      onTap: () {
+        launchUrlString(
+          'https://apps.apple.com/app/apple-store/id6745120053?pt=126797007&ct=PartyBomb&mt=8',
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: 80,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.asset(
+                    'assets/imposter.png',
+                    height: 60,
+                    width: 60,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Imposter - the party game',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        'Try out our Imposter app!',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: GestureDetector(
+                onTap: _closeImposterBanner,
+                child: const Icon(Icons.close, size: 16, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );
