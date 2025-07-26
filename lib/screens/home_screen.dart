@@ -9,6 +9,7 @@ import '../localization.dart';
 import '../words.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -380,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () {
         launchUrlString(
-          'https://apps.apple.com/app/apple-store/id6745120053?pt=126797007&ct=PartyBomb&mt=8',
+          'https://apps.apple.com/app/apple-store/id6745120053?pt=126797007&ct=Charade&mt=8',
         );
       },
       child: Container(
